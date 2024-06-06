@@ -38,87 +38,82 @@ public class UserManageController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     private final String URL_PRODUCT_MANAGE = "/AMainController?action=userManagePage";
-    
+    private final String URL_PRODUCT_MANAGE = "/AMainController?action=userManagePage";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
-        
-        
-        
+
         // Get the numPage parameter from the request
         String numPageStr = request.getParameter("numPage");
-        int numPage = 1;
-        if (numPageStr != null) {
-            numPage = Integer.parseInt(numPageStr);
+
+        int numPage = numPageStr != null ? Integer.parseInt(numPageStr)
+                : session.getAttribute("numPage") != null
+                ? (int) session.getAttribute("numPage") : 1;
+
+        //create table if null
+        List<User> list = dao.getAllUser();
+        request.setAttribute("userList", list);
+
+        List<User> copyList = searchingUsers(request, dao);
+        //search name
+        if (copyList != null) {
+            request.setAttribute("userList", copyList);
         }
 
-        
-        //create table if null
-        if (session.getAttribute("userList") == null) {
-            List<User> list = dao.getAllUser();
-            session.setAttribute("userList", list);
-            session.setAttribute("numPage", 1);
-        } else {
-            
-            List<User> list = (List<User>) session.getAttribute("userList");
-            List<User> copyList = searchingUsers(request, dao);
-            //search name
-            if(copyList != null){
-                 request.setAttribute("ulist", copyList);
-            }
-            
-            
-            
-            
-            //save last page access
-            session.setAttribute("numPage", numPage);
-        }
-        
-        
+        //save last page access
+        session.setAttribute("numPage", numPage);
 
         request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
     }
-    
-    private List<Meal> sortListFromRequest(HttpServletRequest request,List<Meal> list){
-        
-        if (request != null){
+
+    private List<Meal> sortListFromRequest(HttpServletRequest request, List<Meal> list) {
+
+        if (request != null) {
             String sortOrder = request.getParameter("sort");
             String sortBy = request.getParameter("cate");
-            if (sortOrder != null && sortBy!= null){
+            if (sortOrder != null && sortBy != null) {
                 Comparator<Meal> comparator = null;
-                switch(sortBy){
-                    case "category": comparator = Comparator.comparing(Meal::getCategory);break;
-                    case "price": comparator = Comparator.comparing(Meal::getPrice);break;
-                    case "isOnSale": comparator = Comparator.comparing(Meal::isOnSale);break;
-                    default: comparator = Comparator.comparing(Meal::getId); break;
+                switch (sortBy) {
+                    case "category":
+                        comparator = Comparator.comparing(Meal::getCategory);
+                        break;
+                    case "price":
+                        comparator = Comparator.comparing(Meal::getPrice);
+                        break;
+                    case "isOnSale":
+                        comparator = Comparator.comparing(Meal::isOnSale);
+                        break;
+                    default:
+                        comparator = Comparator.comparing(Meal::getId);
+                        break;
                 }
-                if (sortOrder.matches("max")){
+                if (sortOrder.matches("max")) {
                     comparator = comparator.reversed();
                 }
                 List<Meal> copyList = new ArrayList<>(list);
-                Collections.sort(copyList,comparator);
+                Collections.sort(copyList, comparator);
                 return copyList;
             }
         }
         return null;
-        
+
     }
-    
-     private List<User> searchingUsers(HttpServletRequest request, UserDAO dao){
-         if (request != null){
+
+    private List<User> searchingUsers(HttpServletRequest request, UserDAO dao) {
+        if (request != null) {
             String seachValue = request.getParameter("searchValue");
             String searchCategory = request.getParameter("searchCriteria");
-            if (seachValue != null && searchCategory != null){
-                List<User> copyList = dao.getUsersByCategory(seachValue,searchCategory);
+            if (seachValue != null && searchCategory != null) {
+                List<User> copyList = dao.getUsersByCategory(seachValue, searchCategory);
                 return copyList;
             }
         }
         return null;
-        
-     }
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

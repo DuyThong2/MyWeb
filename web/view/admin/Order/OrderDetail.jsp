@@ -13,6 +13,7 @@
     </head>
 
     <%
+        
         String updateOrderStatusURL = request.getContextPath() + "/AMainController?action=updateOrderStatus";
         String redirectURL = request.getContextPath() + "/AMainController?action=orderDetail";
         Order order = (Order) request.getAttribute("order");
@@ -150,10 +151,10 @@
                                 if (customer != null && customer.getImgURL() != null && !customer.getImgURL().isEmpty()) {
                             %>
                         <li class="list-group-item">
-                            <img src="<%= request.getContextPath()%>/<%= customer.getImgURL()%>" alt="Customer Image" class="img-fluid">
+                            <img src="${pageContext.request.contextPath}/<%= customer.getImgURL()%>" alt="Customer Image" class="img-fluid">
                         </li>
                         <li class="list-group-item">
-                            <a href="editOrder?id=<%= customer.getId()%>" class="btn btn-primary btn-sm">Detail</a>
+                            <a href="<%=request.getContextPath()%>/AMainController?action=userDetail&userId=<%=customer.getId()%>" class="btn btn-primary btn-sm">Detail</a>
                         </li>
                         <%
                             }

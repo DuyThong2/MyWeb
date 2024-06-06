@@ -57,11 +57,14 @@ public class AMainController extends HttpServlet {
     private final String USER_MANAGE = "view/admin/Account/UserManage.jsp";
     private final String USER_MANAGE_CONTROLLER = "/admin/account/UserManageController";
     
-    private final String USER_DETAIL="view/admin/Account/DeleteUser.jsp";
-    private final String USER_DETAIL_CONTROLLER="";
+    private final String USER_DETAIL="view/admin/Account/UserDetail.jsp";
+    private final String USER_DETAIL_CONTROLLER="/admin/account/UserDetail";
     
     private final String USER_DELETE="";
     private final String USER_DELETE_CONTROLLER="/admin/account/DeleteUser";
+    
+    private final String USER_UPDATE="view/admin/Account/UpdateUser.jsp";
+    private final String USER_UPDATE_CONTROLLER = "/admin/user/UpdateUserInfoController";
 
     //ORDER
     private final String ORDER_MANAGE="view/admin/Order/OrderManage.jsp";
@@ -122,7 +125,7 @@ public class AMainController extends HttpServlet {
             case "ProductDelete":url=PRODUCT_DELETE_CONTROLLER;break;
                 
             //sale
-            default: url = "index.html"; break;
+            
             
             //user
             case "userManagePage": url = USER_MANAGE;break;
@@ -130,8 +133,11 @@ public class AMainController extends HttpServlet {
             
             case "deleteUser":url = USER_DELETE_CONTROLLER;break;
             
+            case "userUpdatePage": url =USER_UPDATE;break;
+            case "userUpdate":url =USER_UPDATE_CONTROLLER;break;
 
             case "userDetailPage": url = USER_DETAIL;break;
+            case "userDetail": url=USER_DETAIL_CONTROLLER;break;
             //order
             case "orderManagePage":url =ORDER_MANAGE;break;
             case "orderManage":url = ORDER_MANAGE_CONTROLLER;break;
@@ -142,6 +148,8 @@ public class AMainController extends HttpServlet {
             case "updateOrderStatus":url = ORDER_UPDATE_CONTROLLER;break;
             
             case "insertOrder":break;
+            
+            default: url = "index.html"; break;
         }
 
         request.getRequestDispatcher(url).forward(request, response);

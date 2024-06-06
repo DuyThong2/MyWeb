@@ -30,7 +30,6 @@
         MealDAO dao = new MealDAO();
         DiscountDAO discountDao = new DiscountDAO();
         Meal meal = dao.getMealFullDetailFromId(mealId);
-        System.out.println(mealId);
         request.setAttribute("meal", meal);
     %>
     <body>

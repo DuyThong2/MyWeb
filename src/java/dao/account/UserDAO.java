@@ -191,6 +191,42 @@ public class UserDAO {
         System.out.println(user);
         return user;
     }
+    
+    public boolean updateUser(User user) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        boolean isUpdated = false;
+
+        String sql = "UPDATE Customers SET name=?, email=?, phone=?, address=?, imgURL=?, status=? WHERE id=?";
+
+        try {
+            conn = JDBCUtil.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getEmail());
+                ps.setString(3, user.getPhone());
+                ps.setString(4, user.getAddress());
+                ps.setString(5, user.getImgURL());
+                ps.setString(6, user.getStatus());
+                ps.setInt(7, user.getId());
+
+                isUpdated = ps.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException("Error updating user information: " + e.getMessage());
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return isUpdated;
+    }
 
 
 }

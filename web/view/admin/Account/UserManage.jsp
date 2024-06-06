@@ -27,22 +27,17 @@
         </header>
         <%  
             String manageUrl = request.getContextPath() + "/AMainController?action=userManage";
-            String detailUrl = request.getContextPath() + "/AMainController?action=userDetailPage";
+            String detailUrl = request.getContextPath() + "/AMainController?action=userDetail";
             String deleteUrl = request.getContextPath() + "/AMainController?action=deleteUser";
 
-            List<User> iList = (List<User>) session.getAttribute("userList");
+            List<User> iList = (List<User>) request.getAttribute("userList");
 
             if (iList == null) {
                 response.sendRedirect(manageUrl);
                 return;
             }
 
-            List<User> copyList = (List<User>) request.getAttribute("ulist");
-            if (copyList != null) {
-                iList = copyList;
-            }
-
-            List<List<User>> pages = Tool.splitToPage(iList, 10);
+            List<List<User>> pages = Tool.splitToPage(iList, 2);
 
             Object numString = session.getAttribute("numPage");
             int pageNum = 1;
@@ -97,7 +92,8 @@
                                         <td><%= user.getAddress() %></td>
                                         <td>
                                             
-                                            <a href="<%=detailUrl%>&id=<%= user.getId() %>" class="btn btn-sm btn-info">Detail</a>
+                                            <a href="<%=detailUrl%>&userId=<%=user.getId()%>" class="btn btn-sm btn-info">Detail</a>
+                                            
                                             <%
                                             String disableUrl = deleteUrl + "&status=";
                                             String status = user.getStatus();
