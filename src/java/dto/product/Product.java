@@ -15,7 +15,7 @@ public class Product implements Serializable{
     private static final long serialVersionUID = 2L;
     private String id;
     private String name;
-    private String decription;
+    private String description;
     private boolean OnSale;
     private int discountID;
     
@@ -28,7 +28,7 @@ public class Product implements Serializable{
     public Product(String id, String name, String decription, boolean isOnSale, int discountID) {
         this.id = id;
         this.name = name;
-        this.decription = decription;
+        this.description = decription;
         this.OnSale = isOnSale;
         this.discountID = discountID;
     }
@@ -52,11 +52,11 @@ public class Product implements Serializable{
     }
 
     public String getDescription() {
-        return decription;
+        return description;
     }
 
     public void setDecription(String decription) {
-        this.decription = decription;
+        this.description = decription;
     }
 
     public boolean isOnSale() {

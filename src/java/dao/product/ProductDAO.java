@@ -25,4 +25,8 @@ public class ProductDAO {
 
         return null;
     }
+    
+    public void addDiscountForProduct(){
+        
+    }
 }

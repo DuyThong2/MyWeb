@@ -33,9 +33,9 @@ public class Meal extends Product {
         packet = null;
     }
 
-    public Meal(String id, String name, String decription,double price,
+    public Meal(String id, String name, String description,double price,
             boolean isOnSale, int discountID,String content, String category, String imageURL, String status,IngredientPacket packet) {
-        this(id,name,decription,price,isOnSale,discountID,content,category,imageURL,status);
+        this(id,name,description,price,isOnSale,discountID,content,category,imageURL,status);
         this.packet = packet;
     }
     

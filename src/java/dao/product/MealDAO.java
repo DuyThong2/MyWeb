@@ -58,9 +58,9 @@ public class MealDAO {
                         decription = rs2.getString(1);
                         isOnsale = rs2.getBoolean(2);
                         discountID = rs2.getInt(3);
-                        
+
                     }
-                    
+
                     //remain info;
                     String name = rs.getString(2);
                     String content = rs.getString(3);
@@ -96,8 +96,6 @@ public class MealDAO {
         return -1;
     }
 
-    
-
     public List<Meal> getMealsByName(String nameTofind) {
         String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
                 + "FROM [PRJ301].[dbo].[Meal]"
@@ -132,7 +130,7 @@ public class MealDAO {
                         isOnsale = rs2.getBoolean(2);
                         discountID = rs2.getInt(3);
                     }
-                    
+
                     //remain info;
                     String name = rs1.getString(2);
                     String content = rs1.getString(3);
@@ -172,17 +170,17 @@ public class MealDAO {
     public String checkValidId(String id) {
         if (!id.matches("M[0-9]{1,4}")) {
             return "invalid ID pattern";
-        }else if(getAllMealsId().contains(id)){
+        } else if (getAllMealsId().contains(id)) {
             return id + "is already exist";
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public void InsertToTable(Meal mealToInsert) throws Exception{
+
+    public void InsertToTable(Meal mealToInsert) throws Exception {
         String sql1 = "insert into Product (id,name,description,isOnSale,discountID) values (?,?,?,?,?) ";
         String sql2 = "insert into Meal (id,name,content,category,imgURL,status) values (?,?,?,?,?,?) ";
-        
+
         String sql3 = "insert into MealPrice (priceID,value,status,dateApply) values (?,?,?,?)";
         Connection con = JDBCUtil.getConnection();
         try (PreparedStatement st1 = con.prepareStatement(sql1);
@@ -193,20 +191,18 @@ public class MealDAO {
             st1.setString(2, mealToInsert.getName());
             st1.setString(3, mealToInsert.getDescription());
             st1.setBoolean(4, mealToInsert.isOnSale());
-            if (mealToInsert.isOnSale()){
+            if (mealToInsert.isOnSale()) {
                 st1.setInt(5, mealToInsert.getDiscountID());
-            }else{
-                st1.setNull(5,Types.INTEGER);
+            } else {
+                st1.setNull(5, Types.INTEGER);
             }
-            
-            
+
             st2.setString(1, mealToInsert.getId());
             st2.setString(2, mealToInsert.getName());
             st2.setString(3, mealToInsert.getContent());
             st2.setString(4, mealToInsert.getCategory());
             st2.setString(5, mealToInsert.getImageURL());
             st2.setString(6, mealToInsert.getStatus());
-            
 
             LocalDateTime dtn = LocalDateTime.now();
 
@@ -222,7 +218,7 @@ public class MealDAO {
             };
             for (int result : results) {
                 if (result <= 0) {
-                    
+
                     throw new Exception();
                 }
             }
@@ -236,18 +232,18 @@ public class MealDAO {
             JDBCUtil.closeConnection(con);
         }
     }
-    
+
     public Meal getMealFromId(String idToFind) {
         Meal meal = null;
-        String GET_MEAL_QUERY = 
-        "SELECT Id, name, content, category, imgURL, status " +
-        "FROM Meal WHERE id = ?";
-        String GET_PRODUCT_QUERY = 
-        "SELECT description, isOnSale, DiscountID " +
-        "FROM Product WHERE id = ?";
+        String GET_MEAL_QUERY
+                = "SELECT Id, name, content, category, imgURL, status "
+                + "FROM Meal WHERE id = ?";
+        String GET_PRODUCT_QUERY
+                = "SELECT description, isOnSale, DiscountID "
+                + "FROM Product WHERE id = ?";
         try (Connection con = JDBCUtil.getConnection();
-             PreparedStatement st1 = con.prepareStatement(GET_MEAL_QUERY);
-             PreparedStatement st2 = con.prepareStatement(GET_PRODUCT_QUERY)) {
+                PreparedStatement st1 = con.prepareStatement(GET_MEAL_QUERY);
+                PreparedStatement st2 = con.prepareStatement(GET_PRODUCT_QUERY)) {
 
             // Fetch Meal details
             st1.setString(1, idToFind);
@@ -269,7 +265,6 @@ public class MealDAO {
                             int discountID = rs2.getInt("DiscountID");
 
                             double price = getPrice(id);
-                            
 
                             meal = new Meal(id, name, description, price, isOnSale, discountID, content, category, imgURL, status);
                         }
@@ -283,29 +278,27 @@ public class MealDAO {
 
         return meal;
     }
-    
-    
-    public void updateMeal(Meal meal) throws Exception{
-        
-         String sql1 = "update Meal set name = ?,content = ?,category = ? ,imgURL = ? where Id = ?";
-         String sql2 = "update MealPrice set status = 'disable' where priceID = ?";
-         String sql3 = "insert into MealPrice (priceID,value,status,dateApply) values (?,?,?,?)";
-         String sql4 = "update Product set name = ?,description = ? where id = ?";
-         Connection con = JDBCUtil.getConnection();
-         try (PreparedStatement st1 = con.prepareStatement(sql1);
+
+    public void updateMeal(Meal meal) throws Exception {
+
+        String sql1 = "update Meal set name = ?,content = ?,category = ? ,imgURL = ? where Id = ?";
+        String sql2 = "update MealPrice set status = 'disable' where priceID = ?";
+        String sql3 = "insert into MealPrice (priceID,value,status,dateApply) values (?,?,?,?)";
+        String sql4 = "update Product set name = ?,description = ? where id = ?";
+        Connection con = JDBCUtil.getConnection();
+        try (PreparedStatement st1 = con.prepareStatement(sql1);
                 PreparedStatement st2 = con.prepareStatement(sql2);
                 PreparedStatement st3 = con.prepareStatement(sql3);
-                 PreparedStatement st4 = con.prepareStatement(sql4)) {
+                PreparedStatement st4 = con.prepareStatement(sql4)) {
             con.setAutoCommit(false);
-            
+
             st1.setString(1, meal.getName());
             st1.setString(2, meal.getContent());
             st1.setString(3, meal.getCategory());
             st1.setString(4, meal.getImageURL());
             st1.setString(5, meal.getId());
-            
-            st2.setString(1,meal.getId());
-            
+
+            st2.setString(1, meal.getId());
 
             LocalDateTime dtn = LocalDateTime.now();
 
@@ -314,7 +307,6 @@ public class MealDAO {
             st3.setString(3, "active");
             st3.setTimestamp(4, Timestamp.valueOf(dtn));
 
-            
             st4.setString(1, meal.getName());
             st4.setString(2, meal.getDescription());
             st4.setString(3, meal.getId());
@@ -324,10 +316,7 @@ public class MealDAO {
                 st3.executeUpdate(),
                 st4.executeUpdate()
             };
-            
-            
-            
-            
+
             con.commit();
         } catch (Exception ex) {
             con.rollback();
@@ -338,21 +327,21 @@ public class MealDAO {
             JDBCUtil.closeConnection(con);
         }
     }
-    
+
     public Meal getMealFullDetailFromId(String mealId) {
         Meal meal = null;
         meal = this.getMealFromId(mealId);
         IngredientPacketDAO dao = new IngredientPacketDAO();
-        IngredientPacket packet = dao.getIngredientPacketFromId("P"+mealId.substring(1));
+        IngredientPacket packet = dao.getIngredientPacketFromId("P" + mealId.substring(1));
         meal.setPacket(packet);
         return meal;
     }
-    
+
     public void setStatusForMeal(String mealId, String status) {
         String sql = "UPDATE [PRJ301].[dbo].[Meal] SET status = ? WHERE id = ?";
 
         try (Connection con = JDBCUtil.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+                PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             // Set the parameters for the query
             pstmt.setString(1, status);
@@ -366,5 +355,56 @@ public class MealDAO {
         }
     }
 
+    public List<Meal> getCustomerMealList() {
+        String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
+                + "FROM [PRJ301].[dbo].[Meal] where status = 'active' ";
+        String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
+
+        List<Meal> listOfMeal = new ArrayList<>();
+
+        try (Connection con = JDBCUtil.getConnection();
+                Statement statement1 = con.createStatement();
+                PreparedStatement st2 = con.prepareStatement(sql2)) {
+            ResultSet rs = statement1.executeQuery(sql1);
+
+            if (rs != null) {
+                while (rs.next()) {
+                    String id = rs.getString(1);
+                    double price = getPrice(id);
+                    String decription = null;
+                    boolean isOnsale = false;
+                    int discountID = 0;
+                    // get price and other information in product:
+
+                    st2.setString(1, id);
+                    ResultSet rs2 = st2.executeQuery();
+
+                    if (!rs2.next()) {
+                        throw new Exception();
+                    } else {
+
+                        decription = rs2.getString(1);
+                        isOnsale = rs2.getBoolean(2);
+                        discountID = rs2.getInt(3);
+
+                    }
+
+                    //remain info;
+                    String name = rs.getString(2);
+                    String content = rs.getString(3);
+                    String category = rs.getString(4);
+                    String imgURL = rs.getString(5);
+                    String status = rs.getString(6);
+
+                    Meal meal = new Meal(id, name, decription, price, isOnsale, discountID, content, category, imgURL, status);
+                    listOfMeal.add(meal);
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return listOfMeal;
+    }
 
 }

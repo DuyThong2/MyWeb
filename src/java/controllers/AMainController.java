@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AMainController extends HttpServlet {
     
-    private final String SUCCESS = "success.jsp";
-    private final String ERROR = "error.jsp";
+    private final String SUCCESS = "view/success.jsp";
+    private final String ERROR = "view/error.jsp";
 
     //Ingredient
     private final String INGREDIENT_MANAGE = "view/admin/Product/Ingredient/IManage.jsp";
