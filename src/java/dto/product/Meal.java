@@ -88,6 +88,11 @@ public class Meal extends Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+ "\nMeal{" + "content=" + content + ", category=" + category + ", imageURL=" + imageURL + ", status=" + status + ", price=" + price + ", packet=" + packet + '}';
+    }
     
     
     

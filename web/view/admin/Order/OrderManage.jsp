@@ -5,13 +5,13 @@
 <%@page import="dao.order.OrderItemDAO"%>
 <%@page import="dto.order.OrderItem"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.List"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Order Management</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <style>
             .table-responsive {
                 max-height: 400px;
@@ -28,8 +28,8 @@
         %>
     </head>
     <body>
-         
-         
+        <%@include file="../../user/header.jsp" %>
+
         <div class="container">
             <div class="row">
                 <!-- First Row -->
@@ -51,9 +51,9 @@
                             </thead>
                             <tbody>
                                 <%
-                                    List<List<Order>> pages =  new ArrayList<>();
+                                    List<List<Order>> pages = new ArrayList<>();
                                     pages.add(new ArrayList<Order>());
-                                    if (orders != null){
+                                    if (orders != null) {
                                         pages = Tool.splitToPage(orders, 12);
                                     }
                                     Object numString = session.getAttribute("numPage");
@@ -66,8 +66,6 @@
                                     }
                                     int realPage = pageNum - 1;
                                     List<Order> list = pages.get(realPage);
-                                    
-                                    
 
                                     if (orders != null) {
                                         OrderItemDAO dao = new OrderItemDAO();
@@ -183,7 +181,8 @@
             </div>
 
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.min.js"></script>
     </body>
 </html>

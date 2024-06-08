@@ -27,6 +27,13 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    private final String MAIN_PAGE = "view/user/mainPage.jsp";
+    private final String MAIN_PAGE_CONTROLLER = "";
+    
+    private final String ADD_TO_CART = "";
+    private final String ADD_TO_CART_CONTROLLER="/user/cart/AddToCart";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,7 +42,10 @@ public class MainController extends HttpServlet {
         String url = "";
 
         switch (action) {
+            case "mainPagePage":url=MAIN_PAGE;break;
             
+            case "addToCart":url = ADD_TO_CART_CONTROLLER;break;
+            case "addToCartPage":break;
             
             default: url = "index.html"; break;
         }

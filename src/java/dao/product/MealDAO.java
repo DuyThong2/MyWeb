@@ -18,7 +18,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -355,12 +357,12 @@ public class MealDAO {
         }
     }
 
-    public List<Meal> getCustomerMealList() {
+    public Map<String,Meal> getCustomerMealList() {
         String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
                 + "FROM [PRJ301].[dbo].[Meal] where status = 'active' ";
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
 
-        List<Meal> listOfMeal = new ArrayList<>();
+        Map<String,Meal> listOfMeal = new HashMap<>();
 
         try (Connection con = JDBCUtil.getConnection();
                 Statement statement1 = con.createStatement();
@@ -397,7 +399,7 @@ public class MealDAO {
                     String status = rs.getString(6);
 
                     Meal meal = new Meal(id, name, decription, price, isOnsale, discountID, content, category, imgURL, status);
-                    listOfMeal.add(meal);
+                    listOfMeal.put(id,meal);
                 }
             }
 

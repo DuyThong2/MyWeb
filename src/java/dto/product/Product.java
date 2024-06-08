@@ -74,6 +74,11 @@ public class Product implements Serializable{
     public void setDiscountID(int discountID) {
         this.discountID = discountID;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" + "id=" + id + ", name=" + name + ", description=" + description + ", OnSale=" + OnSale + ", discountID=" + discountID + '}';
+    }
     
    
     

@@ -1,3 +1,6 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="dto.product.Product"%>
+<%@page import="java.util.Map"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.stream.Collectors"%>
@@ -53,13 +56,15 @@
     </head>
 
     <%
-        String RedirectURL = request.getContextPath() + "/MainController?action=mealController";
+        
         String cartURL = request.getContextPath() + "/MainController?action=addToCart";
-        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
+         Map<String,Meal> list = ( Map<String,Meal>) session.getAttribute("mealList");
         if (list == null) {
             MealDAO mealDAO = new MealDAO();
             list = mealDAO.getCustomerMealList();
             session.setAttribute("mealList", list);
+            Map<Product,Integer> cart = new HashMap<>();
+            session.setAttribute("cart", cart);
         }
 
 //        List<Meal> carouselShow = list.stream().
@@ -72,8 +77,8 @@
 //                limit(8).
 //                collect(Collectors.toList());
         List<Meal> carouselShow = new ArrayList<>();
-        for (Meal meal : list) {
-            if (meal.getPrice() > 9.8) {
+        for (Meal meal : list.values()) {
+            if (meal.getPrice() > 10.5) {
                 carouselShow.add(meal);
             }
             if (carouselShow.size() >= 3) {
@@ -81,11 +86,11 @@
             }
         }
 
-        System.out.println(carouselShow.size());
+        
 
         List<Meal> homeShow = new ArrayList<>();
-        for (Meal meal : list) {
-            if (meal.getPrice() > 7) {
+        for (Meal meal : list.values()) {
+            if (meal.getPrice() > 8.5) {
                 homeShow.add(meal);
             }
             if (homeShow.size() >= 8) {
@@ -131,8 +136,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">${item.getName()}</h5>
                                 <p class="card-text">${item.getDescription()}</p>
-                                <a href="#" class="btn btn-primary mb-2">Buy Now</a>
-                                <a href="#" class="btn btn-success">Add to Cart</a>
+                                <a href="<%=cartURL%>&productId=${item.getId()}" class="btn btn-primary mb-2">Buy Now</a>
+                                <a href="<%=cartURL%>&productId=${item.getId()}" class="btn btn-success">Detail</a>
                             </div>
                         </div>
 

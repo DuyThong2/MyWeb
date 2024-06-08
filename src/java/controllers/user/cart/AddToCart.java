@@ -8,6 +8,7 @@ package controllers.user.cart;
 import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,9 +21,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
+@WebServlet(name = "AddToCart", urlPatterns = {"/user/cart/AddToCart"})
 public class AddToCart extends HttpServlet {
 
+    private final String shopURL = "/MainController?action=mainPagePage";
+    private final String loginURL = "/MainController?action=login";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,8 +41,38 @@ public class AddToCart extends HttpServlet {
         HttpSession session = request.getSession();
         
         Map<Product,Integer> cart = (Map<Product,Integer>) session.getAttribute("cart");
+        Map<String,Product> products = (Map<String,Product>) session.getAttribute("mealList");
+        if (cart == null){
+            //redirect login
+            cart = new HashMap<>();
+            session.setAttribute("cart", cart);
+        }else{
+            String productId = request.getParameter("productId");
+            String quantityStr = request.getParameter("quantity");
+            if (productId != null){
+                if (quantityStr != null){
+                    int quantity = Integer.parseInt(quantityStr);
+                    Product productToAdd = products.get(productId);
+                    cart.merge(productToAdd, quantity, Integer::sum);
+                    
+                }else{
+                    Product productToAdd = products.get(productId);
+                    cart.merge(productToAdd, 1, Integer::sum);
+                }
+            }
+            
+            cart.entrySet().forEach(entry -> {
+                System.out.println(entry.getKey() + "contain : "+ entry.getValue());
+            });
+            
+            session.setAttribute("cart", cart);
+            request.getRequestDispatcher(shopURL).forward(request, response);
+        }
+        
         
     }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
