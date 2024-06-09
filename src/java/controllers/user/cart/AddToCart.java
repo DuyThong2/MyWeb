@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AddToCart", urlPatterns = {"/user/cart/AddToCart"})
 public class AddToCart extends HttpServlet {
 
-    private final String shopURL = "/MainController?action=mainPagePage";
+    private final String shopURL = "/MainController?action=shopPage";
     private final String loginURL = "/MainController?action=login";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,7 +41,7 @@ public class AddToCart extends HttpServlet {
         HttpSession session = request.getSession();
         
         Map<Product,Integer> cart = (Map<Product,Integer>) session.getAttribute("cart");
-        Map<String,Product> products = (Map<String,Product>) session.getAttribute("mealList");
+        Map<String,Product> products = (Map<String,Product>) session.getAttribute("customerMealList");
         if (cart == null){
             //redirect login
             cart = new HashMap<>();

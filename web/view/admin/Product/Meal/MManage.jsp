@@ -172,7 +172,7 @@
 
                             <hr>
                             <input name="cate" type="radio" id="category-checkbox" value="price" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Price (included discount)</label>
+                            <label for="category-checkbox" class="form-check-label">Price</label>
                             <br>
 
                             <input name="cate" type="radio" id="category-checkbox" value="id" class="form-check-input">

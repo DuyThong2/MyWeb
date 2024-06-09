@@ -5,14 +5,17 @@
  */
 package controllers.user.Product;
 
+import dao.discount.DiscountDAO;
 import dao.product.MealDAO;
 import dto.product.Meal;
+import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,12 +59,13 @@ public class MealController extends HttpServlet {
 
         
         //create table if null
-        if (session.getAttribute("mealList") == null) {
-            List<Meal> list = dao.getCustomerMealList();
-            session.setAttribute("mealList", list);
+        if (session.getAttribute("customerMealList") == null) {
+            Map<String,Meal> map = dao.getCustomerMealList();
+            session.setAttribute("customerMealList", map);
         } else {
             
-            List<Meal> list = (List<Meal>)session.getAttribute("mealList");
+            Map<String,Meal> map = (Map<String,Meal>)session.getAttribute("customerMealList");
+            
             
                 
             List<Meal> copyList = searchingMeal(request, dao);
@@ -71,7 +75,7 @@ public class MealController extends HttpServlet {
             }
             
             //check if sort
-            copyList = sortListFromRequest(request, list);
+            copyList = sortListFromRequest(request, new ArrayList<>(map.values()));
             if(copyList != null){
                  request.setAttribute("mlist", copyList);
             }

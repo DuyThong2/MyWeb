@@ -27,9 +27,14 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private final String SHOP= "view/user/shop.jsp";
+    private final String SHOP_CONTROLLER="/user/MealController";
     
     private final String MAIN_PAGE = "view/user/mainPage.jsp";
     private final String MAIN_PAGE_CONTROLLER = "";
+    
+    private final String CART_DISPLAY = "view/user/cart/CartDisplay.jsp";
+    private final String CART_DISPLAY_CONTROLLER ="";
     
     private final String ADD_TO_CART = "";
     private final String ADD_TO_CART_CONTROLLER="/user/cart/AddToCart";
@@ -47,6 +52,10 @@ public class MainController extends HttpServlet {
             case "addToCart":url = ADD_TO_CART_CONTROLLER;break;
             case "addToCartPage":break;
             
+            case "shop":url=SHOP_CONTROLLER;break;
+            case "shopPage":url=SHOP;break;
+            
+            case "cartDisplayPage": url = CART_DISPLAY;break;
             default: url = "index.html"; break;
         }
 

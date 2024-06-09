@@ -58,11 +58,11 @@
     <%
         
         String cartURL = request.getContextPath() + "/MainController?action=addToCart";
-         Map<String,Meal> list = ( Map<String,Meal>) session.getAttribute("mealList");
+        Map<String,Meal> list = ( Map<String,Meal>) session.getAttribute("customerMealList");
         if (list == null) {
             MealDAO mealDAO = new MealDAO();
             list = mealDAO.getCustomerMealList();
-            session.setAttribute("mealList", list);
+            session.setAttribute("customerMealList", list);
             Map<Product,Integer> cart = new HashMap<>();
             session.setAttribute("cart", cart);
         }
