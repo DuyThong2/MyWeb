@@ -20,6 +20,8 @@ public class AMainController extends HttpServlet {
     
     private final String SUCCESS = "view/success.jsp";
     private final String ERROR = "view/error.jsp";
+    private final String REGISTER = "RegisterForm.jsp";
+    private final String LOGIN = "LoginServlet";
 
     //Ingredient
     private final String INGREDIENT_MANAGE = "view/admin/Product/Ingredient/IManage.jsp";
@@ -82,7 +84,7 @@ public class AMainController extends HttpServlet {
         String action = request.getParameter("action");
         System.out.println(action);
         String url = "";
-
+        
         switch (action) {
             
             
@@ -149,7 +151,12 @@ public class AMainController extends HttpServlet {
             
             case "insertOrder":break;
             
-            default: url = "index.html"; break;
+            
+            //REGISTER 
+            case "register": url= REGISTER; break;
+            case "login" : url =LOGIN; break;
+          
+            default: url="index.jsp"; break;
         }
 
         request.getRequestDispatcher(url).forward(request, response);

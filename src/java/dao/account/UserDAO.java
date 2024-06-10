@@ -31,7 +31,6 @@ public class UserDAO {
         String query = "SELECT [id], [email], [pw], [name], [address], [phone], [imgURL], [status] FROM [PRJ301].[dbo].[Customers]";
         List<User> users = new ArrayList<>();
         try (Connection conn = JDBCUtil.getConnection();
-
                 Statement statement = conn.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -52,49 +51,41 @@ public class UserDAO {
         return users;
     }
 
-    
-
-    
-
     public List<User> getUsersByCategory(String seachValue, String searchCategory) {
-        String sql =String.format("SELECT [id], [email], [pw], [name], [address], [phone], [imgURL], [status]"
-               + " FROM [PRJ301].[dbo].[Customers]"
-               + "where %s like ? ",searchCategory);
+        String sql = String.format("SELECT [id], [email], [pw], [name], [address], [phone], [imgURL], [status]"
+                + " FROM [PRJ301].[dbo].[Customers]"
+                + "where %s like ? ", searchCategory);
         List<User> users = new ArrayList<>();
         try (Connection conn = JDBCUtil.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)){
-            statement.setString(1, "%"+seachValue+"%");
+                PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, "%" + seachValue + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String email = resultSet.getString("email");
-                    String password = resultSet.getString("pw");
-                    String name = resultSet.getString("name");
-                    String address = resultSet.getString("address");
-                    String phone = resultSet.getString("phone");
-                    String imgURL = resultSet.getString("imgURL");
-                    String status = resultSet.getString("status");
-                    User user = new User(id, email, phone, name, address, phone, imgURL, status);
-                    users.add(user);
+                int id = resultSet.getInt("id");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("pw");
+                String name = resultSet.getString("name");
+                String address = resultSet.getString("address");
+                String phone = resultSet.getString("phone");
+                String imgURL = resultSet.getString("imgURL");
+                String status = resultSet.getString("status");
+                User user = new User(id, email, phone, name, address, phone, imgURL, status);
+                users.add(user);
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-       
-       return users;
+
+        return users;
     }
-    
-    
+
     public User getUserWithOrders(int userId) {
-        
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
 
         try (Connection conn = JDBCUtil.getConnection()) {
-
-            
 
             // Get user details
             String userQuery = "SELECT * FROM Customers WHERE id = ?";
@@ -104,16 +95,14 @@ public class UserDAO {
 
             if (rs.next()) {
                 user = new User(
-
-                    rs.getInt("id"),
-                    rs.getString("email"),
-                    rs.getString("pw"),
-                    rs.getString("name"),
-                    rs.getString("address"),
-                    rs.getString("phone"),
-                    rs.getString("imgURL"),
-                    rs.getString("status")
-
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("pw"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("phone"),
+                        rs.getString("imgURL"),
+                        rs.getString("status")
                 );
             }
 
@@ -134,11 +123,7 @@ public class UserDAO {
         String sql = "UPDATE Customers SET status = ? WHERE id = ?";
 
         try (Connection conn = JDBCUtil.getConnection();
-
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            
-
 
             pstmt.setString(1, status);
             pstmt.setInt(2, id);
@@ -154,7 +139,6 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-
 
     public User getUserById(int userId) {
         User user = null;
@@ -191,7 +175,7 @@ public class UserDAO {
         System.out.println(user);
         return user;
     }
-    
+
     public boolean updateUser(User user) throws SQLException {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -228,5 +212,41 @@ public class UserDAO {
         return isUpdated;
     }
 
+    public User getUserByEmail(String email, String password) {
+        User returnUser = null;
+        Connection cn = null;
+        try {
+            cn = JDBCUtil.getConnection();
+            if (cn != null) {
+                String sql = "Select id,email,pw,name,address,phone,imgURL,status \n"
+                        + "from Customers \n"
+                        + "where email = ? and pw =?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, email);
+                pst.setString(2, password);
+                ResultSet table = pst.executeQuery();
+                while (table != null && table.next()) {
+                    int id = table.getInt("id");
+                    String name = table.getString("name");
+                    String address = table.getString("address");
+                    String phone = table.getString("phone");
+                    String imgURL = table.getString("imgURL");
+                    String status = table.getString("status");
+                    returnUser = new User(id, email, password, name, address, phone, imgURL, status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return returnUser;
+    }
 
 }
