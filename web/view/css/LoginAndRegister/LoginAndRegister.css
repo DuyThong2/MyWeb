@@ -146,6 +146,7 @@ body{
 }
 .error-text{
      font-size:22px;
+     text-align:center;
 }
 .overlay{
      position: fixed;

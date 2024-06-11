@@ -8,10 +8,6 @@
         <servlet-name>MainController</servlet-name>
         <servlet-class>controllers.MainController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controllers.login.LoginServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>AMainController</servlet-name>
         <url-pattern>/AMainController</url-pattern>
@@ -20,16 +16,12 @@
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/LoginServlet</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>AMainController</welcome-file>
     </welcome-file-list>
 </web-app>

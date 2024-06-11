@@ -13,7 +13,7 @@
     </head>
     <body>
         <div class="wrapper">
-            <form action='AMainController'>
+            <form action='AMainController' method="POST">
                 <h1>Login</h1>
                 <div class="input-box">
                     <input type="text" name="txtEmail" placeholder="Email" required>
@@ -31,5 +31,41 @@
                 </div>
             </form>
         </div>
+        <%
+            String printMessage="";
+            String errorMessage= (String)session.getAttribute("ERROR");
+            if(errorMessage!=null){
+                if(errorMessage.equalsIgnoreCase("WrongPassword")){
+                    printMessage="WRONG PASSWORD! PLEASE ENTER AGAIN!";
+                }
+                else if(errorMessage.equalsIgnoreCase("banned")){
+                    printMessage="YOUR ACCOUNT IS BANNED!";
+                }else{
+                    printMessage="YOUR ACCOUNT DOES NOT EXIST!</br>PLEASE REGISTER A NEW ACCOUNT.";
+                }
+            
+        %>
+        <div class="popup-error">
+
+            <i class='error-close bx bxs-x-circle'  onclick="closeError()"></i>
+
+            <p class="error-text">
+                <%= printMessage %>
+            </p>
+        </div>
+        <div class="overlay">
+        </div>
+
+        <%
+        }
+        %>
+        <script>
+            function closeError() {
+                error = document.querySelector('.popup-error');
+                error.style.top = "-100%";
+                const overlay = document.querySelector('.overlay');
+                overlay.classList.remove('overlay');
+            }
+        </script>
     </body>
 </html>

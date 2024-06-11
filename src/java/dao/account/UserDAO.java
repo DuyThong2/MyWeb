@@ -220,19 +220,23 @@ public class UserDAO {
             if (cn != null) {
                 String sql = "Select id,email,pw,name,address,phone,imgURL,status \n"
                         + "from Customers \n"
-                        + "where email = ? and pw =?";
+                        + "where email = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setString(1, email);
-                pst.setString(2, password);
                 ResultSet table = pst.executeQuery();
                 while (table != null && table.next()) {
-                    int id = table.getInt("id");
-                    String name = table.getString("name");
-                    String address = table.getString("address");
-                    String phone = table.getString("phone");
-                    String imgURL = table.getString("imgURL");
-                    String status = table.getString("status");
-                    returnUser = new User(id, email, password, name, address, phone, imgURL, status);
+                    String testpassword= table.getString("pw");
+                    if (password.equals(testpassword)) {
+                        int id = table.getInt("id");
+                        String name = table.getString("name");
+                        String address = table.getString("address");
+                        String phone = table.getString("phone");
+                        String imgURL = table.getString("imgURL");
+                        String status = table.getString("status");
+                        returnUser = new User(id, email, password, name, address, phone, imgURL, status);
+                    } else {
+                        returnUser = new User();
+                    }
                 }
             }
         } catch (Exception e) {

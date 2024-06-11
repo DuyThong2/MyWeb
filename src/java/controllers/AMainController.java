@@ -22,6 +22,7 @@ public class AMainController extends HttpServlet {
     private final String ERROR = "view/error.jsp";
     private final String REGISTER = "RegisterForm.jsp";
     private final String LOGIN = "LoginServlet";
+    private final String USER_MAINPAGE="view/user/mainPage.jsp";
 
     //Ingredient
     private final String INGREDIENT_MANAGE = "view/admin/Product/Ingredient/IManage.jsp";
@@ -82,7 +83,9 @@ public class AMainController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        System.out.println(action);
+        if(action==null){
+            action="";
+        }
         String url = "";
         
         switch (action) {
@@ -153,6 +156,7 @@ public class AMainController extends HttpServlet {
             
             
             //REGISTER 
+            case "mainpage": url=USER_MAINPAGE; break;
             case "register": url= REGISTER; break;
             case "login" : url =LOGIN; break;
           

@@ -34,7 +34,9 @@ public class User implements Serializable{
     }
         
     
-
+    public User(){
+        this(999999999,"xxx","xxx","xxx","xxx","xxx","xxx","xxx");
+    }
     public User(int id, String email, String pw, String name, String address, String phone, String imgURL, String status) {
         this.id = id;
         this.email = email;

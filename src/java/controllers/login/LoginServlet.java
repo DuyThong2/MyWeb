@@ -10,6 +10,7 @@ import dto.account.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author ASUS
  */
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
     /**
@@ -42,18 +44,19 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String errorMessage = "";
             if (loginUser != null) {
-                if (!loginUser.getStatus().equalsIgnoreCase("ACTIVE")) {
+                if (loginUser.getStatus().equalsIgnoreCase("xxx")) {
+                    errorMessage = "WrongPassword";
+                } else if (!loginUser.getStatus().equalsIgnoreCase("ACTIVE")) {
                     errorMessage = "Banned";
-//                    request.getRequestDispatcher("AMainController?action=").forward(request, response);
                 } else {
                     session.setAttribute("LoginedUser", loginUser);
-                    request.getRequestDispatcher("mainpage.jsp").forward(request, response);
+                    request.getRequestDispatcher("AMainController?action=mainpage").forward(request, response);
                 }
             } else {
                 errorMessage = "NotFound";
             }
             session.setAttribute("ERROR", errorMessage);
-//            request.getRequestDispatcher("AMainController?action=").forward(request, response);
+            request.getRequestDispatcher("AMainController?action=").forward(request, response);
         }
     }
 
