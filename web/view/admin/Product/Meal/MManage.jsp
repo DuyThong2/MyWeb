@@ -38,10 +38,7 @@
                 response.sendRedirect(redirectUrl);
                 return;
             }
-            List<Meal> copyList = (List<Meal>) request.getAttribute("mlist");
-            if (copyList != null) {
-                mList = copyList;
-            }
+            
 
             List<List<Meal>> pages = Tool.splitToPage(mList, 10);
 
@@ -97,12 +94,9 @@
                                     <td><%= String.format("%.2f", item.getPrice()) %></td>
                                     <td><%= item.getCategory() %></td>
                                     <td><%= item.getDescription() %></td>
-                                    <%
-                                        int discountId = item.getDiscountID();
-                                        double discount = dao.getDiscountPercentForProduct(discountId);
-                                    %>
+                                    
                                     <td>
-                                        <%= item.isOnSale() ? discount + " %" : "0%" %>
+                                        <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%" %>
                                     </td>
                                     <td>
                                         <a href="<%= request.getContextPath() %>/AMainController?action=addSale&id=<%= item.getId() %>" class="btn btn-sm btn-warning w-100 mb-2">Add Sale</a>

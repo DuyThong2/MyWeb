@@ -8,15 +8,18 @@ public class IngredientPacket extends Product {
     private String status;
     private Map<Ingredient, Integer> contains;
 
-    public IngredientPacket(String id, String name, String description, boolean isOnSale, int discountID, double price, String status) {
-        super(id, name, description, isOnSale, discountID);
+    public IngredientPacket(String id, String name, String description, boolean isOnSale, int discountID,double discountPercent, double price, String status) {
+        super(id, name, description, isOnSale, discountID,discountPercent);
         this.price = price;
         this.status = status;
         this.contains = new HashMap<>();
     }
 
-    public double getPrice() {
-        return price;
+    
+    
+    @Override
+    public double getPriceAfterDiscount() {
+        return getPrice()*((100-getDiscountPercent())/100);
     }
 
     public void setPrice(double price) {
@@ -50,9 +53,15 @@ public class IngredientPacket extends Product {
                 .orElse(null);
     }
 
-    public double getTotalPrice() {
+    @Override
+    public double getPrice() {
         return contains.entrySet().stream()
                 .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
                 .sum();
+    }
+
+    @Override
+    public String getImageURL() {
+        return "images/packet/packet.png";
     }
 }

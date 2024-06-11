@@ -26,7 +26,13 @@ public class MainController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * 
      */
+    
+    private final String SUCCESS = "view/success.jsp";
+    private final String ERROR = "view/error.jsp";
+    
+    
     private final String SHOP= "view/user/shop.jsp";
     private final String SHOP_CONTROLLER="/user/MealController";
     
@@ -34,10 +40,15 @@ public class MainController extends HttpServlet {
     private final String MAIN_PAGE_CONTROLLER = "";
     
     private final String CART_DISPLAY = "view/user/cart/CartDisplay.jsp";
-    private final String CART_DISPLAY_CONTROLLER ="";
+    private final String CART_DISPLAY_CONTROLLER ="/user/cart/ShowCart";
     
     private final String ADD_TO_CART = "";
     private final String ADD_TO_CART_CONTROLLER="/user/cart/AddToCart";
+    
+    private final String MEAL_DETAIL = "view/user/product/MealDetail.jsp";
+    
+    private final String PROCESS_CART = "";
+    private final String PROCESS_CART_CONTROLLER = "/user/cart/OrderCart";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,8 +56,15 @@ public class MainController extends HttpServlet {
         String action = request.getParameter("action");
         System.out.println(action);
         String url = "";
+//        if (action == null){
+//            action ="blah";
+//        }
 
         switch (action) {
+            
+            case"success":url = SUCCESS;break;
+            case "error":url =ERROR;break;
+            
             case "mainPagePage":url=MAIN_PAGE;break;
             
             case "addToCart":url = ADD_TO_CART_CONTROLLER;break;
@@ -56,6 +74,12 @@ public class MainController extends HttpServlet {
             case "shopPage":url=SHOP;break;
             
             case "cartDisplayPage": url = CART_DISPLAY;break;
+            case "cartDisplay": url = CART_DISPLAY_CONTROLLER;break;
+            
+            case "mealDetailPage":url = MEAL_DETAIL;break;
+            
+            case "processCart":url = PROCESS_CART_CONTROLLER;break;
+            
             default: url = "index.html"; break;
         }
 

@@ -11,13 +11,14 @@ import java.io.Serializable;
  *
  * @author Admin
  */
-public class Product implements Serializable{
+public abstract class Product implements Serializable{
     private static final long serialVersionUID = 2L;
     private String id;
     private String name;
     private String description;
     private boolean OnSale;
     private int discountID;
+    private double discountPercent;
     
 
     public Product() {
@@ -25,13 +26,23 @@ public class Product implements Serializable{
     
     
 
-    public Product(String id, String name, String decription, boolean isOnSale, int discountID) {
+    public Product(String id, String name, String decription, boolean isOnSale, int discountID,double discountPercent) {
         this.id = id;
         this.name = name;
         this.description = decription;
         this.OnSale = isOnSale;
         this.discountID = discountID;
+        this.discountPercent = discountPercent;
     }
+
+    public double getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(double discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+    
     
     
 
@@ -74,6 +85,10 @@ public class Product implements Serializable{
     public void setDiscountID(int discountID) {
         this.discountID = discountID;
     }
+    
+    public abstract double getPrice();
+    public abstract double getPriceAfterDiscount();
+    public abstract String getImageURL();
 
     @Override
     public String toString() {

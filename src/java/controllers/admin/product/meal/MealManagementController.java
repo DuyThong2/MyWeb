@@ -67,13 +67,13 @@ public class MealManagementController extends HttpServlet {
             List<Meal> copyList = searchingMeal(request, dao);
             //search name
             if(copyList != null){
-                 request.setAttribute("mlist", copyList);
+                 session.setAttribute("mealList", copyList);
             }
             
             //check if sort
             copyList = sortListFromRequest(request, list);
             if(copyList != null){
-                 request.setAttribute("mlist", copyList);
+                 session.setAttribute("mealList", copyList);
             }
             //save last page access
             session.setAttribute("numPage", numPage);
@@ -95,7 +95,7 @@ public class MealManagementController extends HttpServlet {
                 switch(sortBy){
                     case "category": comparator = Comparator.comparing(Meal::getCategory);break;
                     case "price": comparator = Comparator.comparing(Meal::getPrice);break;
-                    case "isOnSale": comparator = Comparator.comparing(Meal::isOnSale);break;
+                    case "isOnSale": comparator = Comparator.comparing(Meal::getDiscountPercent);break;
                     default: comparator = Comparator.comparing(Meal::getId); break;
                 }
                 if (sortOrder.matches("max")){

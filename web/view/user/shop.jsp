@@ -1,3 +1,5 @@
+<%@page import="dao.account.UserDAO"%>
+<%@page import="dto.account.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.discount.DiscountDAO"%>
 <%@page import="Utility.Tool"%>
@@ -7,7 +9,6 @@
 <%@page import="dao.product.MealDAO"%>
 <%@page import="java.util.Map"%>
 <%@page import="dto.product.Meal"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -61,17 +62,19 @@
         String addToCartURL = request.getContextPath() + "/MainController?action=addToCart";
         String redirectUrl = request.getContextPath() + "/MainController?action=shop";
         String cartURL = request.getContextPath() + "/MainController?action=cartDisplayPage";
-        Map<String, Meal> listOfMeal = (Map<String, Meal>) session.getAttribute("customerMealList");
-        if (listOfMeal == null) {
-            MealDAO mealDAO = new MealDAO();
-            listOfMeal = mealDAO.getCustomerMealList();
-            session.setAttribute("customerMealList", listOfMeal);
-            Map<Product, Integer> cart = new HashMap<>();
-            session.setAttribute("cart", cart);
+
+        
+        // only for testing without user
+        if (session.getAttribute("mealList") == null) {
+            UserDAO userDao = new UserDAO();
+            
+            User user = userDao.getUserById(1);
+            session.setAttribute("user", user);
+            response.sendRedirect(redirectUrl);
+            return;
         }
 
-        List<Meal> mList = new ArrayList<>(listOfMeal.values());
-        mList =request.getAttribute("mlist") != null ? (List<Meal>) request.getAttribute("mlist"):mList;
+        List<Meal> mList = (List<Meal>) session.getAttribute("mealList");
         List<List<Meal>> pages = Tool.splitToPage(mList, 12);
 
         Object numString = session.getAttribute("numPage");
@@ -84,8 +87,6 @@
         }
         int realPage = pageNum - 1;
         List<Meal> list = pages.get(realPage);
-        DiscountDAO dao = new DiscountDAO();
-        request.setAttribute("table", list);
     %>
 
     <body>
@@ -119,14 +120,10 @@
                                 </form>
                             </div>
                             <div class="col-6"></div>
-                            
                         </div>
                         <div class="row g-4">
                             <div class="col-lg-3">
                                 <div class="row g-4">
-
-
-
                                     <!-- category -->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
@@ -159,7 +156,6 @@
                                                 </div>
                                                 <button type="submit" class="btn btn-primary mt-3">Apply</button>
                                             </form>
-
                                         </div>
                                     </div>
 
@@ -186,7 +182,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="d-flex justify-content-center my-4">
                                             <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
                                         </div>
@@ -204,54 +199,63 @@
                             <div class="col-lg-9">
                                 <div class="row g-4 justify-content-center">
                                     <!-- for loop product -->
-                                    <c:forEach items="${table}" var="item">
-                                        <div class="col-md-6 col-lg-6 col-xl-4">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="${pageContext.request.contextPath}/${item.getImageURL()}" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>${item.getName()}</h4>
-                                                    <p>${item.getDescription()}</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">${item.getPrice()}</p>
-                                                        <a href="<%=addToCartURL%>&productId=${item.getId()}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
+                                    <%
+                                        for (Meal item : list) {
+                                    %>
+                                    <div class="col-md-6 col-lg-6 col-xl-4">
+                                        <div class="rounded position-relative fruite-item">
+                                            <div class="fruite-img">
+                                                <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="">
+                                            </div>
+                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                <h4><%= item.getName()%></h4>
+                                                <p><%= item.getDescription()%></p>
+                                                <div class="d-flex justify-content-between flex-lg-wrap">
+
+                                                    <%if (item.isOnSale()) {%>
+                                                    <p class="text-dark fs-5 fw-bold mb-0"><%=String.format("%.2f", item.getPriceAfterDiscount())%>$</p>
+                                                    <p class="text-danger text-decoration-line-through"><%= item.getPrice()%>$</p>
+
+                                                    <%
+                                                    } else {%>
+                                                    <p class="text-dark fs-5 fw-bold mb-0"><%=String.format("%.2f", item.getPrice())%>$</p>
+
+                                                    <%
+                                                        }
+                                                    %>
+
+                                                    <a href="<%= addToCartURL%>&productId=<%= item.getId()%>" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </c:forEach>
-
-
-
-
-
-
-
-                                    <!-- page changing -->
-                                    <div class="col-md-2 d-flex align-items-center">
-                                        <form action="<%= redirectUrl%>" method="POST" class="form-inline">
-                                            <input type="hidden" name="numPage" value="<%= pageNum - 1%>">
-                                            <button type="submit" class="btn btn-secondary mr-2">&lt;</button>
-                                        </form>
-
-                                        <form action="<%= redirectUrl%>" method="POST" class="form-inline">
-                                            <input name="numPage" type="number" value="<%= pageNum%>" class="form-control page-number"  min="1" max="<%= pages.size()%>">
-
-                                        </form>
-
-                                        <span class="ml-2 mr-2">/</span>
-                                        <span class="total-pages"><%= pages.size()%></span>
-
-                                        <form action="<%= redirectUrl%>" method="POST" class="form-inline">
-                                            <input type="hidden" name="numPage" value="<%= pageNum + 1%>">
-                                            <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
-                                        </form>
                                     </div>
-                                            <a href="<%=cartURL%> ">here</a>
+                                    <%
+                                        }
+                                    %>
+
                                 </div>
                             </div>
+                            <!-- page changing -->
+                            <div class="col-md-2 d-flex align-items-center">
+                                <form action="<%= redirectUrl%>" method="POST" class="form-inline">
+                                    <input type="hidden" name="numPage" value="<%= pageNum - 1%>">
+                                    <button type="submit" class="btn btn-secondary mr-2">&lt;</button>
+                                </form>
+
+                                <form action="<%= redirectUrl%>" method="POST" class="form-inline">
+                                    <input  name="numPage" type="number" value="<%= pageNum%>" class="form-control page-number"  min="1" max="<%= pages.size()%>">
+                                </form>
+
+                                <span class="ml-2 mr-2">/</span>
+                                <span class="total-pages"><%= pages.size()%></span>
+
+                                <form action="<%= redirectUrl%>" method="POST" class="form-inline">
+                                    <input type="hidden" name="numPage" value="<%= pageNum + 1%>">
+                                    <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
+                                </form>
+                            </div>
+                            <a href="<%= cartURL%>">here</a>
                         </div>
                     </div>
                 </div>
@@ -259,14 +263,10 @@
         </div>
         <!-- Fruits Shop End-->
 
-
         <!-- Footer End -->
-
-
 
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
-
 </html>

@@ -1,3 +1,5 @@
+<%@page import="dto.account.User"%>
+<%@page import="dao.account.UserDAO"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="dto.product.Product"%>
 <%@page import="java.util.Map"%>
@@ -56,14 +58,19 @@
     </head>
 
     <%
-        
+
         String cartURL = request.getContextPath() + "/MainController?action=addToCart";
-        Map<String,Meal> list = ( Map<String,Meal>) session.getAttribute("customerMealList");
+        String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
+        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
         if (list == null) {
+            UserDAO userDao = new UserDAO();
+            
+            User user = userDao.getUserById(1);
+            session.setAttribute("user", user);
             MealDAO mealDAO = new MealDAO();
             list = mealDAO.getCustomerMealList();
-            session.setAttribute("customerMealList", list);
-            Map<Product,Integer> cart = new HashMap<>();
+            session.setAttribute("mealList", list);
+            Map<Product, Integer> cart = new HashMap<>();
             session.setAttribute("cart", cart);
         }
 
@@ -77,7 +84,7 @@
 //                limit(8).
 //                collect(Collectors.toList());
         List<Meal> carouselShow = new ArrayList<>();
-        for (Meal meal : list.values()) {
+        for (Meal meal : list) {
             if (meal.getPrice() > 10.5) {
                 carouselShow.add(meal);
             }
@@ -86,10 +93,8 @@
             }
         }
 
-        
-
         List<Meal> homeShow = new ArrayList<>();
-        for (Meal meal : list.values()) {
+        for (Meal meal : list) {
             if (meal.getPrice() > 8.5) {
                 homeShow.add(meal);
             }
@@ -126,23 +131,34 @@
         <div class="container mt-5">
             <h2>Featured Meals</h2>
             <div class="row">
-
                 <!-- Meal Card 1 -->
-                <c:forEach items="${homeShow}" var ="item">
-                    <div class="col-md-3 mb-4">
+                <%                for (Meal item : homeShow) {
+                %>
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="<%=request.getContextPath() + "/" + item.getImageURL()%>" class="card-img-top" alt="<%=item.getName()%>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%=item.getName()%></h5>
+                            <p class="card-text"><%=item.getDescription()%></p>
+                            <%if (item.isOnSale()) {%>
+                            <p class="text-dark fs-5 fw-bold mb-0"><%=String.format("%.2f", item.getPriceAfterDiscount())%>$</p>
+                            <p class="text-danger text-decoration-line-through"><%= item.getPrice()%>$</p>
 
-                        <div class="card">
-                            <img src="${pageContext.request.contextPath}/${item.getImageURL()}" class="card-img-top" alt="${item.getName()}">
-                            <div class="card-body">
-                                <h5 class="card-title">${item.getName()}</h5>
-                                <p class="card-text">${item.getDescription()}</p>
-                                <a href="<%=cartURL%>&productId=${item.getId()}" class="btn btn-primary mb-2">Buy Now</a>
-                                <a href="<%=cartURL%>&productId=${item.getId()}" class="btn btn-success">Detail</a>
-                            </div>
+                            <%
+                                                    } else {%>
+                            <p class="text-dark fs-5 fw-bold mb-0"><%=String.format("%.2f", item.getPrice())%>$</p>
+
+                            <%
+                                }
+                            %>
+                            <a href="<%=cartURL%>&productId=<%=item.getId()%>" class="btn btn-primary mb-2">Buy Now</a>
+                            <a href="<%=detailURL%>&productId=<%=item.getId()%>" class="btn btn-success">Detail</a>
                         </div>
-
                     </div>
-                </c:forEach>
+                </div>
+                <%
+                    }
+                %>
 
                 <!-- Meal Card 2 -->
                 <div class="col-md-3 mb-4">

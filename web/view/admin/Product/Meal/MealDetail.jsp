@@ -41,6 +41,7 @@
                     <img src="${pageContext.request.contextPath}/${meal.getImageURL()}" class="img-fluid" alt="${meal.getName()}">
                     <h2>${meal.getName()}</h2>
                     <p><strong>Price:</strong> $${meal.getPrice()}</p>
+                    <p><strong>Discount:</strong> ${meal.getDiscountPercent()} %</p>
                     <p><strong>Description:</strong> ${meal.getDescription()}</p>
                     <p><strong>ID:</strong> ${meal.getId()}</p>
                 </div>
@@ -69,12 +70,11 @@
                     
                     <c:choose>
                         <c:when test="${meal.getPacket() != null}">
-                            <p><strong>Packet total price:</strong> $${meal.getPacket().getTotalPrice()}</p>
+                            <p><strong>Packet total price:</strong> $${meal.getPacket().getPrice()}</p>
                             <%
-                                int discountId = meal.getPacket().getDiscountID();
-                                double discount = discountDao.getDiscountPercentForProduct(discountId);
+                                
                                 if (meal.getPacket().isOnSale()) {
-                                    out.print("<p><strong>Discount: </strong>" + discount + " %</p>");
+                                    out.print("<p><strong>Discount: </strong>" + meal.getPacket().getDiscountPercent() + " %</p>");
                                 } else {
                                     out.print("<p><strong>Discount: </strong>0% </p>");
                                 }

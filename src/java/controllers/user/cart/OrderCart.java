@@ -5,11 +5,14 @@
  */
 package controllers.user.cart;
 
+import dao.account.UserDAO;
+import dao.order.OrderDAO;
+import dto.account.User;
 import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +24,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "ShowCart", urlPatterns = {"/user/cart/ShowCart"})
-public class ShowCart extends HttpServlet {
+@WebServlet(name = "OrderCart", urlPatterns = {"/user/cart/OrderCart"})
+public class OrderCart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,55 +35,43 @@ public class ShowCart extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * 
-     * 
      */
-    
-    private final String REDIRECT_PAGE = "/MainController?action=cartDisplayPage";
+    private final String SUCCESS_URL = "/MainController?action=success";
+    private final String FAIL_URL = "/MainController?action=error";
+    private final String LOGIN_URL = "/MainController?action=login";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession session = request.getSession();
-        
-        Map<Product,Integer> cart = (Map<Product,Integer>) session.getAttribute("cart");
-        
-        String productId = request.getParameter("productId");
-        String quantityStr = request.getParameter("quantity");
-        
-        if (productId != null && quantityStr != null){
-            Optional<Product> found = cart.keySet().stream()
-                                .filter(product -> product.getId().matches(productId))
-                                .findFirst();
-            
-            if (found.isPresent()){
-                int quantity = Integer.parseInt(quantityStr);
-                if (quantity >= 1){
-                    cart.put(found.get(), quantity);
-                }else{
-                    cart.keySet().remove(found.get());
+
+        //only for testing:
+        UserDAO userDAO = new UserDAO();
+        session.setAttribute("user", userDAO.getUserById(1));
+        // simulate real user
+
+        Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            request.getRequestDispatcher(LOGIN_URL).forward(request, response);
+        } else {
+            if (cart != null && !cart.isEmpty()) {
+                LocalDateTime orderDate = LocalDateTime.now();
+                OrderDAO orderDAO = new OrderDAO();
+                try {
+                    orderDAO.applyOrder(cart, user);
+                    request.setAttribute("successMessage", "thank for order");
+                    request.getRequestDispatcher(SUCCESS_URL).forward(request, response);
+                } catch (Exception e) {
+                    request.setAttribute("errorMessage", "error with order");
+                    request.getRequestDispatcher(FAIL_URL).forward(request, response);
+                    e.printStackTrace();
                 }
-                
-            }
+            } 
         }
-        
-        //delete if needed
-        String deleteId = request.getParameter("deleteId");
-        if (deleteId != null){
-            cart.keySet().removeIf(product -> product.getId().matches(deleteId));
-        }
-        
-        cart.entrySet().forEach(entry -> {
-                System.out.println(entry.getKey() + "contain : "+ entry.getValue());
-            });
-        
-        session.setAttribute("cart", cart);
-        
-        request.getRequestDispatcher(REDIRECT_PAGE).forward(request, response);
+
     }
-    
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

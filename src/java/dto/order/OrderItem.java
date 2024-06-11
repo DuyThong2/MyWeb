@@ -2,9 +2,11 @@ package dto.order;
 
 
 import dto.product.Product;
+import java.io.Serializable;
 
 
-public class OrderItem {
+public class OrderItem implements Serializable{
+    private static final long serialVersionUID = 3L;
 
     private int orderItemId;
     private int quantity;
