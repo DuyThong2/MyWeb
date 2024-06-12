@@ -6,6 +6,7 @@
 package dto.order;
 
 
+import dao.order.OrderItemDAO;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.List;
  *
  * @author Admin
  */
-public class Order implements Serializable{
-    private static final long serialVersionUID = 3L;
+public class Order {
+    
     private int orderID;
     private LocalDateTime orderDate;
     private LocalDateTime checkingDate;
@@ -23,6 +24,11 @@ public class Order implements Serializable{
     private String status;
     private int customerID;
     private List<OrderItem> orderDetail;
+
+    public Order() {
+    }
+    
+    
 
     public Order(int orderID, LocalDateTime orderDate, LocalDateTime checkingDate, LocalDateTime abortDate, String status, int customerID) {
         this.orderID = orderID;
@@ -103,6 +109,13 @@ public class Order implements Serializable{
         return this.orderDetail.stream().mapToInt(OrderItem::getQuantity).sum();
     }
     
+    public int getQuantity(){
+        return new OrderItemDAO().sumQuantitiesByOrderId(this);
+    }
+    
+    public double getTotal(){
+        return new OrderItemDAO().sumTotalPriceByOrderId(this) ;
+    }
 
     
     

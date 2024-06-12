@@ -3,28 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.user.account;
+package controllers.user.order;
 
-import dao.account.UserDAO;
-import dao.order.OrderDAO;
-import dto.account.User;
-import dto.order.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "UserDetailController", urlPatterns = {"/user/account/UserDetailController"})
-public class UserDetailController extends HttpServlet {
+@WebServlet(name = "updateOrderStatusController", urlPatterns = {"/updateOrderStatusController"})
+public class updateOrderStatusController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,34 +29,22 @@ public class UserDetailController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    private final String LOGIN_URL = "";
-    private final String SHOW_URL = "/MainController?action=";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        
-        
-
-        if (user != null) {
-            OrderDAO orderDAO = new OrderDAO();
-            String numPageStr = request.getParameter("numPage");
-            Map<Integer,Order> orderList = orderDAO.getOrdersByCustomerId(user.getId());
-            request.setAttribute("orderList", orderList);
-            int numPage = numPageStr != null ? Integer.parseInt(numPageStr)
-                    : session.getAttribute("numPage") != null
-                    ? (int) session.getAttribute("numPage") : 1;
-            session.setAttribute("numPage", numPage);
-            request.getRequestDispatcher(SHOW_URL).forward(request, response);
-        } else {
-            request.getRequestDispatcher(LOGIN_URL).forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet updateOrderStatusController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet updateOrderStatusController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
-        
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

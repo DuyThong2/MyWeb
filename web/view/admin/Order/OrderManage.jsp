@@ -28,7 +28,7 @@
         %>
     </head>
     <body>
-        <%@include file="../../user/header.jsp" %>
+        <jsp:include page="../../user/header.jsp" />
 
         <div class="container">
             <div class="row">

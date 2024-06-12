@@ -5,8 +5,8 @@ import dto.product.Product;
 import java.io.Serializable;
 
 
-public class OrderItem implements Serializable{
-    private static final long serialVersionUID = 3L;
+public class OrderItem {
+    
 
     private int orderItemId;
     private int quantity;
