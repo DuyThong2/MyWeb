@@ -73,7 +73,7 @@ public class InsertIngredientPacketController extends HttpServlet {
                 String packetDescription = String.format("%s ingredients kit", meal.getName());
                 boolean isOnSale = false;
 
-                IngredientPacket ingredientPacket = new IngredientPacket(packetID, name, packetDescription, isOnSale, 0, 0, "active");
+                IngredientPacket ingredientPacket = new IngredientPacket(packetID, name, packetDescription, isOnSale, 0,0,0, "active");
                 for (Entry<Ingredient, Integer> entry : inserted.entrySet()) {
                     ingredientPacket.addIngredient(entry.getKey(), entry.getValue());
                 }

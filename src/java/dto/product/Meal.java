@@ -23,8 +23,8 @@ public class Meal extends Product {
     
 
     public Meal(String id, String name, String decription,double price,
-            boolean isOnSale, int discountID,String content, String category, String imageURL, String status) {
-        super(id, name, decription, isOnSale, discountID);
+            boolean isOnSale, int discountID,double discountPercent,String content, String category, String imageURL, String status) {
+        super(id, name, decription, isOnSale, discountID,discountPercent);
         this.content = content;
         this.category = category;
         this.imageURL = imageURL;
@@ -34,8 +34,8 @@ public class Meal extends Product {
     }
 
     public Meal(String id, String name, String description,double price,
-            boolean isOnSale, int discountID,String content, String category, String imageURL, String status,IngredientPacket packet) {
-        this(id,name,description,price,isOnSale,discountID,content,category,imageURL,status);
+            boolean isOnSale, int discountID,double discountPercent,String content, String category, String imageURL, String status,IngredientPacket packet) {
+        this(id,name,description,price,isOnSale,discountID,discountPercent,content,category,imageURL,status);
         this.packet = packet;
     }
     
@@ -81,12 +81,23 @@ public class Meal extends Product {
         this.status = status;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+ "\nMeal{" + "content=" + content + ", category=" + category + ", imageURL=" + imageURL + ", status=" + status + ", price=" + price + ", packet=" + packet + '}';
+    }
+
+    @Override
+    public double getPriceAfterDiscount() {
+        return getPrice()*((100-getDiscountPercent())/100);
     }
     
     

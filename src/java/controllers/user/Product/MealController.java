@@ -5,14 +5,18 @@
  */
 package controllers.user.Product;
 
+import dao.discount.DiscountDAO;
 import dao.product.MealDAO;
 import dto.product.Meal;
+import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,24 +60,27 @@ public class MealController extends HttpServlet {
 
         
         //create table if null
-        if (session.getAttribute("mealList") == null) {
+        if (session.getAttribute("mealList") == null ) {
             List<Meal> list = dao.getCustomerMealList();
             session.setAttribute("mealList", list);
+            //only for testing:
+            
+            
+            Map<Product, Integer> cart = new HashMap<>();
+            session.setAttribute("cart", cart);
         } else {
             
             List<Meal> list = (List<Meal>)session.getAttribute("mealList");
-            
-                
             List<Meal> copyList = searchingMeal(request, dao);
             //search name
             if(copyList != null){
-                 request.setAttribute("mlist", copyList);
+                 session.setAttribute("mealList", copyList);
             }
             
             //check if sort
             copyList = sortListFromRequest(request, list);
             if(copyList != null){
-                 request.setAttribute("mlist", copyList);
+                 session.setAttribute("mealList", copyList);
             }
             //save last page access
             session.setAttribute("numPage", numPage);
@@ -94,8 +101,8 @@ public class MealController extends HttpServlet {
                 Comparator<Meal> comparator = null;
                 switch(sortBy){
                     case "category": comparator = Comparator.comparing(Meal::getCategory);break;
-                    case "price": comparator = Comparator.comparing(Meal::getPrice);break;
-                    case "isOnSale": comparator = Comparator.comparing(Meal::isOnSale);break;
+                    case "price": comparator = Comparator.comparing(Meal::getPriceAfterDiscount);break;
+                    case "isOnSale": comparator = Comparator.comparing(Meal::getDiscountPercent);break;
                     default: comparator = Comparator.comparing(Meal::getId); break;
                 }
                 if (sortOrder.matches("max")){

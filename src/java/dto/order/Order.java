@@ -6,6 +6,7 @@
 package dto.order;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,8 +14,8 @@ import java.util.List;
  *
  * @author Admin
  */
-public class Order {
-   
+public class Order implements Serializable{
+    private static final long serialVersionUID = 3L;
     private int orderID;
     private LocalDateTime orderDate;
     private LocalDateTime checkingDate;

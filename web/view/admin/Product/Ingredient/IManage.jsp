@@ -39,10 +39,8 @@
                 response.sendRedirect(manageUrl);
                 return;
             }
-            List<Ingredient> copyList = (List<Ingredient>) request.getAttribute("ilist");
-            if (copyList != null) {
-                iList = copyList;
-            }
+            
+            
 
             List<List<Ingredient>> pages = Tool.splitToPage(iList, 10);;
 

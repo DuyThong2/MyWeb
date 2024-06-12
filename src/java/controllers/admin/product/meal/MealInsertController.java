@@ -105,7 +105,7 @@ public class MealInsertController extends HttpServlet {
             }
 
             // Save the ingredient data to the database
-            Meal meal = new Meal(id,name, description,price,false, 0 ,content, category, imgURL, "active");
+            Meal meal = new Meal(id,name, description,price,false, 0 ,0,content, category, imgURL, "active");
             dao.InsertToTable(meal);
             if (request.getParameter("status").matches("done")){
                 request.setAttribute("completeMessage", "successfully added meal");
