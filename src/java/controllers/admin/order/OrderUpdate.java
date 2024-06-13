@@ -36,12 +36,14 @@ public class OrderUpdate extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String orderIdStr = request.getParameter("orderId");
-        String status = request.getParameter("status");
+        String status = request.getParameter("OrderStatus");
         if(orderIdStr != null&&status!= null){
             int orderId = Integer.parseInt(orderIdStr);
             OrderDAO dao = new OrderDAO();
             dao.updateOrderStatus(orderId, status);
         }
+        
+        
         
         request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
     }

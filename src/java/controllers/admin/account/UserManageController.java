@@ -69,38 +69,7 @@ public class UserManageController extends HttpServlet {
         request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
     }
 
-    private List<Meal> sortListFromRequest(HttpServletRequest request, List<Meal> list) {
 
-        if (request != null) {
-            String sortOrder = request.getParameter("sort");
-            String sortBy = request.getParameter("cate");
-            if (sortOrder != null && sortBy != null) {
-                Comparator<Meal> comparator = null;
-                switch (sortBy) {
-                    case "category":
-                        comparator = Comparator.comparing(Meal::getCategory);
-                        break;
-                    case "price":
-                        comparator = Comparator.comparing(Meal::getPrice);
-                        break;
-                    case "isOnSale":
-                        comparator = Comparator.comparing(Meal::isOnSale);
-                        break;
-                    default:
-                        comparator = Comparator.comparing(Meal::getId);
-                        break;
-                }
-                if (sortOrder.matches("max")) {
-                    comparator = comparator.reversed();
-                }
-                List<Meal> copyList = new ArrayList<>(list);
-                Collections.sort(copyList, comparator);
-                return copyList;
-            }
-        }
-        return null;
-
-    }
 
     private List<User> searchingUsers(HttpServletRequest request, UserDAO dao) {
         if (request != null) {

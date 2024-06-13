@@ -19,12 +19,12 @@
             }
         </style>
         <%
-            String updateOrderStatusURL = request.getContextPath() + "/AMainController?action=updateOrderStatus";
+
             String orderDetailURL = request.getContextPath() + "/AMainController?action=orderDetail";
             String redirectURL = request.getContextPath() + "/AMainController?action=orderManage";
 
             // Mock data for demonstration. Replace with actual data from the database
-            List<Order> orders = (List<Order>) request.getAttribute("orders");
+            List<Order> orders = (List<Order>) session.getAttribute("orders");
         %>
     </head>
     <body>
@@ -51,24 +51,20 @@
                             </thead>
                             <tbody>
                                 <%
-                                    List<List<Order>> pages = new ArrayList<>();
-                                    pages.add(new ArrayList<Order>());
-                                    if (orders != null) {
-                                        pages = Tool.splitToPage(orders, 12);
-                                    }
-                                    Object numString = session.getAttribute("numPage");
+                                    List<List<Order>> pages = new ArrayList();
                                     int pageNum = 1;
-                                    if (numString != null) {
-                                        pageNum = (int) numString;
-                                        if (pageNum < 1 || pageNum > pages.size()) {
-                                            pageNum = 1;
+                                    Object numString = session.getAttribute("numPage");
+                                        if (numString != null) {
+                                            pageNum = (int) numString;
+                                            if (pageNum < 1 || pageNum > pages.size()) {
+                                                pageNum = 1;
+                                            }
                                         }
-                                    }
-                                    int realPage = pageNum - 1;
-                                    List<Order> list = pages.get(realPage);
 
                                     if (orders != null) {
-                                        OrderItemDAO dao = new OrderItemDAO();
+                                        pages = Tool.splitToPage(orders, 2);
+                                        int realPage = pageNum - 1;
+                                        List<Order> list = pages.get(realPage);
                                         for (Order order : list) {
                                 %>
                                 <tr>
@@ -77,8 +73,8 @@
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
 
-                                    <td><%= dao.sumQuantitiesByOrderId(order)%> items</td>
-                                    <td><%= dao.sumTotalPriceByOrderId(order)%></td>
+                                    <td><%= order.getTotalItem()%> items</td>
+                                    <td><%= order.getTotalPrice()%></td>
                                     <td>
                                         <div class="d-flex flex-column">
                                             <div class="mb-2">
@@ -90,22 +86,22 @@
                                                     switch (status) {
                                                         case "processing":
                                                 %>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=pending" class="btn btn-warning btn-sm ">Pending</a>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=completed" class="btn btn-success btn-sm ">Completed</a>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=abort" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=pending" class="btn btn-warning btn-sm ">Pending</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=completed" class="btn btn-success btn-sm ">Completed</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=abort" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
                                                 <%
                                                         break;
                                                     case "abort":
                                                 %>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=pending" class="btn btn-warning btn-sm ">Pending</a>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=processing" class="btn btn-info btn-sm ">Processing</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=pending" class="btn btn-warning btn-sm ">Pending</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=processing" class="btn btn-info btn-sm ">Processing</a>
                                                 <%
                                                         break;
                                                     case "pending":
                                                 %>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=processing" class="btn btn-info btn-sm ">Processing</a>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=completed" class="btn btn-success btn-sm ">Completed</a>
-                                                <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>&status=abort" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=processing" class="btn btn-info btn-sm ">Processing</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=completed" class="btn btn-success btn-sm ">Completed</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=abort" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
                                                 <%
                                                             break;
                                                     }
@@ -147,6 +143,22 @@
                 </div>
                 <div class="col-lg-2">
                     <h2>Filter</h2>
+                    <form action="<%=redirectURL%>" method="POST">
+                        <div class="form-group">
+                            <label for="searchCriteria">Search By:</label>
+                            <select name="searchCriteria" id="searchCriteria" class="form-control">
+                                <option value="address">Destination</option>
+                                <option value="name">Name</option>
+                                <option value="phone">Phone</option>
+                                <option value="email">Email</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="searchValue">Search For:</label>
+                            <input type="text" name="searchValue" id="searchValue" class="form-control" placeholder="Enter search term">
+                        </div>
+                        <input type="submit" value="Search" class="btn btn-primary mt-2">
+                    </form>
                     <form method="POST" action="<%= redirectURL%>">
                         <div class="form-group">
                             <label for="status">Order Status:</label>
@@ -154,9 +166,15 @@
                                 <option value="completed">Completed</option>
                                 <option value="pending">Pending</option>
                                 <option value="processing">Processing</option>
-                                <option value="aborted">Aborted</option>
+                                <option value="abort">Aborted</option>
                             </select>
                         </div>
+
+
+                        <button type="submit" class="btn btn-primary">search</button>
+                    </form>
+
+                    <form action="<%=redirectURL%>" method="POST">
                         <fieldset class="form-group">
                             <legend>Category</legend>
                             <div class="form-check">
@@ -166,6 +184,10 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="category2" name="category" value="category2">
                                 <label class="form-check-label" for="category2">number of items</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="category3" name="category" value="category2">
+                                <label class="form-check-label" for="category2">order address</label>
                             </div>
                             <hr>
                             <div class="form-check">

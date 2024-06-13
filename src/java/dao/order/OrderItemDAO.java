@@ -72,10 +72,10 @@ public class OrderItemDAO {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
            preparedStatement.setInt(1, order.getOrderID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
-                if (resultSet.next()) {
-                    totalQuantity = resultSet.getInt("total_quantity");
+            ResultSet resultSetItem = preparedStatement.executeQuery();
+            if (resultSetItem != null) {
+                if (resultSetItem.next()) {
+                    totalQuantity = resultSetItem.getInt("total_quantity");
                 }
             }
 
@@ -94,10 +94,10 @@ public class OrderItemDAO {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, order.getOrderID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
-                if (resultSet.next()) {
-                    totalPrice = resultSet.getDouble("total_price");
+            ResultSet resultSetItem = preparedStatement.executeQuery();
+            if (resultSetItem!= null) {
+                if (resultSetItem.next()) {
+                    totalPrice = resultSetItem.getDouble("total_price");
                 }
             }
 

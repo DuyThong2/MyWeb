@@ -5,21 +5,29 @@
  */
 package controllers.user.order;
 
+import dao.order.OrderDAO;
+import dto.account.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "updateOrderStatusController", urlPatterns = {"/updateOrderStatusController"})
+@WebServlet(name = "updateOrderStatusController", urlPatterns = {"/user/order/updateOrderStatusController"})
 public class updateOrderStatusController extends HttpServlet {
-
+    
+    
+    private final String LOGIN_URL = "";
+    private final String SHOW_DETAIL_PAGE = "/MainController?action=userDetailPage";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,18 +40,26 @@ public class updateOrderStatusController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet updateOrderStatusController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet updateOrderStatusController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String orderIdStr = request.getParameter("orderId");
+        HttpSession session = request.getSession();
+
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            if (orderIdStr != null) {
+                int orderId = Integer.parseInt(orderIdStr);
+                OrderDAO orderDAO = new OrderDAO();
+                try {
+                    orderDAO.abortOrderByUser(orderId);
+                    request.getRequestDispatcher(SHOW_DETAIL_PAGE).forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }else{
+            request.getRequestDispatcher(LOGIN_URL).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

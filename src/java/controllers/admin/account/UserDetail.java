@@ -55,11 +55,12 @@ public class UserDetail extends HttpServlet {
                     : session.getAttribute("numPage") != null
                     ? (int) session.getAttribute("numPage") : 1;
             session.setAttribute("numPage", numPage);
+            request.getRequestDispatcher(SHOW_URL).forward(request, response);
         } else {
             request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
         }
 
-        request.getRequestDispatcher(SHOW_URL).forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

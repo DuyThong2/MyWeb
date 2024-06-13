@@ -160,11 +160,13 @@ public class Tool {
                 index = lastIndex;
                 lastIndex += elementPerPage;
             }
-            List<T> pageToAdd = new ArrayList<>(elementPerPage);
+            
             for (int i = index; i < size;i++){
+                List<T> pageToAdd = new ArrayList<>(elementPerPage);
                 pageToAdd.add(listToSplit.get(i));
+                result.add(pageToAdd);
             }
-            result.add(pageToAdd);
+            
             
             return result;
             

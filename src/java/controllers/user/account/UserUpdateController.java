@@ -10,12 +10,14 @@ import dto.account.User;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -91,7 +93,7 @@ public class UserUpdateController extends HttpServlet {
                     if (fileItem.getFieldName().equals("imgURL")) {
                         String fileName = Paths.get(fileItem.getName()).getFileName().toString();
                         String filePath = uploadPath + fileName;
-                        
+
                         File file = new File(filePath);
                         fileItem.write(file);
                         imgURL = IMAGES_DIRECTORY + fileName;
@@ -111,6 +113,7 @@ public class UserUpdateController extends HttpServlet {
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -122,8 +125,6 @@ public class UserUpdateController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -132,8 +133,6 @@ public class UserUpdateController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-
     /**
      * Returns a short description of the servlet.
      *

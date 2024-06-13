@@ -5,7 +5,7 @@ import dto.product.Product;
 import java.io.Serializable;
 
 
-public class OrderItem {
+public class OrderItem implements Serializable{
     
 
     private int orderItemId;

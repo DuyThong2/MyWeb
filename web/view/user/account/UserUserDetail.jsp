@@ -51,8 +51,8 @@
     <%
         String redirectURL = request.getContextPath() +"/MainController?action=userDetail";
         String updateStatusURL = request.getContextPath()+"/MainController?action=updateUser";
-        String orderDetailURL = request.getContextPath()+"/MainController?action=";
-        String updateOrderStatusURL = request.getContextPath() + "/MainController?action=";
+        String orderDetailURL = request.getContextPath()+"/MainController?action=orderDetailPage";
+        String updateOrderStatusURL = request.getContextPath() + "/MainController?action=orderUpdate";
         
 
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
@@ -70,7 +70,7 @@
         
         OrderDAO orderDAO = new OrderDAO();
         User user = (User) session.getAttribute("user");
-        Map<Integer,Order> orderList = (Map<Integer,Order>) request.getAttribute("orderList");
+        Map<Integer,Order> orderList = (Map<Integer,Order>) orderDAO.getOrdersByCustomerId(user.getId());
 
     %>
 
@@ -89,7 +89,7 @@
                             <p><strong>Name:</strong> ${user.getName()}</p>
                             <p><strong>Email:</strong> ${user.getEmail()}</p>
                             <p><strong>Phone:</strong> ${user.getPhone()}</p>
-                            <p><strong>Address:</strong> ${user.getAddress()}</p>
+                            <p><strong>Address:</strong> ${user.getAddress().toString()}</p>
                             <img src="${pageContext.request.contextPath}/${user.getImgURL()}" alt="User Image" class="img-thumbnail mt-3">
                         </div>
                     </div>
@@ -145,7 +145,6 @@
                                     List<Order> listOfOrder = pages.get(realPage);
 
                                     if (orders != null) {
-                                        OrderItemDAO dao = new OrderItemDAO();
                                         for (Order order : listOfOrder) {
                                 %>
                                 <tr>
@@ -153,11 +152,11 @@
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
-                                    <td><%= dao.sumQuantitiesByOrderId(order)%> items</td>
-                                    <td><%= dao.sumTotalPriceByOrderId(order)%></td>
+                                    <td><%= order.getTotalItem() %> items</td>
+                                    <td><%= order.getTotalPrice() %></td>
                                     <td>
-                                        <a href="<%= orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
-                                        <a href="<%= orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-warning btn-sm">Abort</a>
+                                        <a href="<%=orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
+                                        <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-warning btn-sm">Abort</a>
                                     </td>
                                 </tr>
                                 <%

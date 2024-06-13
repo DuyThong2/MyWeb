@@ -6,8 +6,11 @@
 package dao.order;
 
 import Utility.JDBCUtil;
+import dao.account.AddressDAO;
+import dto.account.Address;
 import dto.account.User;
 import dto.order.Order;
+import dto.order.OrderItem;
 import dto.product.Product;
 import java.sql.Connection;
 
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -48,15 +52,20 @@ public class OrderDAO {
             pstmt.setInt(1, customerId);
             rs = pstmt.executeQuery();
             if (rs != null) {
+                AddressDAO addressDao = new AddressDAO();
                 while (rs.next()) {
-                    Order order = new Order(
-                            rs.getInt("orderID"),
-                            rs.getTimestamp(2).toLocalDateTime(),
-                            rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
-                            rs.getTimestamp(4) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
-                            rs.getString("status"),
-                            rs.getInt("customerID")
-                    );
+                        
+                        Address address = addressDao.getAddressByCustomerId(customerId);
+                        Order order = new Order(
+                                rs.getInt("orderID"),
+                                rs.getTimestamp(2).toLocalDateTime(),
+                                rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
+                                rs.getTimestamp(4) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
+                                rs.getString("status"),
+                                customerId,address
+                                
+                                
+                        );
                     orders.put(order.getOrderID(), order);
                 }
             }
@@ -122,8 +131,8 @@ public class OrderDAO {
         return rs;
     }
 
-    public ArrayList<Order> getAllOrdersByStatus(String status) {
-        ArrayList<Order> list = new ArrayList<>();
+    public Map<Integer,Order> getAllOrdersByStatus(String status) {
+        Map<Integer,Order> list = new HashMap<>();
         Connection cn = null;
         try {
             //b1tao ket noi
@@ -133,21 +142,31 @@ public class OrderDAO {
                 String sql = "select orderId,orderDate,checkingDate,abortDate,status,customerID\n"
                         + "from [Order]\n"
                         + "where Status=?\n"
-                        + "Order by orderDate desc";
+                        + "Order by orderDate asc";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setString(1, status);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
+                    AddressDAO addressDao = new AddressDAO();
+                    OrderItemDAO orderItemDAO = new OrderItemDAO();
+                    
                     while (rs.next()) {
+                        int orderId = rs.getInt("orderID");
+                        int customerId = rs.getInt("customerID");
+                        Address address = addressDao.getAddressByCustomerId(customerId);
+                        List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId);
                         Order order = new Order(
-                                rs.getInt("orderID"),
+                                orderId,
                                 rs.getTimestamp(2).toLocalDateTime(),
                                 rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
                                 rs.getTimestamp(4) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
                                 rs.getString("status"),
-                                rs.getInt("customerID")
+                                customerId,address
+                                
+                                
                         );
-                        list.add(order);
+                        order.setOrderDetail(listOfOrderItem);
+                        list.put(orderId,order);
                     }
                 }
                 return list;
@@ -182,8 +201,13 @@ public class OrderDAO {
                     LocalDateTime abortDate = rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null;
                     String status = rs.getString(5);
                     int customerID = rs.getInt(6);
+                    AddressDAO dao = new AddressDAO();
+                    OrderItemDAO orderItemDAO = new OrderItemDAO();
+                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(id);
+                    Address address = dao.getAddressByCustomerId(customerID);
 
-                    Order order = new Order(id, orderDate, checkingDate, abortDate, status, customerID);
+                    Order order = new Order(id, orderDate, checkingDate, abortDate, status, customerID,address);
+                    order.setOrderDetail(listOfOrderItem);
                     return order;
                 }
             }

@@ -49,6 +49,18 @@ public class MainController extends HttpServlet {
     
     private final String PROCESS_CART = "";
     private final String PROCESS_CART_CONTROLLER = "/user/cart/OrderCart";
+    
+    private final String USER_DETAIL = "view/user/account/UserUserDetail.jsp";
+    private final String USER_DETAIL_CONTROLLER="";
+    
+    private final String USER_UPDATE = "view/user/account/UserUpdate.jsp";
+    private final String USER_UPDATE_CONTROLLER = "/user/account/UserUpdateController";
+    
+    private final String ORDER_UPDATE="";
+    private final String ORDER_UPDATE_CONTROLLER="/user/order/updateOrderStatusController";
+    
+    private final String ORDER_DETAIL="view/user/order/UserOrderDetail.jsp";
+    private final String ORDER_DETAIL_CONTROLLER="";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,24 +73,39 @@ public class MainController extends HttpServlet {
 //        }
 
         switch (action) {
-            
+            //error manage
             case"success":url = SUCCESS;break;
             case "error":url =ERROR;break;
             
+            //mainPage and shop
             case "mainPagePage":url=MAIN_PAGE;break;
-            
-            case "addToCart":url = ADD_TO_CART_CONTROLLER;break;
-            case "addToCartPage":break;
             
             case "shop":url=SHOP_CONTROLLER;break;
             case "shopPage":url=SHOP;break;
             
+            //cart manage
+            case "addToCart":url = ADD_TO_CART_CONTROLLER;break;
+            case "addToCartPage":break;
+            
             case "cartDisplayPage": url = CART_DISPLAY;break;
             case "cartDisplay": url = CART_DISPLAY_CONTROLLER;break;
             
+            case "processCart":url = PROCESS_CART_CONTROLLER;break;//order item
+            //shopping detail
             case "mealDetailPage":url = MEAL_DETAIL;break;
             
-            case "processCart":url = PROCESS_CART_CONTROLLER;break;
+            //user 
+            case "userDetailPage":url = USER_DETAIL;break;
+            
+            
+            case "userUpdatePage":url = USER_UPDATE;break;
+            case "userUpdate": url = USER_UPDATE_CONTROLLER;break;
+            
+            
+            //order
+            case "orderUpdate":url =ORDER_UPDATE_CONTROLLER;break;
+            case "orderDetailPage":url=ORDER_DETAIL;break;
+            
             
             default: url = "index.html"; break;
         }
