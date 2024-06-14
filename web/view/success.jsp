@@ -11,19 +11,7 @@
 <%
     
 
-    // Get all attribute names
-    Enumeration<String> attributeNames = session.getAttributeNames();
-
-    // Iterate through each attribute name
-    while (attributeNames.hasMoreElements()) {
-        String attributeName = attributeNames.nextElement();
-
-        // Check if the attribute name is not "user" or "staff"
-        if (!attributeName.equals("user") && !attributeName.equals("staff")) {
-            // Remove the attribute
-            session.removeAttribute(attributeName);
-        }
-    }
+   
 %>
 <html>
     <head>

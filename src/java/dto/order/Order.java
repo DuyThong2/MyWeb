@@ -22,7 +22,7 @@ public class Order implements Serializable{
     private LocalDateTime orderDate;
     private LocalDateTime checkingDate;
     private LocalDateTime abortDate;
-    private String status;
+    private int status;
     private int customerID;
     private List<OrderItem> orderDetail;
     private Address address;
@@ -32,7 +32,7 @@ public class Order implements Serializable{
     
     
 
-    public Order(int orderID, LocalDateTime orderDate, LocalDateTime checkingDate, LocalDateTime abortDate, String status, int customerID, Address address) {
+    public Order(int orderID, LocalDateTime orderDate, LocalDateTime checkingDate, LocalDateTime abortDate, int status, int customerID, Address address) {
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.checkingDate = checkingDate;
@@ -96,11 +96,11 @@ public class Order implements Serializable{
         this.abortDate = abortDate;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

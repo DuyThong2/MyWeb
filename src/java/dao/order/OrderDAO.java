@@ -66,7 +66,7 @@ public class OrderDAO {
                                 rs.getTimestamp(2).toLocalDateTime(),
                                 rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
                                 rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null,
-                                rs.getString("status"),
+                                rs.getInt("status"),
                                 customerId,address
                                 
                                 
@@ -98,7 +98,7 @@ public class OrderDAO {
     }
 
 
-    public int updateOrderStatus(int orderid, String newstatus) {
+    public int updateOrderStatus(int orderid, int newstatus) {
         String updateChecking = "update [Order] set checkingDate = ? where orderId=?";
         
         int rs = 0;
@@ -110,11 +110,11 @@ public class OrderDAO {
                 //b2:viet query va exec query
                 String sql = "update [Order] set status=? where orderId=?";
                 PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setString(1, newstatus);
+                pst.setInt(1, newstatus);
                 pst.setInt(2, orderid);
                 rs = pst.executeUpdate();
                 
-                if (newstatus.matches("completed")){
+                if (newstatus == 4){
                     LocalDateTime completeDay = LocalDateTime.now();
                     PreparedStatement updateDay = cn.prepareStatement(updateChecking);
                     updateDay.setTimestamp(1, Timestamp.valueOf(completeDay));
@@ -137,7 +137,7 @@ public class OrderDAO {
         return rs;
     }
 
-    public Map<Integer,Order> getAllOrdersByStatus(String status) {
+    public Map<Integer,Order> getAllOrdersByStatus(int status) {
         Map<Integer,Order> list = new LinkedHashMap<>();
         Connection cn = null;
         try {
@@ -150,7 +150,7 @@ public class OrderDAO {
                         + "where Status=?\n"
                         + " Order by orderDate desc";
                 PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setString(1, status);
+                pst.setInt(1, status);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     AddressDAO addressDao = new AddressDAO();
@@ -166,7 +166,7 @@ public class OrderDAO {
                                 rs.getTimestamp(2).toLocalDateTime(),
                                 rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
                                 rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null,
-                                rs.getString("status"),
+                                rs.getInt("status"),
                                 customerId,address
                                 
                                 
@@ -206,7 +206,7 @@ public class OrderDAO {
                     LocalDateTime orderDate = rs.getTimestamp(2).toLocalDateTime();
                     LocalDateTime checkingDate = rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null;
                     LocalDateTime abortDate = rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null;
-                    String status = rs.getString(5);
+                    int status = rs.getInt(5);
                     int customerID = rs.getInt(6);
                     AddressDAO dao = new AddressDAO();
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
@@ -237,7 +237,7 @@ public class OrderDAO {
             
             conn.setAutoCommit(false);
             orderStatement.setTimestamp(1, Timestamp.valueOf(orderDate));
-            orderStatement.setString(2, "pending");
+            orderStatement.setInt(2, 1);
             orderStatement.setInt(3, user.getId());
             
             orderStatement.executeUpdate();
@@ -283,7 +283,7 @@ public class OrderDAO {
     public void abortOrderByUser(int orderId) throws Exception{
         String updateAbortSql = "update [Order] set abortDate = ? where orderId=? ";
         String viewCurrentStatus = "select status from [Order] where orderId = ?";
-        String updateStatusSql = "update [Order] set status='abort' where orderId=?";
+        String updateStatusSql = "update [Order] set status=3 where orderId=?";
         Connection connection = JDBCUtil.getConnection();
         try(PreparedStatement pstUpdateDate = connection.prepareStatement(updateAbortSql);
                 PreparedStatement pstView = connection.prepareStatement(viewCurrentStatus);
@@ -292,7 +292,7 @@ public class OrderDAO {
             pstView.setInt(1, orderId);
             ResultSet rs = pstView.executeQuery();
             if (rs != null && rs.next()){
-                if (rs.getString(1).matches("processing")){
+                if (rs.getInt(1) == 2){
                     LocalDateTime abortDate = LocalDateTime.now();
                     pstUpdateDate.setTimestamp(1, Timestamp.valueOf(abortDate));
                     pstUpdateDate.setInt(2, orderId);

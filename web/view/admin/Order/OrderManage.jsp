@@ -83,26 +83,26 @@
                                             </div>
                                             <div class="btn-group-vertical">
                                                 <%
-                                                    String status = order.getStatus();
+                                                    int status = order.getStatus();
                                                     switch (status) {
-                                                        case "processing":
+                                                        case 2:
                                                 %>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=pending" class="btn btn-warning btn-sm ">Pending</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=completed" class="btn btn-success btn-sm ">Completed</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=abort" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=1" class="btn btn-warning btn-sm ">Pending</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=4" class="btn btn-success btn-sm ">Completed</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=3" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
                                                 <%
                                                         break;
-                                                    case "abort":
+                                                    case 3:
                                                 %>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=pending" class="btn btn-warning btn-sm ">Pending</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=processing" class="btn btn-info btn-sm ">Processing</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=1" class="btn btn-warning btn-sm ">Pending</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=2" class="btn btn-info btn-sm ">Processing</a>
                                                 <%
                                                         break;
-                                                    case "pending":
+                                                    case 1:
                                                 %>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=processing" class="btn btn-info btn-sm ">Processing</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=completed" class="btn btn-success btn-sm ">Completed</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=abort" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=2" class="btn btn-info btn-sm ">Processing</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=4" class="btn btn-success btn-sm ">Completed</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=3" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
                                                 <%
                                                             break;
                                                     }
@@ -164,10 +164,10 @@
                         <div class="form-group">
                             <label for="status">Order Status:</label>
                             <select id="status" name="status" class="form-control">
-                                <option value="completed">Completed</option>
-                                <option value="pending">Pending</option>
-                                <option value="processing">Processing</option>
-                                <option value="abort">Aborted</option>
+                                <option value="4">Completed</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Processing</option>
+                                <option value="3">Aborted</option>
                             </select>
                         </div>
 

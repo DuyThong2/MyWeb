@@ -57,19 +57,19 @@
         <div class="col-lg-4">
             <div class="btn-group">
                 <c:choose>
-                    <c:when test="${order.status == 'processing'}">
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=pending" class="btn btn-warning btn-sm">Pending</a>
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=completed" class="btn btn-success btn-sm">Completed</a>
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=abort" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Abort</a>
+                    <c:when test="${order.status == 2}">
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=1" class="btn btn-warning btn-sm">Pending</a>
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=4" class="btn btn-success btn-sm">Completed</a>
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=3" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Abort</a>
                     </c:when>
-                    <c:when test="${order.status == 'abort'}">
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=pending" class="btn btn-warning btn-sm">Pending</a>
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=processing" class="btn btn-info btn-sm">Processing</a>
+                    <c:when test="${order.status == 3}">
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=1" class="btn btn-warning btn-sm">Pending</a>
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=2" class="btn btn-info btn-sm">Processing</a>
                     </c:when>
-                    <c:when test="${order.status == 'pending'}">
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=processing" class="btn btn-info btn-sm">Processing</a>
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=completed" class="btn btn-success btn-sm">Completed</a>
-                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=abort" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Abort</a>
+                    <c:when test="${order.status == 1}">
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=2" class="btn btn-info btn-sm">Processing</a>
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=4" class="btn btn-success btn-sm">Completed</a>
+                        <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=3" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Abort</a>
                     </c:when>
                 </c:choose>
             </div>

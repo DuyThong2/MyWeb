@@ -40,7 +40,7 @@ public class OrderManageController extends HttpServlet {
             List <Order> orders = (List<Order>) session.getAttribute("orders");
             
             if (status != null) {
-                ordersMap = orderDAO.getAllOrdersByStatus(status);
+                ordersMap = orderDAO.getAllOrdersByStatus(Integer.parseInt(status));
                 session.setAttribute("map", ordersMap);
                 orders = new ArrayList<>(ordersMap.values());
                 session.setAttribute("orders", orders);
@@ -52,7 +52,7 @@ public class OrderManageController extends HttpServlet {
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
                 
                 Order order = ordersMap.get(orderId);
-                order.setStatus(orderStatus);
+                order.setStatus(Integer.parseInt(orderStatus));
                 request.getRequestDispatcher(UPDATE_ORDER_STATUS).forward(request, response);
             } else {
                 

@@ -40,7 +40,7 @@ public class OrderUpdate extends HttpServlet {
         if(orderIdStr != null&&status!= null){
             int orderId = Integer.parseInt(orderIdStr);
             OrderDAO dao = new OrderDAO();
-            dao.updateOrderStatus(orderId, status);
+            dao.updateOrderStatus(orderId, Integer.parseInt(status));
         }
         
         
