@@ -41,7 +41,7 @@
             }
             
             
-
+            
             List<List<Ingredient>> pages = Tool.splitToPage(iList, 10);;
 
             Object numString = session.getAttribute("numPage");
@@ -53,7 +53,10 @@
                 }
             }
             int realPage = pageNum - 1;
-            List<Ingredient> list = pages.get(realPage);
+            List<Ingredient> list = new ArrayList();
+            if (!pages.isEmpty()){
+                list = pages.get(realPage);
+            }
 
             request.setAttribute("table", list);
 

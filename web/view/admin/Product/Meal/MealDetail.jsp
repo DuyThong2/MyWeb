@@ -20,7 +20,7 @@
         String editMealURL = request.getContextPath() + "/AMainController?action=MealUpdatePage";
         String insertPacketURL = request.getContextPath() + "/AMainController?action=PacketInsert";
         String updatePacketURL = request.getContextPath() + "/AMainController?action=PacketUpdate";
-        String disableMealURL = request.getContextPath() + "/AMainController?action=ProductDelete";
+        String disableMealURL = request.getContextPath() + "/AMainController?action=MealManage";
         String addSaleURL = request.getContextPath() + "/AMainController?action=addSale";
         String mealId = request.getParameter("mealId");
         if (mealId == null) {
@@ -108,10 +108,10 @@
                         </c:choose>
                         <c:choose>
                             <c:when test="${meal.getStatus() == 'active'}">
-                                <a href="<%= disableMealURL%>&status=disable&mealId=${meal.getId()}" class="btn btn-danger mb-2">Disable</a>
+                                <a href="<%= disableMealURL%>&status=disable&deleteProductId=${meal.getId()}" class="btn btn-danger mb-2">Disable</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="<%= disableMealURL%>&status=active&mealId=${meal.getId()}" class="btn btn-success mb-2">Enable</a>
+                                <a href="<%= disableMealURL%>&status=active&deleteProductId=${meal.getId()}" class="btn btn-success mb-2">Enable</a>
                             </c:otherwise>
                         </c:choose>
                         <a href="<%= addSaleURL%>&mealId=${meal.getId()}" class="btn btn-warning">Adjust Meal Sale</a>

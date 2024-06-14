@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,12 +40,15 @@ public class UserManageController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private final String URL_PRODUCT_MANAGE = "/AMainController?action=userManagePage";
+    private final String DELETE_USER_URL = "/AMainController?action=deleteUser";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
+
+        String deleteId = request.getParameter("deleteUserId");
 
         // Get the numPage parameter from the request
         String numPageStr = request.getParameter("numPage");
@@ -54,22 +58,32 @@ public class UserManageController extends HttpServlet {
                 ? (int) session.getAttribute("numPage") : 1;
 
         //create table if null
-        List<User> list = dao.getAllUser();
-        request.setAttribute("userList", list);
-
-        List<User> copyList = searchingUsers(request, dao);
-        //search name
-        if (copyList != null) {
-            request.setAttribute("userList", copyList);
+        if (session.getAttribute("userList") == null) {
+            List<User> list = dao.getAllUser();
+            session.setAttribute("userList", list);
         }
 
-        //save last page access
-        session.setAttribute("numPage", numPage);
+        List<User> list = (List<User>) session.getAttribute("userList");
 
-        request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+        if (deleteId != null) {
+            String status = request.getParameter("status");
+            setDelete(list, Integer.parseInt(deleteId), status);
+            String refinedURl = DELETE_USER_URL + "&deleteUserId=" + deleteId+"&status="+status;
+            request.getRequestDispatcher(refinedURl).forward(request, response);
+        } else {
+            List<User> copyList = searchingUsers(request, dao);
+            //search name
+            if (copyList != null) {
+                session.setAttribute("userList", copyList);
+            }
+
+            //save last page access
+            session.setAttribute("numPage", numPage);
+
+            request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+        }
+
     }
-
-
 
     private List<User> searchingUsers(HttpServletRequest request, UserDAO dao) {
         if (request != null) {
@@ -82,6 +96,13 @@ public class UserManageController extends HttpServlet {
         }
         return null;
 
+    }
+
+    private void setDelete(List<User> list, int id, String status) {
+        Optional<User> optinal = list.stream().filter(user -> user.getId() == id).findFirst();
+        if (optinal.isPresent()) {
+            optinal.get().setStatus(status);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -28,16 +28,16 @@
         <%  
             String manageUrl = request.getContextPath() + "/AMainController?action=userManage";
             String detailUrl = request.getContextPath() + "/AMainController?action=userDetail";
-            String deleteUrl = request.getContextPath() + "/AMainController?action=deleteUser";
+            
 
-            List<User> iList = (List<User>) request.getAttribute("userList");
+            List<User> iList = (List<User>) session.getAttribute("userList");
 
             if (iList == null) {
                 response.sendRedirect(manageUrl);
                 return;
             }
 
-            List<List<User>> pages = Tool.splitToPage(iList, 2);
+            List<List<User>> pages = Tool.splitToPage(iList, 20);
 
             Object numString = session.getAttribute("numPage");
             int pageNum = 1;
@@ -48,9 +48,14 @@
                 }
             }
             int realPage = pageNum - 1;
-            List<User> list = pages.get(realPage);
-
+            List<User> list = new ArrayList();
+            if (!pages.isEmpty()){
+                list = pages.get(realPage);
+            }
+            
             request.setAttribute("table", list);
+            
+            
         %>
         <div class="container">
             <div class="row">
@@ -59,7 +64,7 @@
                     <!-- Table Name and Form in the same row -->
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h1>Ingredient</h1>
+                            <h1>User table:</h1>
                         </div>
                         <div class="col-md-6">
                             <!-- Optionally, add some controls here -->
@@ -95,14 +100,14 @@
                                             <a href="<%=detailUrl%>&userId=<%=user.getId()%>" class="btn btn-sm btn-info">Detail</a>
                                             
                                             <%
-                                            String disableUrl = deleteUrl + "&status=";
+                                            String disableUrl = manageUrl + "&status=";
                                             String status = user.getStatus();
                                             int userId = user.getId();
                                             String disableLink = "";
                                             String disableBtnClass = status.equals("active") ? "btn-danger" : "btn-success";
                                             String disableBtnText = status.equals("active") ? "Disable" : "Enable";
 
-                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&userId=" + userId + "' class='btn btn-sm " + disableBtnClass + " '>" + disableBtnText + "</a>";
+                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&deleteUserId=" + userId + "' class='btn btn-sm " + disableBtnClass + " '>" + disableBtnText + "</a>";
                                         %>
                                         <%= disableLink %>
                                         </td>

@@ -51,7 +51,7 @@ public class MainController extends HttpServlet {
     private final String PROCESS_CART_CONTROLLER = "/user/cart/OrderCart";
     
     private final String USER_DETAIL = "view/user/account/UserUserDetail.jsp";
-    private final String USER_DETAIL_CONTROLLER="";
+    private final String USER_DETAIL_CONTROLLER="/user/account/UserDetailController";
     
     private final String USER_UPDATE = "view/user/account/UserUpdate.jsp";
     private final String USER_UPDATE_CONTROLLER = "/user/account/UserUpdateController";
@@ -96,7 +96,7 @@ public class MainController extends HttpServlet {
             
             //user 
             case "userDetailPage":url = USER_DETAIL;break;
-            
+            case "userDetail":url = USER_DETAIL_CONTROLLER;break;
             
             case "userUpdatePage":url = USER_UPDATE;break;
             case "userUpdate": url = USER_UPDATE_CONTROLLER;break;

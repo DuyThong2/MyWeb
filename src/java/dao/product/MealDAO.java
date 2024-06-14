@@ -567,5 +567,66 @@ public class MealDAO {
         Collections.shuffle(listOfMeal);
         return listOfMeal.subList(0,quantity+1);
     }
+    
+    public List<Meal> getMealsByNameForCustomer(String nameTofind) {
+        String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
+                + "FROM [PRJ301].[dbo].[Meal]"
+                + " where name like ? and status = 'active'";
+        String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
+        String sql3 = "select valuePercent from Discount where id = ?";
+        List<Meal> listOfMeal = new ArrayList<>();
+
+        try (Connection con = JDBCUtil.getConnection();
+                PreparedStatement st1 = con.prepareStatement(sql1);
+                PreparedStatement st2 = con.prepareStatement(sql2);
+                PreparedStatement st3 = con.prepareStatement(sql3)) {
+            st1.setString(1, "%" + nameTofind + "%");
+            ResultSet rs1 = st1.executeQuery();
+
+            if (rs1 != null) {
+                while (rs1.next()) {
+                    String id = rs1.getString(1);
+                    double price = getPrice(id);
+                    String decription = null;
+                    boolean isOnsale = false;
+                    int discountID = 0;
+                    double discountPercent = 0;
+                    // get price and other information in product:
+
+                    st2.setString(1, id);
+                    ResultSet rs2 = st2.executeQuery();
+
+                    if (!rs2.next()) {
+                        throw new Exception();
+                    } else {
+
+                        decription = rs2.getString(1);
+                        isOnsale = rs2.getBoolean(2);
+                        discountID = rs2.getInt(3);
+                        if (discountID != 0) {
+                            st3.setInt(1, discountID);
+                            ResultSet discountResult = st3.executeQuery();
+                            discountResult.next();
+                            discountPercent = discountResult.getDouble(1);
+                        }
+                    }
+
+                    //remain info;
+                    String name = rs1.getString(2);
+                    String content = rs1.getString(3);
+                    String category = rs1.getString(4);
+                    String imgURL = rs1.getString(5);
+                    String status = rs1.getString(6);
+
+                    Meal meal = new Meal(id, name, decription, price, isOnsale, discountID, discountPercent, content, category, imgURL, status);
+                    listOfMeal.add(meal);
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return listOfMeal;
+    }
 
 }

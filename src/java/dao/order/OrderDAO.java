@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,32 +41,37 @@ public class OrderDAO {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        Map<Integer, Order> orders = new HashMap<>();
+        Map<Integer, Order> orders = new LinkedHashMap<>();
 
         try (Connection conn = JDBCUtil.getConnection()) {
             // Getting connection from JDBCUtil
 
 
             String orderQuery = "SELECT orderId,orderDate,checkingDAte,abortDate,status,customerID"
-                    + " FROM [Order] WHERE customerID = ?";
+                    + " FROM [Order] WHERE customerID = ?"
+                    + " Order by orderDate desc";
             pstmt = conn.prepareStatement(orderQuery);
             pstmt.setInt(1, customerId);
             rs = pstmt.executeQuery();
             if (rs != null) {
                 AddressDAO addressDao = new AddressDAO();
+                OrderItemDAO orderItemDAO = new OrderItemDAO();
                 while (rs.next()) {
+                        int orderId = rs.getInt("orderID");
+                        List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId);
                         
                         Address address = addressDao.getAddressByCustomerId(customerId);
                         Order order = new Order(
-                                rs.getInt("orderID"),
+                                orderId,
                                 rs.getTimestamp(2).toLocalDateTime(),
                                 rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
-                                rs.getTimestamp(4) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
+                                rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null,
                                 rs.getString("status"),
                                 customerId,address
                                 
                                 
                         );
+                        order.setOrderDetail(listOfOrderItem);
                     orders.put(order.getOrderID(), order);
                 }
             }
@@ -132,7 +138,7 @@ public class OrderDAO {
     }
 
     public Map<Integer,Order> getAllOrdersByStatus(String status) {
-        Map<Integer,Order> list = new HashMap<>();
+        Map<Integer,Order> list = new LinkedHashMap<>();
         Connection cn = null;
         try {
             //b1tao ket noi
@@ -142,7 +148,7 @@ public class OrderDAO {
                 String sql = "select orderId,orderDate,checkingDate,abortDate,status,customerID\n"
                         + "from [Order]\n"
                         + "where Status=?\n"
-                        + "Order by orderDate asc";
+                        + " Order by orderDate desc";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setString(1, status);
                 ResultSet rs = pst.executeQuery();
@@ -159,7 +165,7 @@ public class OrderDAO {
                                 orderId,
                                 rs.getTimestamp(2).toLocalDateTime(),
                                 rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
-                                rs.getTimestamp(4) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
+                                rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null,
                                 rs.getString("status"),
                                 customerId,address
                                 
@@ -189,7 +195,8 @@ public class OrderDAO {
     public Order getOrderByOrderId(int id) {
         String sql = "select orderId,orderDate,checkingDate,abortDate,status,customerID\n"
                 + "from [Order]\n"
-                + "where orderId=?";
+                + "where orderId=?"
+                + " Order by orderDate desc";
         try (Connection conn = JDBCUtil.getConnection();
                 PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);

@@ -71,6 +71,8 @@
         OrderDAO orderDAO = new OrderDAO();
         User user = (User) session.getAttribute("user");
         Map<Integer,Order> orderList = (Map<Integer,Order>) orderDAO.getOrdersByCustomerId(user.getId());
+        
+//        Map<Integer,Order> orderList = (Map<Integer,Order>) session.getAttribute("orderList");
 
     %>
 
@@ -128,24 +130,21 @@
                             <tbody>
                                 <%
                                     List<Order> orders = new ArrayList<>(orderList.values());
-                                    List<List<Order>> pages = new ArrayList<>();
-                                    pages.add(new ArrayList<Order>());
-                                    if (orders != null) {
-                                        pages = Tool.splitToPage(orders, 12);
-                                    }
-                                    Object numString = session.getAttribute("numPage");
+                                    List<List<Order>> pages = new ArrayList();
+                                    pages = Tool.splitToPage(orders, 12);
                                     int pageNum = 1;
-                                    if (numString != null) {
-                                        pageNum = (int) numString;
-                                        if (pageNum < 1 || pageNum > pages.size()) {
-                                            pageNum = 1;
+                                    Object numString = session.getAttribute("numPage");
+                                        if (numString != null) {
+                                            pageNum = (int) numString;
+                                            if (pageNum < 1 || pageNum > pages.size()) {
+                                                pageNum = 1;
+                                            }
                                         }
-                                    }
-                                    int realPage = pageNum - 1;
-                                    List<Order> listOfOrder = pages.get(realPage);
 
-                                    if (orders != null) {
-                                        for (Order order : listOfOrder) {
+                                    if (orders != null&& !orders.isEmpty()) {
+                                        int realPage = pageNum - 1;
+                                        List<Order> elementInPage = pages.get(realPage);
+                                        for (Order order : elementInPage) {
                                 %>
                                 <tr>
                                     <td><%= order.getCustomerID()%></td>
@@ -156,7 +155,7 @@
                                     <td><%= order.getTotalPrice() %></td>
                                     <td>
                                         <a href="<%=orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
-                                        <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-warning btn-sm">Abort</a>
+                                        <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-danger btn-sm">Abort</a>
                                     </td>
                                 </tr>
                                 <%

@@ -36,8 +36,8 @@ public class UserDetailController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    private final String LOGIN_URL = "";
-    private final String SHOW_URL = "/MainController?action=";
+    private final String LOGIN_URL = "/MainController?action=error";
+    private final String SHOW_URL = "/MainController?action=userDetailPage";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -50,7 +50,7 @@ public class UserDetailController extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             String numPageStr = request.getParameter("numPage");
             Map<Integer,Order> orderList = orderDAO.getOrdersByCustomerId(user.getId());
-            request.setAttribute("orderList", orderList);
+            session.setAttribute("orderList", orderList);
             int numPage = numPageStr != null ? Integer.parseInt(numPageStr)
                     : session.getAttribute("numPage") != null
                     ? (int) session.getAttribute("numPage") : 1;

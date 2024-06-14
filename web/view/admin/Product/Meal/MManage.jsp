@@ -51,8 +51,11 @@
                 }
             }
             int realPage = pageNum - 1;
-            List<Meal> list = pages.get(realPage);
-            DiscountDAO dao = new DiscountDAO();
+            List<Meal> list = new ArrayList();
+            if (!pages.isEmpty()){
+                list = pages.get(realPage);
+            }
+            
             request.setAttribute("table", list);
         %>
         <div class="container">
@@ -103,14 +106,14 @@
                                         <a href="<%= request.getContextPath() %>/AMainController?action=MealDetail&mealId=<%= item.getId() %>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
 
                                         <%
-                                            String disableUrl = disableMealURL + "&status=";
+                                            String disableUrl = redirectUrl + "&status=";
                                             String status = item.getStatus();
                                             String mealId = item.getId();
                                             String disableLink = "";
                                             String disableBtnClass = status.equals("active") ? "btn-danger" : "btn-success";
                                             String disableBtnText = status.equals("active") ? "Disable" : "Enable";
 
-                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&mealId=" + mealId + "' class='btn btn-sm " + disableBtnClass + " w-100 mb-2'>" + disableBtnText + "</a>";
+                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&deleteProductId=" + mealId + "' class='btn btn-sm " + disableBtnClass + " w-100 mb-2'>" + disableBtnText + "</a>";
                                         %>
                                         <%= disableLink %>
                                     </td>

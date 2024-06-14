@@ -24,11 +24,12 @@
             String redirectURL = request.getContextPath() + "/AMainController?action=orderManage";
 
             // Mock data for demonstration. Replace with actual data from the database
-            List<Order> orders = (List<Order>) session.getAttribute("orders");
+            List<Order> orders = session.getAttribute("orders") != null ?
+                    (List<Order>)session.getAttribute("orders") : new ArrayList();
         %>
     </head>
     <body>
-        <jsp:include page="../../user/header.jsp" />
+        
 
         <div class="container">
             <div class="row">
@@ -52,6 +53,7 @@
                             <tbody>
                                 <%
                                     List<List<Order>> pages = new ArrayList();
+                                    pages = Tool.splitToPage(orders, 12);
                                     int pageNum = 1;
                                     Object numString = session.getAttribute("numPage");
                                         if (numString != null) {
@@ -61,8 +63,7 @@
                                             }
                                         }
 
-                                    if (orders != null) {
-                                        pages = Tool.splitToPage(orders, 2);
+                                    if (orders != null&& !orders.isEmpty()) {
                                         int realPage = pageNum - 1;
                                         List<Order> list = pages.get(realPage);
                                         for (Order order : list) {

@@ -62,7 +62,7 @@ public class OrderManageController extends HttpServlet {
                 numPage = numPageStr != null ? Integer.parseInt(numPageStr)
                         : session.getAttribute("numPage") != null
                         ? (int) session.getAttribute("numPage") : 1;
-
+                System.out.println(numPage);
 
                 //sort or search
                 List<Order> copyList = searchingForOrder(request);

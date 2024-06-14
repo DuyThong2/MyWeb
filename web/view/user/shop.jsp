@@ -86,7 +86,11 @@
             }
         }
         int realPage = pageNum - 1;
-        List<Meal> list = pages.get(realPage);
+        List<Meal> list = new ArrayList<>();
+        if (!pages.isEmpty()){
+            list = pages.get(realPage);
+        }
+         
     %>
 
     <body>

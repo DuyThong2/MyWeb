@@ -30,21 +30,24 @@ public class DeleteProductController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    private final String REDIRECT_URL = "/AMainController?action=MealManagePage";
+    private final String ERROR_URL = "/AMainController?action=error";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String mealId = request.getParameter("mealId");
+        String mealId = request.getParameter("deleteProductId");
         try {
             if (mealId != null) {
                 String status = request.getParameter("status");
                 System.out.println(mealId + " "+status);
                 MealDAO dao = new MealDAO();
                 dao.setStatusForMeal(mealId, status);
-                response.sendRedirect("success.jsp");
+                request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
         
     }

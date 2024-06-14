@@ -35,7 +35,7 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userId = request.getParameter("userId");
+        String userId = request.getParameter("deleteUserId");
         try {
             if (userId != null) {
                 String status = request.getParameter("status");
