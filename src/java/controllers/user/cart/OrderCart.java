@@ -39,6 +39,7 @@ public class OrderCart extends HttpServlet {
     private final String SUCCESS_URL = "/MainController?action=success";
     private final String FAIL_URL = "/MainController?action=error";
     private final String LOGIN_URL = "/MainController?action=login";
+    private final String SHOP_URL = "/MainController?action=shopPage";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,10 +58,11 @@ public class OrderCart extends HttpServlet {
             request.getRequestDispatcher(LOGIN_URL).forward(request, response);
         } else {
             if (cart != null && !cart.isEmpty()) {
-                LocalDateTime orderDate = LocalDateTime.now();
+                
                 OrderDAO orderDAO = new OrderDAO();
                 try {
                     orderDAO.applyOrder(cart, user);
+                    cart.clear();
                     request.setAttribute("successMessage", "thank for order");
                     request.getRequestDispatcher(SUCCESS_URL).forward(request, response);
                 } catch (Exception e) {
@@ -68,7 +70,9 @@ public class OrderCart extends HttpServlet {
                     request.getRequestDispatcher(FAIL_URL).forward(request, response);
                     e.printStackTrace();
                 }
-            } 
+            } else{
+                request.getRequestDispatcher(SHOP_URL).forward(request, response);
+            }
         }
 
     }

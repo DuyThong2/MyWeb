@@ -7,6 +7,7 @@ package dao.account;
 
 import Utility.JDBCUtil;
 import dao.order.OrderDAO;
+import dto.account.Address;
 import dto.account.User;
 import dto.order.Order;
 import dto.product.Meal;
@@ -28,36 +29,55 @@ import java.util.logging.Logger;
 public class UserDAO {
 
     public List<User> getAllUser() {
-        String query = "SELECT [id], [email], [pw], [name], [address], [phone], [imgURL], [status] FROM [PRJ301].[dbo].[Customers]";
-        List<User> users = new ArrayList<>();
-        try (Connection conn = JDBCUtil.getConnection();
+    String userQuery = "SELECT [id], [email], [pw], [name], [phone], [imgURL], [status] FROM [PRJ301].[dbo].[Customers]";
+    String addressQuery = "SELECT [street], [ward], [district], [city] FROM [PRJ301].[dbo].[Address] WHERE id = ?";
+    List<User> users = new ArrayList<>();
 
-                Statement statement = conn.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("pw");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                String phone = resultSet.getString("phone");
-                String imgURL = resultSet.getString("imgURL");
-                String status = resultSet.getString("status");
-                User user = new User(id, email, phone, name, address, phone, imgURL, status);
-                users.add(user);
+    try (Connection conn = JDBCUtil.getConnection();
+         Statement statement = conn.createStatement();
+         PreparedStatement pst = conn.prepareStatement(addressQuery)) {
+
+        ResultSet userResultSet = statement.executeQuery(userQuery);
+        while (userResultSet.next()) {
+            int id = userResultSet.getInt("id");
+            String email = userResultSet.getString("email");
+            String password = userResultSet.getString("pw");
+            String name = userResultSet.getString("name");
+            String phone = userResultSet.getString("phone");
+            String imgURL = userResultSet.getString("imgURL");
+            String status = userResultSet.getString("status");
+
+            // Fetch the address for the current user
+            pst.setInt(1, id);
+            ResultSet addressResultSet = pst.executeQuery();
+            Address address = null;
+            if (addressResultSet.next()) {
+                String street = addressResultSet.getString(1);
+                String ward = addressResultSet.getString(2);
+                String district = addressResultSet.getString(3);
+                String city = addressResultSet.getString(4);
+                address = new Address(city, district, ward, street, id) ;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+            // Create an address string
+            
+
+            // Create User object
+            User user = new User(id, email, password, name, address, phone, imgURL, status);
+            users.add(user);
         }
-        return users;
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+    return users;
+}
 
     
 
     
 
     public List<User> getUsersByCategory(String seachValue, String searchCategory) {
-        String sql =String.format("SELECT [id], [email], [pw], [name], [address], [phone], [imgURL], [status]"
+        String sql =String.format("SELECT [id], [email], [pw], [name], [phone], [imgURL], [status]"
                + " FROM [PRJ301].[dbo].[Customers]"
                + "where %s like ? ",searchCategory);
         List<User> users = new ArrayList<>();
@@ -65,12 +85,14 @@ public class UserDAO {
                 PreparedStatement statement = conn.prepareStatement(sql)){
             statement.setString(1, "%"+seachValue+"%");
             ResultSet resultSet = statement.executeQuery();
+            AddressDAO addressDAO = new AddressDAO();
             while (resultSet.next()) {
                     int id = resultSet.getInt("id");
+                    Address address = addressDAO.getAddressByCustomerId(id,conn);
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("pw");
                     String name = resultSet.getString("name");
-                    String address = resultSet.getString("address");
+                    
                     String phone = resultSet.getString("phone");
                     String imgURL = resultSet.getString("imgURL");
                     String status = resultSet.getString("status");
@@ -101,7 +123,8 @@ public class UserDAO {
             pstmt = conn.prepareStatement(userQuery);
             pstmt.setInt(1, userId);
             rs = pstmt.executeQuery();
-
+            AddressDAO addressDAO = new AddressDAO();
+            Address address = addressDAO.getAddressByCustomerId(userId,conn);
             if (rs.next()) {
                 user = new User(
 
@@ -109,7 +132,7 @@ public class UserDAO {
                     rs.getString("email"),
                     rs.getString("pw"),
                     rs.getString("name"),
-                    rs.getString("address"),
+                    address,
                     rs.getString("phone"),
                     rs.getString("imgURL"),
                     rs.getString("status")
@@ -165,14 +188,15 @@ public class UserDAO {
 
             userStmt.setInt(1, userId);
             ResultSet userRs = userStmt.executeQuery();
-
+            AddressDAO addressDAO = new AddressDAO();
+            Address address = addressDAO.getAddressByCustomerId(userId,connection);
             if (userRs.next()) {
                 user = new User(
                         userRs.getInt("id"),
                         userRs.getString("email"),
                         userRs.getString("pw"),
                         userRs.getString("name"),
-                        userRs.getString("address"),
+                        address,
                         userRs.getString("phone"),
                         userRs.getString("imgURL"),
                         userRs.getString("status")
@@ -197,19 +221,20 @@ public class UserDAO {
         PreparedStatement ps = null;
         boolean isUpdated = false;
 
-        String sql = "UPDATE Customers SET name=?, email=?, phone=?, address=?, imgURL=?, status=? WHERE id=?";
+        String sql = "UPDATE Customers SET name=?, email=?, phone=?,imgURL=?, status=? WHERE id=?";
 
         try {
             conn = JDBCUtil.getConnection();
+            AddressDAO addressDAO = new AddressDAO();
             if (conn != null) {
                 ps = conn.prepareStatement(sql);
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getEmail());
                 ps.setString(3, user.getPhone());
-                ps.setString(4, user.getAddress());
-                ps.setString(5, user.getImgURL());
-                ps.setString(6, user.getStatus());
-                ps.setInt(7, user.getId());
+                addressDAO.updateAddressForUser(user.getAddress());
+                ps.setString(4, user.getImgURL());
+                ps.setString(5, user.getStatus());
+                ps.setInt(6, user.getId());
 
                 isUpdated = ps.executeUpdate() > 0;
             }

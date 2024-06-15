@@ -33,6 +33,7 @@
     <%
 
         String addToCartURL = request.getContextPath() + "/MainController?action=addToCart";
+        String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
         String mealId = request.getParameter("productId");
         if (mealId == null) {
             response.sendRedirect(request.getContextPath() + "/MainController?action=shop");
@@ -142,7 +143,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                             </div>
 
@@ -189,7 +190,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <h4 class="mb-4">Featured products</h4>
-                                
+
                                 <!-- loop good product -->
 
                                 <div class="d-flex align-items-center justify-content-start">
@@ -232,39 +233,42 @@
                 <h1 class="fw-bold mb-0">Related products</h1>
                 <!-- related product start loop -->
                 <%
-                    List<Meal> relatedList = dao.getCustomerMealListByCategory(meal.getCategory(),4);
+                    List<Meal> relatedList = dao.getCustomerMealListByCategory(meal.getCategory(), 4);
                     Collections.shuffle(relatedList);
-                    for (Meal item : relatedList){
+                    for (Meal item : relatedList) {
                 %>
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
                         <div class="border border-primary rounded position-relative vesitable-item">
                             <div class="vesitable-img">
-                                <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="">
+                                <a href="<%=detailURL%>&productId=<%=item.getId()%>"> 
+                                    <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="">
+                                </a>
                             </div>
                             <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
+
                             <div class="p-4 pb-0 rounded-bottom">
                                 <h4><%=item.getName()%></h4>
                                 <p><%= item.getDescription()%></p>
                                 <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <% if(item.isOnSale()){%>
-                                        <p style="color: red"class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f",item.getPriceAfterDiscount())%> </p>
+                                    <% if (item.isOnSale()) {%>
+                                    <p style="color: red"class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPriceAfterDiscount())%> </p>
                                     <%
-                                        }else{%>
-                                        <p class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f",item.getPrice())%> </p>
-                                        
-                                        <%
-                                        
-                                    }
+                                    } else {%>
+                                    <p class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPrice())%> </p>
+
+                                    <%
+
+                                        }
                                     %>
                                     <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <%
                             }
-                            %>
+                        %>
                         <!-- related product start loop -->
 
 

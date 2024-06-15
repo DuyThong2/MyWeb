@@ -21,21 +21,21 @@ public class User implements Serializable{
     private String email;
     private String pw;
     private String name;
-    private String address;
+    private Address address;
     private String phone;
     private String imgURL;
     private String status;
     private Map<Integer,Order> orderHistory;
     
     public User(int id, String email, String pw, String name, 
-            String address, String phone, String imgURL, String status,Map<Integer,Order> orders){
+            Address address, String phone, String imgURL, String status,Map<Integer,Order> orders){
         this(id,email,pw,name,address,phone,imgURL,status);
         this.orderHistory = orders;
     }
         
     
 
-    public User(int id, String email, String pw, String name, String address, String phone, String imgURL, String status) {
+    public User(int id, String email, String pw, String name, Address address, String phone, String imgURL, String status) {
         this.id = id;
         this.email = email;
         this.pw = pw;
@@ -88,11 +88,11 @@ public class User implements Serializable{
         this.name = name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

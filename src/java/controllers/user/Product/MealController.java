@@ -122,7 +122,7 @@ public class MealController extends HttpServlet {
             String seachName = request.getParameter("searching");
             
             if (seachName != null){
-                List<Meal> copyList = dao.getMealsByName(seachName);
+                List<Meal> copyList = dao.getMealsByNameForCustomer(seachName);
                 return copyList;
             }
         }

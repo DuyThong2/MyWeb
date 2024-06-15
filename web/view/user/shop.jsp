@@ -62,12 +62,12 @@
         String addToCartURL = request.getContextPath() + "/MainController?action=addToCart";
         String redirectUrl = request.getContextPath() + "/MainController?action=shop";
         String cartURL = request.getContextPath() + "/MainController?action=cartDisplayPage";
+        String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
 
-        
         // only for testing without user
         if (session.getAttribute("mealList") == null) {
             UserDAO userDao = new UserDAO();
-            
+
             User user = userDao.getUserById(1);
             session.setAttribute("user", user);
             response.sendRedirect(redirectUrl);
@@ -86,7 +86,11 @@
             }
         }
         int realPage = pageNum - 1;
-        List<Meal> list = pages.get(realPage);
+        List<Meal> list = new ArrayList<>();
+        if (!pages.isEmpty()) {
+            list = pages.get(realPage);
+        }
+
     %>
 
     <body>
@@ -204,10 +208,14 @@
                                     %>
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="rounded position-relative fruite-item">
+
                                             <div class="fruite-img">
-                                                <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="">
+                                                <a href="<%=detailURL%>">
+                                                    <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="meal Img">
+                                                </a>
                                             </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+
+                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Meal</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                 <h4><%= item.getName()%></h4>
                                                 <p><%= item.getDescription()%></p>

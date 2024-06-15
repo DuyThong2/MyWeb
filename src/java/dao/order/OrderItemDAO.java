@@ -23,12 +23,12 @@ import java.util.List;
  */
 public class OrderItemDAO {
 
-    public List<OrderItem> getOrderDetails(int orderid) {
+    public List<OrderItem> getOrderDetails(int orderid, Connection cn) {
         ArrayList<OrderItem> list = new ArrayList<>();
-        Connection cn = null;
+        
         try {
             //b1tao ket noi
-            cn = JDBCUtil.getConnection();
+            
             if (cn != null) {
                 //b2:viet query va exec query
                 String sql = "SELECT [orderItemID],[quantity],[price],[productID],[orderID]"
@@ -51,14 +51,6 @@ public class OrderItemDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return list;
@@ -72,10 +64,10 @@ public class OrderItemDAO {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
            preparedStatement.setInt(1, order.getOrderID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
-                if (resultSet.next()) {
-                    totalQuantity = resultSet.getInt("total_quantity");
+            ResultSet resultSetItem = preparedStatement.executeQuery();
+            if (resultSetItem != null) {
+                if (resultSetItem.next()) {
+                    totalQuantity = resultSetItem.getInt("total_quantity");
                 }
             }
 
@@ -94,10 +86,10 @@ public class OrderItemDAO {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, order.getOrderID());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
-                if (resultSet.next()) {
-                    totalPrice = resultSet.getDouble("total_price");
+            ResultSet resultSetItem = preparedStatement.executeQuery();
+            if (resultSetItem!= null) {
+                if (resultSetItem.next()) {
+                    totalPrice = resultSetItem.getDouble("total_price");
                 }
             }
 

@@ -1,3 +1,9 @@
+<%@page import="dao.order.OrderDAO"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="dto.product.Product"%>
+<%@page import="dao.product.MealDAO"%>
+<%@page import="dto.product.Meal"%>
 <%@page import="dao.order.OrderItemDAO"%>
 <%@page import="Utility.Tool"%>
 <%@page import="java.util.ArrayList"%>
@@ -43,14 +49,30 @@
         <title>User Detail</title>
     </head>
     <%
+        String redirectURL = request.getContextPath() +"/MainController?action=userDetail";
+        String updateStatusURL = request.getContextPath()+"/MainController?action=updateUser";
+        String orderDetailURL = request.getContextPath()+"/MainController?action=orderDetailPage";
+        String updateOrderStatusURL = request.getContextPath() + "/MainController?action=orderUpdate";
         
 
-        if (user == null) {
-            String home = request.getContextPath() + "/AMainController?action=userManage";
-            response.sendRedirect(home);
-            return;
+        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
+        if (list == null) {
+            //only for testing
+            UserDAO userDao = new UserDAO();
+            User user = userDao.getUserById(1);
+            session.setAttribute("user", user);
+            
+            
+            
+            Map<Product, Integer> cart = new HashMap<>();
+            session.setAttribute("cart", cart);
         }
-
+        
+        
+        User user = (User) session.getAttribute("user");
+        Map<Integer,Order> orderList = user.getOrderHistory();
+        
+//        Map<Integer,Order> orderList = (Map<Integer,Order>) session.getAttribute("orderList");
 
     %>
 
@@ -81,23 +103,8 @@
                         </div>
                         <div class="card-body">
                             <p><strong>Status:</strong> ${user.getStatus()}</p>
-                            <c:choose>
-                                <c:when test="${user.getStatus() =='active'}">
-                                    <form method="post" action="<%=disableURL%>">
-                                        <input type="hidden" name="userId" value="${user.getId()}">
-                                        <input type="hidden" name="status" value="disable">
-                                        <button type="submit" class="btn btn-danger btn-sm">Disable User</button>
-                                    </form>
-                                </c:when>
-                                <c:otherwise>
-                                    <form method="post" action="<%=disableURL%>">
-                                        <input type="hidden" name="userId" value="${user.getId()}">
-                                        <input type="hidden" name="status" value="active">
-                                        <button type="submit" class="btn btn-success btn-sm">Activate User</button>
-                                    </form>
-                                </c:otherwise>
-                            </c:choose>
-                            <a href="<%=updateStatusURL%>&userId=${user.id}" class="btn btn-secondary btn-sm mt-2">Edit User</a>
+                            
+                            <a href="<%=updateStatusURL%>" class="btn btn-success btn-sm mt-2">Edit User</a>
                         </div>
                     </div>
                 </div>
@@ -122,36 +129,33 @@
                             </thead>
                             <tbody>
                                 <%
-                                    List<Order> orders = new ArrayList<>(user.getOrderHistory().values());
-                                    List<List<Order>> pages = new ArrayList<>();
-                                    pages.add(new ArrayList<Order>());
-                                    if (orders != null) {
-                                        pages = Tool.splitToPage(orders, 12);
-                                    }
-                                    Object numString = session.getAttribute("numPage");
+                                    List<Order> orders = new ArrayList<>(orderList.values());
+                                    List<List<Order>> pages = new ArrayList();
+                                    pages = Tool.splitToPage(orders, 12);
                                     int pageNum = 1;
-                                    if (numString != null) {
-                                        pageNum = (int) numString;
-                                        if (pageNum < 1 || pageNum > pages.size()) {
-                                            pageNum = 1;
+                                    Object numString = session.getAttribute("numPage");
+                                        if (numString != null) {
+                                            pageNum = (int) numString;
+                                            if (pageNum < 1 || pageNum > pages.size()) {
+                                                pageNum = 1;
+                                            }
                                         }
-                                    }
-                                    int realPage = pageNum - 1;
-                                    List<Order> list = pages.get(realPage);
 
-                                    if (orders != null) {
-                                        OrderItemDAO dao = new OrderItemDAO();
-                                        for (Order order : list) {
+                                    if (orders != null&& !orders.isEmpty()) {
+                                        int realPage = pageNum - 1;
+                                        List<Order> elementInPage = pages.get(realPage);
+                                        for (Order order : elementInPage) {
                                 %>
                                 <tr>
                                     <td><%= order.getCustomerID()%></td>
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
-                                    <td><%= dao.sumQuantitiesByOrderId(order)%> items</td>
-                                    <td><%= dao.sumTotalPriceByOrderId(order)%></td>
+                                    <td><%= order.getTotalItem() %> items</td>
+                                    <td><%= String.format("%.2f $",order.getTotalPrice()) %></td>
                                     <td>
-                                        <a href="<%= orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
+                                        <a href="<%=orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
+                                        <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-danger btn-sm">Abort</a>
                                     </td>
                                 </tr>
                                 <%

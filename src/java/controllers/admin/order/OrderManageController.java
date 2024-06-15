@@ -1,11 +1,11 @@
 package controllers.admin.order;
 
-
-
-
+import Utility.Tool;
+import dao.account.AddressDAO;
 import dao.account.UserDAO;
 import dao.order.OrderDAO;
 import dao.order.OrderItemDAO;
+import dao.product.MealDAO;
 import dto.account.User;
 import dto.order.Order;
 import dto.order.OrderItem;
@@ -16,81 +16,149 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 @WebServlet("/admin/order/orderManage")
 public class OrderManageController extends HttpServlet {
 
     private final String MANAGE_URL = "/AMainController?action=orderManagePage";
+    private final String UPDATE_ORDER_STATUS = "/AMainController?action=updateOrderStatus";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String status = request.getParameter("status");
-            String category = request.getParameter("category");
+            
             HttpSession session = request.getSession();
             OrderDAO orderDAO = new OrderDAO();
 
             // Fetch orders based on the status
-            List<Order> orders = null;
-            System.out.println(status);
+            Map<Integer, Order> ordersMap = (Map<Integer, Order>) session.getAttribute("map");
+            List<Order> orders = (List<Order>) session.getAttribute("orders");
+            
+            String status = request.getParameter("status");
+            
             if (status != null) {
-                orders = orderDAO.getAllOrdersByStatus(status);
-                orders.forEach(System.out::println);
+                ordersMap = orderDAO.getAllOrdersByStatus(Integer.parseInt(status));
+                session.setAttribute("map", ordersMap);
+                orders = new ArrayList<>(ordersMap.values());
+                session.setAttribute("orders", orders);
+            }
+
+            //change status if needed
+            String orderStatus = request.getParameter("OrderStatus");
+            if (orderStatus != null) {
+                int orderId = Integer.parseInt(request.getParameter("orderId"));
+
+                Order order = ordersMap.get(orderId);
+                order.setStatus(Integer.parseInt(orderStatus));
+                request.getRequestDispatcher(UPDATE_ORDER_STATUS).forward(request, response);
+            } else {
+
+                //changing page
+                String numPageStr = request.getParameter("numPage");
+                int numPage = 1;
+                numPage = numPageStr != null ? Integer.parseInt(numPageStr)
+                        : session.getAttribute("numPage") != null
+                        ? (int) session.getAttribute("numPage") : 1;
+                
+                
+                //sort or search
+                List<Order> copyList = searchingForOrder(request);
+                orders = (copyList != null ) ? copyList : orders;
+
+                sortListFromRequest(request, orders);
+                
+                //grouping by date and address
+                
+
+                // Set attributes and forward to JSP sort the list if needed
+                session.setAttribute("orders", orders);
+                session.setAttribute("numPage", numPage);
+                request.getRequestDispatcher(MANAGE_URL).forward(request, response);
             }
 
             //get current page:
-            String numPageStr = request.getParameter("numPage");
-            int numPage = 1;
-            numPage = numPageStr!= null ? Integer.parseInt(numPageStr):
-                    session.getAttribute("numPage")!= null ? 
-                    (int) session.getAttribute("numPage") : 1;
-
-            // Set attributes and forward to JSP sort the list if needed
-            request.setAttribute("orders", orders);
-
-            List<Order> list = (List<Order>) request.getAttribute("orders");
-            List<Order> copyList = sortListFromRequest(request, list);
-            if (copyList != null) {
-                request.setAttribute("orders", copyList);
-            }
-            session.setAttribute("numPage", numPage);
-            request.getRequestDispatcher(MANAGE_URL).forward(request, response);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private List<Order> sortListFromRequest(HttpServletRequest request, List<Order> list) {
-
+    private void sortListFromRequest(HttpServletRequest request, List<Order> list) {
+        System.out.println("request" + request);
         if (request != null) {
             String sortOrder = request.getParameter("sort");
             String sortBy = request.getParameter("category");
-            OrderItemDAO dao = new OrderItemDAO();
             if (sortOrder != null && sortBy != null) {
                 Comparator<Order> comparator;
                 switch (sortBy) {
                     case "category1":
-                        comparator = Comparator.comparing(dao::sumTotalPriceByOrderId);
+                        comparator = Comparator.comparing(Order::getTotalPrice);
                         break;
                     case "category2":
-                        comparator = Comparator.comparing(dao::sumQuantitiesByOrderId);
+                        comparator = Comparator.comparing(Order::getTotalItem);
                         break;
                     default:
-                        comparator = Comparator.comparing(Order::getOrderDate);
+                        comparator = Comparator.comparing(Order::getOrderID);
                         break;
                 }
                 if (sortOrder.matches("max")) {
                     comparator = comparator.reversed();
                 }
-                List<Order> copyList = new ArrayList<>(list);
-                Collections.sort(copyList, comparator);
-                return copyList;
+                Collections.sort(list, comparator);
+
+            }else{
+                Comparator comparator = Comparator.comparing(Order::getOrderDate).thenComparing((Order order) -> order.getAddress().getCity()).
+                                thenComparing((Order order) -> order.getAddress().getDistrict())
+                                .thenComparing((Order order) -> order.getAddress().getWard())
+                                .reversed();
+                Collections.sort(list,comparator);
+            }
+        }
+    }
+
+    private List<Order> searchingForOrder(HttpServletRequest request) {
+
+        if (request != null) {
+            String searchValue = request.getParameter("searchValue");
+            String searchCategory = request.getParameter("searchCriteria");
+            if (searchValue != null && searchCategory != null) {
+                OrderDAO orderDAO = new OrderDAO();
+                if (searchCategory.matches("address")) {
+                    return orderDAO.getOrdersByPartialAddress(searchValue);
+                } else if (searchCategory.matches("date")) {
+                    LocalDateTime time = Tool.inputTime(searchValue);
+                    
+                    if (time != null) {
+                        List <Order> orderDate = orderDAO.getOrdersByOrderDate(time);
+                        System.out.println(orderDate.size());
+                        return orderDate.stream()
+                                .filter(order -> order.getOrderDate().toLocalDate().equals(time.toLocalDate()))
+                                .collect(Collectors.toList());
+                        
+                    }
+                } else {
+                    UserDAO userDao = new UserDAO();
+                    List<User> copyList = userDao.getUsersByCategory(searchValue, searchCategory);
+                    List<Order> orderList = new LinkedList<>();
+                    copyList.stream()
+                            .map(user -> user.getId())
+                            .forEach(id -> {
+                                Map<Integer, Order> map = orderDAO.getOrdersByCustomerId(id);
+                                if (!map.isEmpty()){
+                                    orderList.addAll(map.values());
+                                }
+                            });
+                    return orderList;
+                }
+
             }
         }
         return null;
