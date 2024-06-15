@@ -61,16 +61,16 @@
             UserDAO userDao = new UserDAO();
             User user = userDao.getUserById(1);
             session.setAttribute("user", user);
-            MealDAO mealDAO = new MealDAO();
-            list = mealDAO.getCustomerMealList();
-            session.setAttribute("mealList", list);
+            
+            
+            
             Map<Product, Integer> cart = new HashMap<>();
             session.setAttribute("cart", cart);
         }
         
-        OrderDAO orderDAO = new OrderDAO();
+        
         User user = (User) session.getAttribute("user");
-        Map<Integer,Order> orderList = (Map<Integer,Order>) orderDAO.getOrdersByCustomerId(user.getId());
+        Map<Integer,Order> orderList = user.getOrderHistory();
         
 //        Map<Integer,Order> orderList = (Map<Integer,Order>) session.getAttribute("orderList");
 
@@ -91,7 +91,7 @@
                             <p><strong>Name:</strong> ${user.getName()}</p>
                             <p><strong>Email:</strong> ${user.getEmail()}</p>
                             <p><strong>Phone:</strong> ${user.getPhone()}</p>
-                            <p><strong>Address:</strong> ${user.getAddress().toString()}</p>
+                            <p><strong>Address:</strong> ${user.getAddress()}</p>
                             <img src="${pageContext.request.contextPath}/${user.getImgURL()}" alt="User Image" class="img-thumbnail mt-3">
                         </div>
                     </div>

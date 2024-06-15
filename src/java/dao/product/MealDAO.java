@@ -35,7 +35,7 @@ public class MealDAO {
         String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
                 + "FROM [PRJ301].[dbo].[Meal]";
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
 
         List<Meal> listOfMeal = new ArrayList<>();
 
@@ -70,6 +70,10 @@ public class MealDAO {
                             ResultSet discountResult = st3.executeQuery();
                             discountResult.next();
                             discountPercent = discountResult.getDouble(1);
+                            LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                            LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                            LocalDateTime now = LocalDateTime.now();
+                            isOnsale = now.isAfter(dateStart)&&now.isBefore(dateEnd)&&discountPercent>0;
                         }
 
                     }
@@ -114,7 +118,7 @@ public class MealDAO {
                 + "FROM [PRJ301].[dbo].[Meal]"
                 + " where name like ?";
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
         List<Meal> listOfMeal = new ArrayList<>();
 
         try (Connection con = JDBCUtil.getConnection();
@@ -149,6 +153,10 @@ public class MealDAO {
                             ResultSet discountResult = st3.executeQuery();
                             discountResult.next();
                             discountPercent = discountResult.getDouble(1);
+                            LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                            LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                            LocalDateTime now = LocalDateTime.now();
+                            isOnsale = now.isAfter(dateStart)&&now.isBefore(dateEnd)&&discountPercent>0;
                         }
                     }
 
@@ -262,7 +270,7 @@ public class MealDAO {
         String GET_PRODUCT_QUERY
                 = "SELECT description, isOnSale, DiscountID "
                 + "FROM Product WHERE id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
         try (Connection con = JDBCUtil.getConnection();
                 PreparedStatement st1 = con.prepareStatement(GET_MEAL_QUERY);
                 PreparedStatement st2 = con.prepareStatement(GET_PRODUCT_QUERY);
@@ -292,7 +300,12 @@ public class MealDAO {
                                 ResultSet discountResult = st3.executeQuery();
                                 discountResult.next();
                                 discountPercent = discountResult.getDouble(1);
+                                LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                                LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                                LocalDateTime now = LocalDateTime.now();
+                                isOnSale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
                             }
+
                             double price = getPrice(id);
 
                             meal = new Meal(id, name, description, price, isOnSale, discountID, discountPercent, content, category, imgURL, status);
@@ -388,7 +401,7 @@ public class MealDAO {
         String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
                 + "FROM [PRJ301].[dbo].[Meal] where status = 'active' ";
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
 
         List<Meal> listOfMeal = new LinkedList<>();
 
@@ -423,6 +436,10 @@ public class MealDAO {
                             ResultSet discountResult = st3.executeQuery();
                             discountResult.next();
                             discountPercent = discountResult.getDouble(1);
+                            LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                            LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                            LocalDateTime now = LocalDateTime.now();
+                            isOnsale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
                         }
 
                     }
@@ -450,7 +467,7 @@ public class MealDAO {
                 + "FROM [PRJ301].[dbo].[Meal]"
                 + " where status='active' and [category] like ?", quantity);
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
         List<Meal> listOfMeal = new ArrayList<>();
 
         try (Connection con = JDBCUtil.getConnection();
@@ -485,7 +502,12 @@ public class MealDAO {
                             ResultSet discountResult = st3.executeQuery();
                             discountResult.next();
                             discountPercent = discountResult.getDouble(1);
+                            LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                            LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                            LocalDateTime now = LocalDateTime.now();
+                            isOnsale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
                         }
+
                     }
 
                     //remain info;
@@ -511,7 +533,7 @@ public class MealDAO {
                 + "FROM [PRJ301].[dbo].[Meal] "
                 + "WHERE status = 'active'";
         String sql2 = "SELECT [description], [isOnSale], [DiscountID] FROM [PRJ301].[dbo].[Product] WHERE id = ?";
-        String sql3 = "SELECT valuePercent FROM Discount WHERE id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
 
         List<Meal> listOfMeal = new ArrayList<>();
 
@@ -565,15 +587,15 @@ public class MealDAO {
             ex.printStackTrace();
         }
         Collections.shuffle(listOfMeal);
-        return listOfMeal.subList(0,quantity+1);
+        return listOfMeal.subList(0, quantity + 1);
     }
-    
+
     public List<Meal> getMealsByNameForCustomer(String nameTofind) {
         String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
                 + "FROM [PRJ301].[dbo].[Meal]"
                 + " where name like ? and status = 'active'";
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
         List<Meal> listOfMeal = new ArrayList<>();
 
         try (Connection con = JDBCUtil.getConnection();
@@ -608,6 +630,11 @@ public class MealDAO {
                             ResultSet discountResult = st3.executeQuery();
                             discountResult.next();
                             discountPercent = discountResult.getDouble(1);
+                            LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                            LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                            LocalDateTime now = LocalDateTime.now();
+                            isOnsale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
+
                         }
                     }
 

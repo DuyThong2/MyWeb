@@ -160,7 +160,7 @@ public class IngredientPacketDAO {
     public IngredientPacket getIngredientPacketFromId(String packetID) {
         String packetSql = "SELECT id, price, status FROM [PRJ301].[dbo].[IngredientPacket] WHERE id = ?";
         String productSql = "SELECT [description], [isOnSale], [DiscountID],[name] FROM [PRJ301].[dbo].[Product] WHERE id = ?";
-        String sql3 = "select valuePercent from Discount where id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
         IngredientPacket ingredientPacket = null;
 
         try (Connection con = JDBCUtil.getConnection();
@@ -190,10 +190,14 @@ public class IngredientPacketDAO {
                                 ResultSet discountResult = st3.executeQuery();
                                 discountResult.next();
                                 discountPercent = discountResult.getDouble(1);
+                                LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                                LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                                LocalDateTime now = LocalDateTime.now();
+                                isOnSale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
                             }
-                            
+
                             // Create IngredientPacket object
-                            ingredientPacket = new IngredientPacket(id, name, description, isOnSale, discountID,discountPercent, price, status);
+                            ingredientPacket = new IngredientPacket(id, name, description, isOnSale, discountID, discountPercent, price, status);
                         }
                     }
                 }
@@ -216,7 +220,5 @@ public class IngredientPacketDAO {
 
         return ingredientPacket;
     }
-    
-    
-    
+
 }

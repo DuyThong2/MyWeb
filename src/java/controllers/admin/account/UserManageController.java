@@ -5,6 +5,7 @@
  */
 package controllers.admin.account;
 
+import dao.account.AddressDAO;
 import dao.account.UserDAO;
 import dao.product.MealDAO;
 import dto.account.User;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -90,8 +92,15 @@ public class UserManageController extends HttpServlet {
             String seachValue = request.getParameter("searchValue");
             String searchCategory = request.getParameter("searchCriteria");
             if (seachValue != null && searchCategory != null) {
-                List<User> copyList = dao.getUsersByCategory(seachValue, searchCategory);
-                return copyList;
+                if (!searchCategory.matches("address")){
+                    List<User> copyList = dao.getUsersByCategory(seachValue, searchCategory);
+                    return copyList;
+                }else{
+                    AddressDAO addressDAO = new AddressDAO();
+                    List<Integer> ids = addressDAO.getCustomerIdsByPartialAddress(seachValue);
+                    return ids.stream().map(dao::getUserById).collect(Collectors.toList());
+                }
+                
             }
         }
         return null;

@@ -69,7 +69,7 @@
                                         for (Order order : list) {
                                 %>
                                 <tr>
-                                    <td><%= order.getCustomerID()%></td>
+                                    <td><%= order.getAddress() %></td>
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
@@ -152,6 +152,7 @@
                                 <option value="name">Name</option>
                                 <option value="phone">Phone</option>
                                 <option value="email">Email</option>
+                                <option value="date">order date</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -186,10 +187,7 @@
                                 <input class="form-check-input" type="radio" id="category2" name="category" value="category2">
                                 <label class="form-check-label" for="category2">number of items</label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="category3" name="category" value="category2">
-                                <label class="form-check-label" for="category2">order address</label>
-                            </div>
+                            
                             <hr>
                             <div class="form-check">
                                 <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">

@@ -23,12 +23,12 @@ import java.util.List;
  */
 public class OrderItemDAO {
 
-    public List<OrderItem> getOrderDetails(int orderid) {
+    public List<OrderItem> getOrderDetails(int orderid, Connection cn) {
         ArrayList<OrderItem> list = new ArrayList<>();
-        Connection cn = null;
+        
         try {
             //b1tao ket noi
-            cn = JDBCUtil.getConnection();
+            
             if (cn != null) {
                 //b2:viet query va exec query
                 String sql = "SELECT [orderItemID],[quantity],[price],[productID],[orderID]"
@@ -51,14 +51,6 @@ public class OrderItemDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return list;

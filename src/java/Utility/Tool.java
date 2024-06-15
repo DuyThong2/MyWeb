@@ -1,5 +1,6 @@
 package Utility;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -109,21 +110,23 @@ public class Tool {
     }
 
     public static LocalDateTime inputTime(String msg) {
-        System.out.println(msg);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime result = null;
-        boolean retry = true;
-        while (retry) {
-            try {
-                String timeInput = Tool.inputPattern("enter time : ", "\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}");
-                retry = false;
-                result = LocalDateTime.parse(timeInput, dateTimeFormatter);
-            } catch (Exception e) {
-                retry = true;
-            }
+
+        try {
+            // Parse the input string to a LocalDate
+            LocalDate date = LocalDate.parse(msg, dateTimeFormatter);
+            // Convert LocalDate to LocalDateTime by setting the time to midnight
+            result = date.atStartOfDay();
+        } catch (Exception e) {
+            
+            result = null;
         }
+        System.out.println(result);
         return result;
     }
+        
+    
 
     public static String parseTime(LocalDateTime date) {
         if (date == null) {

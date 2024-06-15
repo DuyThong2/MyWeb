@@ -6,6 +6,7 @@
 package controllers.user.account;
 
 import dao.account.UserDAO;
+import dto.account.Address;
 import dto.account.User;
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,12 @@ public class UserUpdateController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String currentProjectPath = getServletContext().getRealPath("/");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null){
+            request.getRequestDispatcher(ERROR_URL).forward(request, response);
+        }else{
+            String currentProjectPath = getServletContext().getRealPath("/");
         String uploadPath = currentProjectPath.concat(IMAGES_DIRECTORY);
 
         File uploadDir = new File(uploadPath);
@@ -57,9 +63,13 @@ public class UserUpdateController extends HttpServlet {
         String name = null;
         String email = null;
         String phone = null;
-        String address = null;
+        String city = null;
+        String district = null;
+        String ward = null;
+        String street = null;
         String imgURL = null;
         UserDAO dao = new UserDAO();
+
         try {
             DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
             diskFileItemFactory.setRepository(new File(currentProjectPath.concat("web")));
@@ -82,8 +92,17 @@ public class UserUpdateController extends HttpServlet {
                         case "phone":
                             phone = fileItem.getString();
                             break;
-                        case "address":
-                            address = fileItem.getString();
+                        case "city":
+                            city = fileItem.getString();
+                            break;
+                        case "district":
+                            district = fileItem.getString();
+                            break;
+                        case "ward":
+                            ward = fileItem.getString();
+                            break;
+                        case "street":
+                            street = fileItem.getString();
                             break;
                         default:
                             break;
@@ -93,18 +112,23 @@ public class UserUpdateController extends HttpServlet {
                     if (fileItem.getFieldName().equals("imgURL")) {
                         String fileName = Paths.get(fileItem.getName()).getFileName().toString();
                         String filePath = uploadPath + fileName;
-
+                        System.out.println(filePath);
                         File file = new File(filePath);
                         fileItem.write(file);
                         imgURL = IMAGES_DIRECTORY + fileName;
                     }
                 }
             }
+            Address address = null;
+            if (city != null && ward != null && district != null && street != null) {
+                address = new Address(city, district, ward, street, id);
+            }
 
             User oldUser = dao.getUserById(id);
             // Save the user data to the database
-            User user = new User(id, email, oldUser.getPw(), name, address, phone, imgURL, oldUser.getStatus());
+            user = new User(id, email, oldUser.getPw(), name, address, phone, imgURL, oldUser.getStatus());
             dao.updateUser(user);
+            session.setAttribute("user", user);
 
             request.getRequestDispatcher(SUCCESS_URL + "&userId=" + user.getId()).forward(request, response);
 
@@ -113,6 +137,8 @@ public class UserUpdateController extends HttpServlet {
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
+        }
+        
         
     }
 

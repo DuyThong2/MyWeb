@@ -37,7 +37,7 @@
                 return;
             }
 
-            List<List<User>> pages = Tool.splitToPage(iList, 20);
+            List<List<User>> pages = Tool.splitToPage(iList, 10);
 
             Object numString = session.getAttribute("numPage");
             int pageNum = 1;

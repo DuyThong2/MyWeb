@@ -153,7 +153,7 @@
                                         <p class="mb-0">Flat rate: $3.00</p>
                                     </div>
                                 </div>
-                                <p class="mb-0 text-end">Shipping <%=user.getAddress().toString()%></p>
+                                <p class="mb-0 text-end">Shipping <%=user.getAddress()%></p>
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>

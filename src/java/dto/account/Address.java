@@ -5,11 +5,13 @@
  */
 package dto.account;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Admin
  */
-public class Address {
+public class Address implements Serializable{
     private int customerId;
     private String city;
     private String ward;
@@ -26,6 +28,16 @@ public class Address {
 
     public Address() {
     }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+    
+    
     
     
 
