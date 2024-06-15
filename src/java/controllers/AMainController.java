@@ -20,8 +20,9 @@ public class AMainController extends HttpServlet {
     
     private final String SUCCESS = "view/success.jsp";
     private final String ERROR = "view/error.jsp";
-    private final String REGISTER = "RegisterForm.jsp";
+    private final String REGISTER_FORM = "RegisterForm.jsp";
     private final String LOGIN = "LoginServlet";
+    private final String REGISTER= "RegisterServlet";
     private final String USER_MAINPAGE="view/user/mainPage.jsp";
 
     //Ingredient
@@ -157,13 +158,16 @@ public class AMainController extends HttpServlet {
             
             //REGISTER 
             case "mainpage": url=USER_MAINPAGE; break;
-            case "register": url= REGISTER; break;
+            case "registerform": url= REGISTER_FORM; break;
+            case "register": url=REGISTER; break;
             case "login" : url =LOGIN; break;
           
             default: url="index.jsp"; break;
         }
 
         request.getRequestDispatcher(url).forward(request, response);
+        
+        return;
 
     }
 

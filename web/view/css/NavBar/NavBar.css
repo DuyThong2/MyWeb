@@ -1,6 +1,6 @@
 body {
      background-image: url('../../images/vietnamesecuisine.jpg');
-     background-size: cover;
+     background-size: contain;  
      background-repeat: no-repeat;
      background-position: center;
 }

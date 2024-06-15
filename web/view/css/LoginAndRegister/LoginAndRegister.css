@@ -146,7 +146,9 @@ body{
 }
 .error-text{
      font-size:22px;
+     color:rgb(200, 0, 0);
      text-align:center;
+     text-transform:uppercase;
 }
 .overlay{
      position: fixed;
@@ -156,4 +158,10 @@ body{
      right:0;
      z-index:8;
      background-color:rgba(0,0,0,.8);
+}
+.success-text{
+     font-size:22px;
+     color:green;
+     text-align:center;
+     text-transform: uppercase;
 }

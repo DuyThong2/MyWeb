@@ -12,11 +12,15 @@
 
     </head>
     <body>
+        <%
+            String returnEmail= (String)session.getAttribute("ReturnedEmail");
+            returnEmail = returnEmail==null?"":returnEmail;
+            %>
         <div class="wrapper">
             <form action='AMainController' method="POST">
                 <h1>Login</h1>
                 <div class="input-box">
-                    <input type="text" name="txtEmail" placeholder="Email" required>
+                    <input type="text" name="txtEmail" value="<%= returnEmail%>" placeholder="Email" required>
                     <i class='bx bxs-user'></i>
                 </div>
                 <div class="input-box">
@@ -26,7 +30,7 @@
                 <button type="submit" value="login" class="btn" name='action'>login</button>
                 <div class="register-link">
                     <p>Don't have an account?
-                        <a href="AMainController?action=register">Sign up</a>
+                        <a href="AMainController?action=registerform">Sign up</a>
                     </p>
                 </div>
             </form>
@@ -57,6 +61,7 @@
         </div>
 
         <%
+                session.removeAttribute("ERROR");
         }
         %>
         <script>

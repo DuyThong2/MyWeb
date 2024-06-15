@@ -51,12 +51,15 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     session.setAttribute("LoginedUser", loginUser);
                     request.getRequestDispatcher("AMainController?action=mainpage").forward(request, response);
+                    return;
                 }
             } else {
                 errorMessage = "NotFound";
             }
             session.setAttribute("ERROR", errorMessage);
+            session.setAttribute("ReturnedEmail",email);
             request.getRequestDispatcher("AMainController?action=").forward(request, response);
+            return;
         }
     }
 

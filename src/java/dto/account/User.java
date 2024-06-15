@@ -33,7 +33,9 @@ public class User implements Serializable{
         this.orderHistory = orders;
     }
         
-    
+    public User(String name,String phone,String email,String password){
+        this(-999999999,email,password,name,null,phone,null,"active");
+    }
     public User(){
         this(999999999,"xxx","xxx","xxx","xxx","xxx","xxx","xxx");
     }

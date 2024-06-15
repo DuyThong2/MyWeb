@@ -16,4 +16,5 @@ body {
 }
 .wrapper{
      backdrop-filter:blur(40px);
+     width:500px;
 }

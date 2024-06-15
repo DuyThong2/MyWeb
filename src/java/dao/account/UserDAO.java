@@ -225,7 +225,7 @@ public class UserDAO {
                 pst.setString(1, email);
                 ResultSet table = pst.executeQuery();
                 while (table != null && table.next()) {
-                    String testpassword= table.getString("pw");
+                    String testpassword = table.getString("pw");
                     if (password.equals(testpassword)) {
                         int id = table.getInt("id");
                         String name = table.getString("name");
@@ -253,4 +253,72 @@ public class UserDAO {
         return returnUser;
     }
 
+    public int registerNewAccount(User user) {
+        int result = 0;
+        Connection cn = null;
+        try {
+            cn = JDBCUtil.getConnection();
+            if (cn != null) {
+                cn.setAutoCommit(false);
+                //check if the email have already been signed up
+                String checkSignSql = "select * from Customers where email=?";
+                PreparedStatement pstCheckSign = cn.prepareStatement(checkSignSql);
+                pstCheckSign.setString(1, user.getEmail());
+                ResultSet checkSignTable = pstCheckSign.executeQuery();
+                if (checkSignTable.next()) {
+                    result = -2;// email have been signed up
+                    cn.setAutoCommit(true);
+                    return result;
+                }
+                
+                String insertCustomerSql = "insert Customers(email,pw,name,phone,status) values(?,?,?,?,?)";
+                PreparedStatement pstInsertCustomer= cn.prepareStatement(insertCustomerSql);
+                pstInsertCustomer.setString(1, user.getEmail());
+                pstInsertCustomer.setString(2, user.getPw());
+                pstInsertCustomer.setString(3, user.getName());
+                pstInsertCustomer.setString(4, user.getPhone());
+                pstInsertCustomer.setString(5, user.getStatus());
+                result = pstInsertCustomer.executeUpdate();
+                if (result >= 1) {
+                    String retrieveIdSql = "select top 1 id from Customers order by id desc";
+                    PreparedStatement pstRetrieveId = cn.prepareStatement(retrieveIdSql);
+                    ResultSet table = pstRetrieveId.executeQuery();
+                    if (table.next()) {
+                        String insertAddressSql = "insert Address values(?,?,?,?,?)";
+                        PreparedStatement pstInsertAddress = cn.prepareStatement(insertAddressSql);
+                        int id = table.getInt("id");
+                        pstInsertAddress.setInt(1, id);
+                        pstInsertAddress.setString(2, null);
+                        pstInsertAddress.setString(3, null);
+                        pstInsertAddress.setString(4, null);
+                        pstInsertAddress.setString(5, null);
+                        result = pstInsertAddress.executeUpdate();
+                    }
+                }
+                cn.commit();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (cn != null) {
+                try {
+                    // Rollback transaction on error
+                    cn.rollback();
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.setAutoCommit(true);
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
 }
