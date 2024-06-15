@@ -5,10 +5,13 @@
  */
 package controllers.user.cart;
 
+import dao.product.ProductDAO;
 import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,9 +23,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
+@WebServlet(name = "AddToCart", urlPatterns = {"/user/cart/AddToCart"})
 public class AddToCart extends HttpServlet {
 
+    private final String shopURL = "/MainController?action=shopPage";
+    private final String loginURL = "/MainController?action=login";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,10 +41,59 @@ public class AddToCart extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        try{
+            
         
         Map<Product,Integer> cart = (Map<Product,Integer>) session.getAttribute("cart");
         
+        if (cart == null){
+            //redirect login
+            cart = new HashMap<>();
+            session.setAttribute("cart", cart);
+        }else{
+            String productId = request.getParameter("productId");
+            String quantityStr = request.getParameter("quantity");
+            if (productId != null){
+                if (quantityStr != null){
+                    int quantity = Integer.parseInt(quantityStr);
+                    if (quantity >=1){
+                        addProductToExistCart(cart, quantity, productId);
+                    }
+                    
+                }else{
+                    addProductToExistCart(cart, 1, productId);
+                }
+                
+            }
+            
+            cart.entrySet().forEach(entry -> {
+                System.out.println(entry.getKey() + "contain : "+ entry.getValue());
+            });
+            
+            session.setAttribute("cart", cart);
+            request.getRequestDispatcher(shopURL).forward(request, response);
+        }}catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
     }
+    
+    private void addProductToExistCart(Map<Product,Integer> cart,int quantity,String productId){
+        
+        Optional<Product> found = cart.keySet().stream()
+                                .filter(product -> product.getId().matches(productId))
+                                .findFirst();
+        if (found.isPresent()){
+            cart.merge(found.get(), quantity, Integer::sum);
+        }else{
+            Product newAddedProduct = ProductDAO.getProductById(productId);
+            cart.put(newAddedProduct, quantity);
+        }
+                    
+    }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

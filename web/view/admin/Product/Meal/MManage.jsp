@@ -38,10 +38,7 @@
                 response.sendRedirect(redirectUrl);
                 return;
             }
-            List<Meal> copyList = (List<Meal>) request.getAttribute("mlist");
-            if (copyList != null) {
-                mList = copyList;
-            }
+            
 
             List<List<Meal>> pages = Tool.splitToPage(mList, 10);
 
@@ -54,8 +51,11 @@
                 }
             }
             int realPage = pageNum - 1;
-            List<Meal> list = pages.get(realPage);
-            DiscountDAO dao = new DiscountDAO();
+            List<Meal> list = new ArrayList();
+            if (!pages.isEmpty()){
+                list = pages.get(realPage);
+            }
+            
             request.setAttribute("table", list);
         %>
         <div class="container">
@@ -97,26 +97,23 @@
                                     <td><%= String.format("%.2f", item.getPrice()) %></td>
                                     <td><%= item.getCategory() %></td>
                                     <td><%= item.getDescription() %></td>
-                                    <%
-                                        int discountId = item.getDiscountID();
-                                        double discount = dao.getDiscountPercentForProduct(discountId);
-                                    %>
+                                    
                                     <td>
-                                        <%= item.isOnSale() ? discount + " %" : "0%" %>
+                                        <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%" %>
                                     </td>
                                     <td>
                                         <a href="<%= request.getContextPath() %>/AMainController?action=addSale&id=<%= item.getId() %>" class="btn btn-sm btn-warning w-100 mb-2">Add Sale</a>
                                         <a href="<%= request.getContextPath() %>/AMainController?action=MealDetail&mealId=<%= item.getId() %>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
 
                                         <%
-                                            String disableUrl = disableMealURL + "&status=";
+                                            String disableUrl = redirectUrl + "&status=";
                                             String status = item.getStatus();
                                             String mealId = item.getId();
                                             String disableLink = "";
                                             String disableBtnClass = status.equals("active") ? "btn-danger" : "btn-success";
                                             String disableBtnText = status.equals("active") ? "Disable" : "Enable";
 
-                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&mealId=" + mealId + "' class='btn btn-sm " + disableBtnClass + " w-100 mb-2'>" + disableBtnText + "</a>";
+                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&deleteProductId=" + mealId + "' class='btn btn-sm " + disableBtnClass + " w-100 mb-2'>" + disableBtnText + "</a>";
                                         %>
                                         <%= disableLink %>
                                     </td>
@@ -172,7 +169,7 @@
 
                             <hr>
                             <input name="cate" type="radio" id="category-checkbox" value="price" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Price (included discount)</label>
+                            <label for="category-checkbox" class="form-check-label">Price</label>
                             <br>
 
                             <input name="cate" type="radio" id="category-checkbox" value="id" class="form-check-input">

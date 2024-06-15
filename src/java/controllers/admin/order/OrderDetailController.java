@@ -48,21 +48,21 @@ public class OrderDetailController extends HttpServlet {
 
             User customer = null;
             Order order = null;
-            List<OrderItem> orderItems = null;
+            
             OrderDAO orderDAO = new OrderDAO();
             UserDAO userDAO = new UserDAO();
 
-            OrderItemDAO orderItemDAO = new OrderItemDAO();
+            
             if (orderIdStr != null) {
                 int orderId = Integer.parseInt(orderIdStr);
-                orderItems = orderItemDAO.getOrderDetails(orderId);
+                
                 order = orderDAO.getOrderByOrderId(orderId);
                 if (order != null) {
-                    order.setOrderDetail(orderItems);
+                    
                     customer = userDAO.getUserById(order.getCustomerID());
                 }
                 //set attribute
-                request.setAttribute("orderItems", orderItems);
+                request.setAttribute("orderItems", order.getOrderDetail());
                 request.setAttribute("user", customer);
                 request.setAttribute("order", order);
             } else {

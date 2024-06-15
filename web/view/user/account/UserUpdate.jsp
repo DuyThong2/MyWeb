@@ -13,13 +13,16 @@
     <body>
         <%
             // Retrieve the user data from the database
-            UserDAO dao = new UserDAO();
-            if (request.getParameter("userId") == null) {
-                response.sendRedirect(request.getContextPath() + "/AMainController?action=userManagePage");
-                return;
+            
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                UserDAO dao = new UserDAO();
+                session.setAttribute("user", dao.getUserById(1));
             }
-            int id = Integer.parseInt(request.getParameter("userId"));
-            User user = dao.getUserById(id);
+            user = (User) session.getAttribute("user");
+            
+            
+            
         %>
         <div class="container mt-5">
             <div class="row">

@@ -1,5 +1,5 @@
-
 import dao.account.UserDAO;
+import dto.account.Address;
 import dto.account.User;
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +36,13 @@ public class UpdateUserInfoController extends HttpServlet {
         String name = null;
         String email = null;
         String phone = null;
-        String address = null;
+        String city = null;
+        String district = null;
+        String ward = null;
+        String street = null;
         String imgURL = null;
         UserDAO dao = new UserDAO();
+
         try {
             DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
             diskFileItemFactory.setRepository(new File(currentProjectPath.concat("web")));
@@ -61,8 +65,17 @@ public class UpdateUserInfoController extends HttpServlet {
                         case "phone":
                             phone = fileItem.getString();
                             break;
-                        case "address":
-                            address = fileItem.getString();
+                        case "city":
+                            city = fileItem.getString();
+                            break;
+                        case "district":
+                            district = fileItem.getString();
+                            break;
+                        case "ward":
+                            ward = fileItem.getString();
+                            break;
+                        case "street":
+                            street = fileItem.getString();
                             break;
                         default:
                             break;
@@ -79,14 +92,18 @@ public class UpdateUserInfoController extends HttpServlet {
                     }
                 }
             }
-            
+            Address address = null;
+            if (city!= null && ward!= null &&district!= null && street!= null){
+                address = new Address(city, district, ward, street, id);
+            }
+
             User oldUser = dao.getUserById(id);
             // Save the user data to the database
-            User user = new User(id,email,oldUser.getPw(), name,address,phone, imgURL,oldUser.getStatus());
+            User user = new User(id, email, oldUser.getPw(), name,address, phone, imgURL, oldUser.getStatus());
             dao.updateUser(user);
-            
-            request.getRequestDispatcher(SUCCESS_URL+"&userId="+user.getId()).forward(request, response);
-            
+
+            request.getRequestDispatcher(SUCCESS_URL + "&userId=" + user.getId()).forward(request, response);
+
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", e.getMessage());

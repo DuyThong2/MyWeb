@@ -47,7 +47,7 @@ public class IngredientPacketDAO {
             }
 
             st2.setString(1, packet.getId());
-            st2.setDouble(2, packet.getTotalPrice());
+            st2.setDouble(2, packet.getPrice());
             st2.setString(3, "active");
             st2.setString(4, String.format("M%s", packet.getId().substring(1)));
 
@@ -159,12 +159,14 @@ public class IngredientPacketDAO {
 
     public IngredientPacket getIngredientPacketFromId(String packetID) {
         String packetSql = "SELECT id, price, status FROM [PRJ301].[dbo].[IngredientPacket] WHERE id = ?";
-        String productSql = "SELECT [description], [isOnSale], [DiscountID] FROM [PRJ301].[dbo].[Product] WHERE id = ?";
+        String productSql = "SELECT [description], [isOnSale], [DiscountID],[name] FROM [PRJ301].[dbo].[Product] WHERE id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
         IngredientPacket ingredientPacket = null;
 
         try (Connection con = JDBCUtil.getConnection();
                 PreparedStatement packetStmt = con.prepareStatement(packetSql);
-                PreparedStatement productStmt = con.prepareStatement(productSql)) {
+                PreparedStatement productStmt = con.prepareStatement(productSql);
+                PreparedStatement st3 = con.prepareStatement(sql3)) {
 
             // Get packet details
             packetStmt.setString(1, packetID);
@@ -174,16 +176,28 @@ public class IngredientPacketDAO {
                     double price = packetRs.getDouble("price");
                     String status = packetRs.getString("status");
 
+                    double discountPercent = 0;
                     // Get product details
                     productStmt.setString(1, packetID);
                     try (ResultSet productRs = productStmt.executeQuery()) {
                         if (productRs.next()) {
+                            String name = productRs.getString(4);
                             String description = productRs.getString("description");
                             boolean isOnSale = productRs.getBoolean("isOnSale");
                             int discountID = productRs.getInt("DiscountID");
-                            
+                            if (discountID != 0) {
+                                st3.setInt(1, discountID);
+                                ResultSet discountResult = st3.executeQuery();
+                                discountResult.next();
+                                discountPercent = discountResult.getDouble(1);
+                                LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                                LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                                LocalDateTime now = LocalDateTime.now();
+                                isOnSale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
+                            }
+
                             // Create IngredientPacket object
-                            ingredientPacket = new IngredientPacket(id, null, description, isOnSale, discountID, price, status);
+                            ingredientPacket = new IngredientPacket(id, name, description, isOnSale, discountID, discountPercent, price, status);
                         }
                     }
                 }
@@ -206,7 +220,5 @@ public class IngredientPacketDAO {
 
         return ingredientPacket;
     }
-    
-    
-    
+
 }

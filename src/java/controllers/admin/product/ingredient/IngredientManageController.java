@@ -69,13 +69,13 @@ public class IngredientManageController extends HttpServlet {
             List<Ingredient> copyList = searchingIngredient(request, iDao);
             //search name
             if(copyList != null){
-                 request.setAttribute("ilist", copyList);
+                 session.setAttribute("ingredientList", copyList);
             }
             
             //check if sort
             copyList = sortListFromRequest(request, list);
             if(copyList != null){
-                 request.setAttribute("ilist", copyList);
+                 session.setAttribute("ingredientList", copyList);
             }
             
             //save last page access
