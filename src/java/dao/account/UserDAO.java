@@ -246,18 +246,19 @@ public class UserDAO {
         try {
             cn = JDBCUtil.getConnection();
             if (cn != null) {
-                String sql = "Select id,email,pw,name,address,phone,imgURL,status \n"
+                String sql = "Select id,email,pw,name,phone,imgURL,status \n"
                         + "from Customers \n"
                         + "where email = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setString(1, email);
                 ResultSet table = pst.executeQuery();
+                AddressDAO addressDao = new AddressDAO();
                 while (table != null && table.next()) {
                     String testpassword = table.getString("pw");
                     if (password.equals(testpassword)) {
                         int id = table.getInt("id");
                         String name = table.getString("name");
-                        String address = table.getString("address");
+                        Address address = addressDao.getAddressByCustomerId(id, cn);
                         String phone = table.getString("phone");
                         String imgURL = table.getString("imgURL");
                         String status = table.getString("status");

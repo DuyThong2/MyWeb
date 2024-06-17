@@ -33,19 +33,16 @@ public class User implements Serializable{
         this.orderHistory = orders;
     }
         
-<<<<<<< HEAD
+
     public User(String name,String phone,String email,String password){
         this(-999999999,email,password,name,null,phone,null,"active");
     }
     public User(){
-        this(999999999,"xxx","xxx","xxx","xxx","xxx","xxx","xxx");
+        this(999999999,"xxx","xxx","xxx",null,"xxx","xxx","xxx");
     }
-    public User(int id, String email, String pw, String name, String address, String phone, String imgURL, String status) {
-=======
-    
-
+  
     public User(int id, String email, String pw, String name, Address address, String phone, String imgURL, String status) {
->>>>>>> main
+
         this.id = id;
         this.email = email;
         this.pw = pw;

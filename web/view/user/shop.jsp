@@ -11,35 +11,17 @@
 <%@page import="dto.product.Meal"%>
 
 <!DOCTYPE html>
-<<<<<<< HEAD
+
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
-    <!-- Include CSS files if not included in header.jsp -->
-    <link rel="stylesheet" href="../css/SharedStyle/shared.css">
-    <link rel="stylesheet" href="../css/UserPage/NavBar.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-    <jsp:include page="header.jsp"/>
-    <!-- Main content of the shop page -->
-</body>
-=======
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<html lang="en">
-
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- Bootstrap 5 -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
-
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>        <!-- Include CSS files if not included in header.jsp -->
+        <link rel="stylesheet" href="../css/SharedStyle/shared.css">
+        <link rel="stylesheet" href="../css/UserPage/NavBar.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <title>Shop</title>
-
         <style>
             .vh-100 {
                 height: 100vh !important;
@@ -116,6 +98,7 @@
         <!-- Spinner End -->
 
         <!-- Navbar start -->
+        <jsp:include page="header.jsp"/>
 
         <!-- Navbar End -->
 
@@ -243,7 +226,7 @@
                                                     <p class="text-danger text-decoration-line-through"><%= item.getPrice()%>$</p>
 
                                                     <%
-                                                    } else {%>
+                                                        } else {%>
                                                     <p class="text-dark fs-5 fw-bold mb-0"><%=String.format("%.2f", item.getPrice())%>$</p>
 
                                                     <%
@@ -291,8 +274,9 @@
         <!-- Footer End -->
 
         <!-- JavaScript Libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.min.js"></script>
     </body>
 
 </html>

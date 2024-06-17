@@ -5,7 +5,9 @@
  */
 package controllers.login;
 
+import dao.account.StaffDAO;
 import dao.account.UserDAO;
+import dto.account.Staff;
 import dto.account.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,32 +34,50 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final String ADMIN_EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@happicook\\.com$";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            UserDAO userDao = new UserDAO();
             String email = request.getParameter("txtEmail");
             String password = request.getParameter("txtPassword");
-            User loginUser = userDao.getUserByEmail(email, password);
+
             HttpSession session = request.getSession();
             String errorMessage = "";
-            if (loginUser != null) {
-                if (loginUser.getStatus().equalsIgnoreCase("xxx")) {
-                    errorMessage = "WrongPassword";
-                } else if (!loginUser.getStatus().equalsIgnoreCase("ACTIVE")) {
-                    errorMessage = "Banned";
-                } else {
-                    session.setAttribute("LoginedUser", loginUser);
-                    request.getRequestDispatcher("AMainController?action=mainpage").forward(request, response);
-                    return;
+            if (email.matches("^[a-zA-Z0-9._%+-]+@happicook\\.com$")) {
+                StaffDAO staffDao = new StaffDAO();
+                Staff loginUser = staffDao.logInStaffByEmail(email, password);
+                if(loginUser!=null){
+                    if(loginUser.getName().equalsIgnoreCase("NotFound")){
+                        errorMessage = "WrongPassword";
+                    }else{
+                        session.setAttribute("LoginedUser",loginUser);
+                        request.getRequestDispatcher("AMainController?action=adminmainpage").forward(request, response);
+                        return;
+                    }
                 }
             } else {
-                errorMessage = "NotFound";
+                UserDAO userDao = new UserDAO();
+                User loginUser = userDao.getUserByEmail(email, password);
+                if (loginUser != null) {
+                    if (loginUser.getStatus().equalsIgnoreCase("xxx")) {
+                        errorMessage = "WrongPassword";
+                    } else if (!loginUser.getStatus().equalsIgnoreCase("ACTIVE")) {
+                        errorMessage = "Banned";
+                    } else {
+                        session.setAttribute("LoginedUser", loginUser);
+                        request.getRequestDispatcher("AMainController?action=mainpage").forward(request, response);
+                        return;
+                    }
+                } else {
+                    errorMessage = "NotFound";
+                }
             }
+
             session.setAttribute("ERROR", errorMessage);
-            session.setAttribute("ReturnedEmail",email);
+            session.setAttribute("ReturnedEmail", email);
             request.getRequestDispatcher("AMainController?action=").forward(request, response);
             return;
         }

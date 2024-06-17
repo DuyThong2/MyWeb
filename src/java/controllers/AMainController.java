@@ -24,6 +24,7 @@ public class AMainController extends HttpServlet {
     private final String LOGIN = "LoginServlet";
     private final String REGISTER= "RegisterServlet";
     private final String USER_MAINPAGE="view/user/mainPage.jsp";
+    private final String ADMIN_MAINPAGE="view/admin/AdminMainPage.jsp";
 
     //Ingredient
     private final String INGREDIENT_MANAGE = "view/admin/Product/Ingredient/IManage.jsp";
@@ -163,6 +164,7 @@ public class AMainController extends HttpServlet {
             case "registerform": url= REGISTER_FORM; break;
             case "register": url=REGISTER; break;
             case "login" : url =LOGIN; break;
+            case "adminmainpage": url= ADMIN_MAINPAGE; break;
           
             default: url="index.jsp"; break;
         }

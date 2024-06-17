@@ -13,6 +13,13 @@ public class Staff {
     private String email;
     private String pw;
     private String name;
+    
+    public Staff(){
+        
+    }
+    public Staff(String name){
+        this.name=name;
+    }
 
     public Staff(String email, String pw, String name) {
         this.email = email;

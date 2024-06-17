@@ -36,6 +36,7 @@ public class RegisterServlet extends HttpServlet {
      */
     private static final String EMAIL_PATTERN
             = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private static final String ADMIN_EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@happicook\\.com$";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,7 +60,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("email", email);
                 request.getRequestDispatcher("AMainController?action=registerform").forward(request, response);
             } else {
-                if (!email.matches(EMAIL_PATTERN)) {
+                if (!email.matches(EMAIL_PATTERN)||email.matches(ADMIN_EMAIL_PATTERN)) {
                     error = "Email";
                     session.setAttribute("REGISTER_ERROR", error);
                     request.setAttribute("userName", userName);
