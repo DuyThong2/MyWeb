@@ -9,7 +9,7 @@
 <%@page import="dao.product.MealDAO"%>
 <%@page import="dto.product.Meal"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Main Page</title>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <%@include file="../../cssAdder.jsp" %>
         <!-- Custom CSS -->
         <style>
             .card-img-top {
@@ -109,7 +108,7 @@
     <body>
 
         <!-- Navbar -->
-        <jsp:include page="header.jsp"/>
+        <%@include file="../user/header.jsp" %>
 
         <!-- Carousel -->
         <div id="carouselExampleSlidesOnly" class="carousel slide mb-4" data-ride="carousel">
@@ -191,8 +190,6 @@
         </div>
 
         <!-- Bootstrap JS and jQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.min.js"></script>
+        <%@include file="../../jsAdder.jsp" %>
     </body>
 </html>

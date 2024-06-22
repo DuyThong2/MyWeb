@@ -9,7 +9,7 @@
 <%@page import="dao.product.MealDAO"%>
 <%@page import="java.util.Map"%>
 <%@page import="dto.product.Meal"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <!DOCTYPE html>
 
@@ -18,9 +18,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Shop</title>        <!-- Include CSS files if not included in header.jsp -->
-        
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <%@include file="../../cssAdder.jsp" %>
+       
         
         <style>
             
@@ -64,7 +63,7 @@
         <!-- Spinner End -->
 
         <!-- Navbar start -->
-        <jsp:include page="header.jsp"/>
+        <%@include file="header.jsp" %>
 
         <!-- Navbar End -->
 
@@ -79,6 +78,7 @@
         <!-- Fruits Shop Start-->
         <div class="container-fluid py-5">
             <div class="container py-5">
+                <a href="<%= cartURL%>">here</a>
                 <h1 class="mb-4">Fresh Fruits Shop</h1>
                 <div class="row g-4">
                     <div class="col-lg-12">
@@ -229,7 +229,7 @@
                                     <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                                 </form>
                             </div>
-                            <a href="<%= cartURL%>">here</a>
+                            
                         </div>
                     </div>
                 </div>
@@ -240,9 +240,7 @@
         <!-- Footer End -->
 
         <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.min.js"></script>
+        <%@include file="../../jsAdder.jsp" %>
     </body>
 
 </html>
