@@ -32,6 +32,7 @@ public class MainController extends HttpServlet {
     private final String SUCCESS = "view/success.jsp";
     private final String ERROR = "view/error.jsp";
     
+    private final String LOGIN = "index.jsp";
     
     private final String SHOP= "view/user/shop.jsp";
     private final String SHOP_CONTROLLER="/user/MealController";
@@ -106,6 +107,8 @@ public class MainController extends HttpServlet {
             case "orderUpdate":url =ORDER_UPDATE_CONTROLLER;break;
             case "orderDetailPage":url=ORDER_DETAIL;break;
             
+            case "login" : url =LOGIN; break;
+
             
             default: url = "index.html"; break;
         }

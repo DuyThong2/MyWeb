@@ -29,17 +29,15 @@
     <%
         String updateOrderStatusURL = request.getContextPath() + "/MainController?action=updateUserPage";
         String redirectURL = request.getContextPath() + "/MainController?action=userDetailPage";
-        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
-        if (list == null) {
+        String loginURL = request.getContextPath() +"/MainController?action=login";
+  
+        Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
+        User user = (User) session.getAttribute("LoginedUser");
+        
+        if (user == null) {
             // only for testing
-            UserDAO userDao = new UserDAO();
-            User user = userDao.getUserById(1);
-            session.setAttribute("user", user);
-            MealDAO mealDAO = new MealDAO();
-            list = mealDAO.getCustomerMealList();
-            session.setAttribute("mealList", list);
-            Map<Product, Integer> cart = new HashMap<>();
-            session.setAttribute("cart", cart);
+            response.sendRedirect(loginURL);
+            return;
         }
 
         String orderIdStr = request.getParameter("orderId");
@@ -49,11 +47,10 @@
         }
         
         OrderDAO orderDAO= new OrderDAO();
-        OrderItemDAO orderItemDAO = new OrderItemDAO();
         int orderid = Integer.parseInt(orderIdStr);
         Order order = orderDAO.getOrderByOrderId(orderid);
         
-        List<OrderItem> orderItems = orderItemDAO.getOrderDetails(orderid);
+        List<OrderItem> orderItems = order.getOrderDetail();
         request.setAttribute("orderItems", orderItems);
        
 

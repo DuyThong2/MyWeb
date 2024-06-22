@@ -35,7 +35,7 @@ public class ShowCart extends HttpServlet {
      * 
      * 
      */
-    
+    private final String LOGIN = "/MainController?action=login";
     private final String REDIRECT_PAGE = "/MainController?action=cartDisplayPage";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,7 +44,10 @@ public class ShowCart extends HttpServlet {
         HttpSession session = request.getSession();
         
         Map<Product,Integer> cart = (Map<Product,Integer>) session.getAttribute("cart");
-        
+        if (cart == null){
+            request.getRequestDispatcher(LOGIN).forward(request, response);
+            return;
+        }
         String productId = request.getParameter("productId");
         String quantityStr = request.getParameter("quantity");
         

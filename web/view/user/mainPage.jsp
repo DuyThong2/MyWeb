@@ -64,15 +64,12 @@
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
         if (list == null) {
-            UserDAO userDao = new UserDAO();
             
-            User user = userDao.getUserById(1);
-            session.setAttribute("user", user);
+            
             MealDAO mealDAO = new MealDAO();
             list = mealDAO.getCustomerMealList();
             session.setAttribute("mealList", list);
-            Map<Product, Integer> cart = new HashMap<>();
-            session.setAttribute("cart", cart);
+            
         }
 
 //        List<Meal> carouselShow = list.stream().
@@ -119,7 +116,7 @@
             <div class="carousel-inner">
                 <c:forEach items="${carouselItems}" var="item" varStatus="status">
                     <div class="carousel-item ${status.first ? 'active' : ''}">
-                        <a href="#">
+                        <a href="<%=detailURL%>&productId=${item.getId()}">
                             <img src="${pageContext.request.contextPath}/${item.getImageURL()}" class="d-block w-100" alt="${item.getName()}">
                         </a>
                     </div>
@@ -133,11 +130,14 @@
             <h2>Featured Meals</h2>
             <div class="row">
                 <!-- Meal Card 1 -->
-                <%                for (Meal item : homeShow) {
+                <%                
+                    for (Meal item : homeShow) {
                 %>
                 <div class="col-md-3 mb-4">
                     <div class="card">
+                        <a href="<%=detailURL%>&productId=<%=item.getId()%>">
                         <img src="<%=request.getContextPath() + "/" + item.getImageURL()%>" class="card-img-top" alt="<%=item.getName()%>">
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title"><%=item.getName()%></h5>
                             <p class="card-text"><%=item.getDescription()%></p>

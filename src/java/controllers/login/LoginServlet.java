@@ -9,8 +9,11 @@ import dao.account.StaffDAO;
 import dao.account.UserDAO;
 import dto.account.Staff;
 import dto.account.User;
+import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -68,6 +71,8 @@ public class LoginServlet extends HttpServlet {
                         errorMessage = "Banned";
                     } else {
                         session.setAttribute("LoginedUser", loginUser);
+                        Map<Product,Integer> cart = new HashMap<>();
+                        session.setAttribute("cart", cart);
                         request.getRequestDispatcher("AMainController?action=mainpage").forward(request, response);
                         return;
                     }

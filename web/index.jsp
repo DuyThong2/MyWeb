@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <!-- style css -->
-        <link rel="stylesheet" href="view/css/SharedStyle/shared.css">
-        <link rel="stylesheet" href="view/css/LoginAndRegister/LoginAndRegister.css">     
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/SharedStyle/shared.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/LoginAndRegister/LoginAndRegister.css">     
         <!-- boxicons -->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -17,7 +17,7 @@
             returnEmail = returnEmail==null?"":returnEmail;
             %>
         <div class="wrapper">
-            <form action='AMainController' method="POST">
+            <form action='<%=request.getContextPath()%>/AMainController' method="POST">
                 <h1>Login</h1>
                 <div class="input-box">
                     <input type="text" name="txtEmail" value="<%= returnEmail%>" placeholder="Email" required>
@@ -30,7 +30,7 @@
                 <button type="submit" value="login" class="btn" name='action'>login</button>
                 <div class="register-link">
                     <p>Don't have an account?
-                        <a href="AMainController?action=registerform">Sign up</a>
+                        <a href="<%=request.getContextPath()%>/AMainController?action=registerform">Sign up</a>
                     </p>
                 </div>
             </form>

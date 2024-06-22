@@ -39,22 +39,18 @@
     <%
         String processURL = request.getContextPath() + "/MainController?action=processCart";
         String redirectURL = request.getContextPath() + "/MainController?action=cartDisplay";
-
-        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
-        if (list == null) {
-            //only for testing
-            UserDAO userDao = new UserDAO();
-            User user = userDao.getUserById(1);
-            session.setAttribute("user", user);
-            MealDAO mealDAO = new MealDAO();
-            list = mealDAO.getCustomerMealList();
-            session.setAttribute("mealList", list);
-            Map<Product, Integer> cart = new HashMap<>();
-            session.setAttribute("cart", cart);
-        }
+        String loginURL = request.getContextPath() + "/MainController?action=login";
 
         Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("LoginedUser");
+        
+        if (user == null) {
+            //only for testing
+            response.sendRedirect(loginURL);
+            return;
+        }
+
+        
         double totalPrice = 0.0;
         List<Entry<Product, Integer>> shoppingList = new ArrayList<>(cart.entrySet());
         for (Entry<Product, Integer> item : shoppingList) {

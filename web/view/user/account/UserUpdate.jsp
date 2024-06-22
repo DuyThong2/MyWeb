@@ -13,13 +13,12 @@
     <body>
         <%
             // Retrieve the user data from the database
-            
-            User user = (User) session.getAttribute("user");
+            String loginURL = request.getContextPath()+"/MainController?action=login" ;
+            User user = (User) session.getAttribute("LoginedUser");
             if (user == null) {
-                UserDAO dao = new UserDAO();
-                session.setAttribute("user", dao.getUserById(1));
+                response.sendRedirect(loginURL);
+                return;
             }
-            user = (User) session.getAttribute("user");
             
             
             

@@ -33,13 +33,13 @@ public class MealInsertController extends HttpServlet {
 
     private static final String IMAGES_DIRECTORY = "images/meal/";
     private static final String PACKET_URL = "/AMainController?action=PacketInsertPage";
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String currentProjectPath = getServletContext().getRealPath("/");
-       
+
         String uploadPath = currentProjectPath.concat(IMAGES_DIRECTORY);
-        
 
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -67,18 +67,23 @@ public class MealInsertController extends HttpServlet {
                         case "id":
                             id = fileItem.getString();
                             String errorMessage = dao.checkValidId(id);
-                            if (errorMessage!= null){
+                            if (errorMessage != null) {
                                 throw new Exception(errorMessage);
                             }
                             break;
                         case "name":
                             name = fileItem.getString();
                             break;
-                         case "description":
+                        case "description":
                             description = fileItem.getString();
-                            break;  
+                            break;
                         case "price":
-                            price = Double.parseDouble(fileItem.getString());
+                            try {
+                                price = Double.parseDouble(fileItem.getString());
+
+                            } catch (NumberFormatException e) {
+                                price = 10;
+                            }
                             break;
                         case "content":
                             content = fileItem.getString();
@@ -90,32 +95,38 @@ public class MealInsertController extends HttpServlet {
                             break;
                     }
                 } else {
-                    // Handle file uploads
-                    if (fileItem.getFieldName().equals("imgURL")) {
-                        String fileName = Paths.get(fileItem.getName()).getFileName().toString();
-                        String filePath = uploadPath + fileName;
-                        
+                    try {
+                        if (fileItem.getFieldName().equals("imgURL")) {
+                            String fileName = Paths.get(fileItem.getName()).getFileName().toString();
+                            String filePath = uploadPath + fileName;
+
 //                        Files.deleteIfExists(Paths.get(filePath));
-                        File file = new File(filePath);
-                        
-                        fileItem.write(file);
-                        imgURL = IMAGES_DIRECTORY + fileName;
+                            File file = new File(filePath);
+
+                            fileItem.write(file);
+                            imgURL = IMAGES_DIRECTORY + fileName;
+
+                        }
+                    } catch (Exception e) {
+                        imgURL = "images/ingredient/example.png";
                     }
+                    // Handle file uploads
+
                 }
             }
 
             // Save the ingredient data to the database
-            Meal meal = new Meal(id,name, description,price,false, 0 ,0,content, category, imgURL, "active");
+            Meal meal = new Meal(id, name, description, price, false, 0, 0, content, category, imgURL, "active");
             dao.InsertToTable(meal);
-            if (request.getParameter("status").matches("done")){
+            if (request.getParameter("status").matches("done")) {
                 request.setAttribute("completeMessage", "successfully added meal");
                 request.getRequestDispatcher("/AMainController?action=success").forward(request, response);
-            }else if (request.getParameter("status").matches("continue")){
+            } else if (request.getParameter("status").matches("continue")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("mealInfo", meal);
                 request.getRequestDispatcher(PACKET_URL).forward(request, response);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", e.getMessage());

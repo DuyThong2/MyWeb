@@ -36,13 +36,13 @@ public class UserDetailController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-    private final String LOGIN_URL = "/MainController?action=error";
+    private final String LOGIN_URL = "/MainController?action=login";
     private final String SHOW_URL = "/MainController?action=userDetailPage";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("LoginedUser");
         
         
 

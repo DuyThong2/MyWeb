@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 public class updateOrderStatusController extends HttpServlet {
     
     
-    private final String LOGIN_URL = "";
+    private final String LOGIN_URL = "/MainController?action=login";
     private final String SHOW_DETAIL_PAGE = "/MainController?action=userDetailPage";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,7 +43,7 @@ public class updateOrderStatusController extends HttpServlet {
         String orderIdStr = request.getParameter("orderId");
         HttpSession session = request.getSession();
 
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("LoginedUser");
         if (user != null) {
             if (orderIdStr != null) {
                 int orderId = Integer.parseInt(orderIdStr);

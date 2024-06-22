@@ -9,51 +9,21 @@
 <%@page import="dao.product.MealDAO"%>
 <%@page import="java.util.Map"%>
 <%@page import="dto.product.Meal"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>        <!-- Include CSS files if not included in header.jsp -->
-        <link rel="stylesheet" href="../css/SharedStyle/shared.css">
-        <link rel="stylesheet" href="../css/UserPage/NavBar.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shop</title>        <!-- Include CSS files if not included in header.jsp -->
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
               integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <title>Shop</title>
+        
         <style>
-            .vh-100 {
-                height: 100vh !important;
-            }
-            .btn-search {
-                padding: 0.75rem 1rem;
-            }
-            .btn-md-square {
-                width: 40px;
-                height: 40px;
-                padding: 0;
-            }
-            .navbar-brand h1 {
-                margin: 0;
-            }
-            .rounded-pill {
-                border-radius: 50rem !important;
-            }
-            .list-unstyled {
-                padding-left: 0;
-                list-style: none;
-            }
-            .fruite-item img {
-                height: 250px;
-                object-fit: cover;
-            }
-            .back-to-top {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                display: none;
-            }
+            
         </style>
     </head>
 
@@ -65,10 +35,6 @@
 
         // only for testing without user
         if (session.getAttribute("mealList") == null) {
-            UserDAO userDao = new UserDAO();
-
-            User user = userDao.getUserById(1);
-            session.setAttribute("user", user);
             response.sendRedirect(redirectUrl);
             return;
         }
@@ -210,7 +176,7 @@
                                         <div class="rounded position-relative fruite-item">
 
                                             <div class="fruite-img">
-                                                <a href="<%=detailURL%>">
+                                                <a href="<%=detailURL%>&productId=<%=item.getId()%>">
                                                     <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="meal Img">
                                                 </a>
                                             </div>
@@ -226,7 +192,7 @@
                                                     <p class="text-danger text-decoration-line-through"><%= item.getPrice()%>$</p>
 
                                                     <%
-                                                        } else {%>
+                                                    } else {%>
                                                     <p class="text-dark fs-5 fw-bold mb-0"><%=String.format("%.2f", item.getPrice())%>$</p>
 
                                                     <%

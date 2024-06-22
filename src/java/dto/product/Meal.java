@@ -97,7 +97,8 @@ public class Meal extends Product {
 
     @Override
     public double getPriceAfterDiscount() {
-        return getPrice()*((100-getDiscountPercent())/100);
+        
+        return isOnSale()?getPrice()*((100-getDiscountPercent())/100):getPrice();
     }
     
     

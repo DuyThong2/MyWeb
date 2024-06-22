@@ -82,7 +82,8 @@ public class UpdateUserInfoController extends HttpServlet {
                     }
                 } else {
                     // Handle file uploads
-                    if (fileItem.getFieldName().equals("imgURL")) {
+                    try{
+                        if (fileItem.getFieldName().equals("imgURL")) {
                         String fileName = Paths.get(fileItem.getName()).getFileName().toString();
                         String filePath = uploadPath + fileName;
                         System.out.println(filePath);
@@ -90,6 +91,10 @@ public class UpdateUserInfoController extends HttpServlet {
                         fileItem.write(file);
                         imgURL = IMAGES_DIRECTORY + fileName;
                     }
+                    }catch(Exception e){
+                        imgURL = "images/customer/newUser.png";
+                    }
+                    
                 }
             }
             Address address = null;

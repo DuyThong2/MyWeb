@@ -48,17 +48,22 @@ public class AddToCart extends HttpServlet {
         
         if (cart == null){
             //redirect login
-            cart = new HashMap<>();
-            session.setAttribute("cart", cart);
+            request.getRequestDispatcher(loginURL).forward(request, response);
         }else{
             String productId = request.getParameter("productId");
             String quantityStr = request.getParameter("quantity");
             if (productId != null){
                 if (quantityStr != null){
-                    int quantity = Integer.parseInt(quantityStr);
-                    if (quantity >=1){
+                    try{
+                        int quantity = Integer.parseInt(quantityStr);
+                        if (quantity >=1){
                         addProductToExistCart(cart, quantity, productId);
                     }
+                    }catch(NumberFormatException e){
+                        addProductToExistCart(cart, 1, productId);
+                    }
+                    
+                    
                     
                 }else{
                     addProductToExistCart(cart, 1, productId);
@@ -74,6 +79,7 @@ public class AddToCart extends HttpServlet {
             request.getRequestDispatcher(shopURL).forward(request, response);
         }}catch(Exception e){
             e.printStackTrace();
+            
         }
         
         

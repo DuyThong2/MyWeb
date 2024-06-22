@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/admin/ingredient/UpdateIngredient")
 @MultipartConfig
 public class UpdateIngredientController extends HttpServlet {
-    
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,25 +46,37 @@ public class UpdateIngredientController extends HttpServlet {
                                 ingredientName = item.getString();
                                 break;
                             case "price":
-                                price = Double.parseDouble(item.getString());
+                                try {
+                                    price = Double.parseDouble(item.getString());
+
+                                } catch (NumberFormatException e) {
+                                    price = 10;
+                                }
                                 break;
                             case "unit":
                                 unit = item.getString();
                                 break;
                         }
                     } else {
-                        if (item.getFieldName().equals("imgURL")) {
-                            String fileName = Paths.get(item.getName()).getFileName().toString();
-                            String uploadPath = getServletContext().getRealPath("/") + "images/ingredient/";
-                            File uploadDir = new File(uploadPath);
-                            if (!uploadDir.exists()) {
-                                uploadDir.mkdirs();
+                        try {
+                            if (item.getFieldName().equals("imgURL")) {
+                                String fileName = Paths.get(item.getName()).getFileName().toString();
+                                String uploadPath = getServletContext().getRealPath("/") + "images/ingredient/";
+                                File uploadDir = new File(uploadPath);
+                                if (!uploadDir.exists()) {
+                                    uploadDir.mkdirs();
+                                }
+                                String filePath = uploadPath + fileName;
+                                File file = new File(filePath);
+
+                                item.write(file);
+                                imgURL = "images/ingredient/" + fileName;
+
                             }
-                            String filePath = uploadPath + fileName;
-                            File file = new File(filePath);
-                            item.write(file);
-                            imgURL = "images/ingredient/" + fileName;
+                        } catch (Exception e) {
+                            imgURL = "images/ingredient/example.png";
                         }
+
                     }
                 }
 
@@ -73,11 +84,11 @@ public class UpdateIngredientController extends HttpServlet {
                 IngredientDAO dao = new IngredientDAO();
                 dao.updateIngredient(newIngredient); // Assume there's a method to update ingredient
 
-                 request.getRequestDispatcher("/AMainController?action=success").forward(request, response);
+                request.getRequestDispatcher("/AMainController?action=success").forward(request, response);
             } catch (Exception e) {
                 request.setAttribute("error", "invalid price or empty image or duplicate name");
                 e.printStackTrace();
-                
+
                 request.getRequestDispatcher("/AMainController?action=IngredientUpdate").forward(request, response);
             }
         }

@@ -41,6 +41,8 @@
         }
         MealDAO dao = new MealDAO();
         Meal meal = dao.getMealFullDetailFromId(mealId);
+        IngredientPacket packet = meal.getPacket();
+        request.setAttribute("packet", packet);
         request.setAttribute("meal", meal);
     %>
     <body>
@@ -75,7 +77,11 @@
                                     <h4 class="fw-bold mb-3"><%=meal.getName()%></h4>
                                     <p class="mb-3">Category: <%=meal.getCategory()%></p>
                                     <h5 class="fw-bold mb-3">Meal : <%=String.format("%.2f", meal.getPriceAfterDiscount())%> $</h5>
-                                    <h5 class="fw-bold mb-3">Packet : <%=String.format("%.2f", meal.getPacket().getPriceAfterDiscount())%> $</h5>
+                                    <c:choose>
+                                        <c:when test="${not empty packet}">
+                                            <h5 class="fw-bold mb-3">Packet : <%=String.format("%.2f", meal.getPacket().getPriceAfterDiscount())%> $</h5>
+                                        </c:when>
+                                    </c:choose>
                                     <div class="d-flex mb-4">
                                         <i class="fa fa-star text-secondary"></i>
                                         <i class="fa fa-star text-secondary"></i>
@@ -104,10 +110,14 @@
 
                                         </i> Buy Meal
                                     </button>
-                                    <button type="button" id="buyPacketBtn" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" 
-                                            onclick="submitForm('<%=addToCartURL%>&productId=<%= "P" + meal.getId().substring(1)%>')">
-                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Buy Packet
-                                    </button>
+                                    <c:choose>
+                                        <c:when test="${not empty packet}">
+                                            <button type="button" id="buyPacketBtn" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" 
+                                                    onclick="submitForm('<%=addToCartURL%>&productId=<%= "P" + meal.getId().substring(1)%>')">
+                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Buy Packet
+                                            </button>
+                                        </c:when>
+                                    </c:choose>
                                     <%
                                         System.out.println(addToCartURL + "&productId=" + "P" + meal.getId().substring(1));
                                     %>
@@ -128,16 +138,24 @@
                                         <div class="px-2">
                                             <div class="row g-4">
                                                 <div class="col-6">
-                                                    <c:forEach items="${meal.getPacket().getContains()}" var="entry">
-                                                        <div class="row bg-light align-items-center text-center justify-content-center py-2">
-                                                            <div class="col-6">
-                                                                <p class="mb-0">${entry.key.getName()}</p>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <p class="mb-0">${entry.value} ${entry.key.getUnit()}</p>
-                                                            </div>
-                                                        </div>
-                                                    </c:forEach>
+                                                    <c:choose>
+                                                        <c:when test="${not empty packet}">
+                                                            <c:forEach items="${packet.getContains()}" var="entry">
+                                                                <div class="row bg-light align-items-center text-center justify-content-center py-2">
+                                                                    <div class="col-6">
+                                                                        <p class="mb-0">${entry.key.getName()}</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="mb-0">${entry.value} ${entry.key.getUnit()}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </c:forEach>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <div><h2>recipe classify</h2></div>
+                                                            
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </div>
                                             </div>
                                         </div>
@@ -261,7 +279,7 @@
 
                                         }
                                     %>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    <a href="<%=addToCartURL%>&productId=<%= item.getId()%>" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                 </div>
                             </div>
                         </div>
@@ -308,44 +326,44 @@
         <!-- Custom JavaScript -->
         <script>
 
-                                                function submitForm(actionURL) {
+                                                        function submitForm(actionURL) {
 
-                                                    const form = document.getElementById('orderForm');
+                                                            const form = document.getElementById('orderForm');
 
-                                                    form.action = actionURL;
-                                                    form.submit();
-                                                }
-                                                function validateQuantity() {
-                                                    const quantityInput = document.getElementById('quantityInput');
-                                                    if (quantityInput.value < 1) {
-                                                        quantityInput.value = 1;
-                                                    } else if (quantityInput.value > 20) {
-                                                        quantityInput.value = 20; // Ensure it doesn't exceed the maximum
-                                                    }
-                                                }
-
-
-
-
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    document.querySelectorAll('.btn-minus').forEach(function (button) {
-                                                        button.addEventListener('click', function () {
-                                                            const input = button.parentElement.nextElementSibling;
-                                                            let value = parseInt(input.value);
-                                                            if (value > 1) {
-                                                                input.value = value - 1;
+                                                            form.action = actionURL;
+                                                            form.submit();
+                                                        }
+                                                        function validateQuantity() {
+                                                            const quantityInput = document.getElementById('quantityInput');
+                                                            if (quantityInput.value < 1) {
+                                                                quantityInput.value = 1;
+                                                            } else if (quantityInput.value > 20) {
+                                                                quantityInput.value = 20; // Ensure it doesn't exceed the maximum
                                                             }
-                                                        });
-                                                    });
+                                                        }
 
-                                                    document.querySelectorAll('.btn-plus').forEach(function (button) {
-                                                        button.addEventListener('click', function () {
-                                                            const input = button.parentElement.previousElementSibling;
-                                                            let value = parseInt(input.value);
-                                                            input.value = value + 1;
+
+
+
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            document.querySelectorAll('.btn-minus').forEach(function (button) {
+                                                                button.addEventListener('click', function () {
+                                                                    const input = button.parentElement.nextElementSibling;
+                                                                    let value = parseInt(input.value);
+                                                                    if (value > 1) {
+                                                                        input.value = value - 1;
+                                                                    }
+                                                                });
+                                                            });
+
+                                                            document.querySelectorAll('.btn-plus').forEach(function (button) {
+                                                                button.addEventListener('click', function () {
+                                                                    const input = button.parentElement.previousElementSibling;
+                                                                    let value = parseInt(input.value);
+                                                                    input.value = value + 1;
+                                                                });
+                                                            });
                                                         });
-                                                    });
-                                                });
         </script>
     </body>
 </html>

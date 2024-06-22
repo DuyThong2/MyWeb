@@ -86,7 +86,12 @@ public class UpdateMealInfoController extends HttpServlet {
                             description = fileItem.getString();
                             break;  
                         case "price":
-                            price = Double.parseDouble(fileItem.getString());
+                            try {
+                                price = Double.parseDouble(fileItem.getString());
+
+                            } catch (NumberFormatException e) {
+                                price = 10;
+                            }
                             break;
                         case "content":
                             content = fileItem.getString();
@@ -99,15 +104,20 @@ public class UpdateMealInfoController extends HttpServlet {
                     }
                 } else {
                     // Handle file uploads
-                    if (fileItem.getFieldName().equals("imgURL")) {
-                        String fileName = Paths.get(fileItem.getName()).getFileName().toString();
-                        String filePath = uploadPath + fileName;
-                        System.out.println(filePath);
+                    try {
+                        if (fileItem.getFieldName().equals("imgURL")) {
+                            String fileName = Paths.get(fileItem.getName()).getFileName().toString();
+                            String filePath = uploadPath + fileName;
+
 //                        Files.deleteIfExists(Paths.get(filePath));
-                        File file = new File(filePath);
-                        
-                        fileItem.write(file);
-                        imgURL = IMAGES_DIRECTORY + fileName;
+                            File file = new File(filePath);
+
+                            fileItem.write(file);
+                            imgURL = IMAGES_DIRECTORY + fileName;
+
+                        }
+                    } catch (Exception e) {
+                        imgURL = "images/ingredient/example.png";
                     }
                 }
             }

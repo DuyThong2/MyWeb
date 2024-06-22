@@ -42,14 +42,15 @@ public class UserUpdateController extends HttpServlet {
     private static final String IMAGES_DIRECTORY = "images/customer/";
     private static final String SUCCESS_URL = "/MainController?action=userDetail";
     private static final String ERROR_URL = "/MainController?action=error";
+    private static final String LOGIN_URL ="/MainController?action=login";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("LoginedUser");
         if (user == null){
-            request.getRequestDispatcher(ERROR_URL).forward(request, response);
+            request.getRequestDispatcher(LOGIN_URL).forward(request, response);
         }else{
             String currentProjectPath = getServletContext().getRealPath("/");
         String uploadPath = currentProjectPath.concat(IMAGES_DIRECTORY);
@@ -109,7 +110,8 @@ public class UserUpdateController extends HttpServlet {
                     }
                 } else {
                     // Handle file uploads
-                    if (fileItem.getFieldName().equals("imgURL")) {
+                    try{
+                        if (fileItem.getFieldName().equals("imgURL")) {
                         String fileName = Paths.get(fileItem.getName()).getFileName().toString();
                         String filePath = uploadPath + fileName;
                         System.out.println(filePath);
@@ -117,6 +119,10 @@ public class UserUpdateController extends HttpServlet {
                         fileItem.write(file);
                         imgURL = IMAGES_DIRECTORY + fileName;
                     }
+                    }catch(Exception e){
+                        imgURL = "images/customer/newUser.png";
+                    }
+                    
                 }
             }
             Address address = null;

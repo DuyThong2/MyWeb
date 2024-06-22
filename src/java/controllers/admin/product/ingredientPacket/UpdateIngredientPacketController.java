@@ -69,7 +69,12 @@ public class UpdateIngredientPacketController extends HttpServlet {
             }
 
             if (request.getParameter("quantity") != null && request.getParameter("ingredientId") != null) {
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                int quantity = 1;
+                try {
+                    quantity = Integer.parseInt(request.getParameter("quantity"));
+                }catch(NumberFormatException e){
+                    quantity = 1;
+                }
                 int ingredientId = Integer.parseInt(request.getParameter("ingredientId"));
                 Ingredient ingredient = ingredientDao.getIngredientFromId(ingredientId);
                 inserted.merge(ingredient, quantity,Integer::sum);

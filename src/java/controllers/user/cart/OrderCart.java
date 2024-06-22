@@ -48,12 +48,10 @@ public class OrderCart extends HttpServlet {
         HttpSession session = request.getSession();
 
         //only for testing:
-        UserDAO userDAO = new UserDAO();
-        session.setAttribute("user", userDAO.getUserById(1));
         // simulate real user
 
         Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("LoginedUser");
         if (user == null) {
             request.getRequestDispatcher(LOGIN_URL).forward(request, response);
         } else {

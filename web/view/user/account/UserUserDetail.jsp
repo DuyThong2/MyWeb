@@ -53,23 +53,20 @@
         String updateStatusURL = request.getContextPath()+"/MainController?action=updateUser";
         String orderDetailURL = request.getContextPath()+"/MainController?action=orderDetailPage";
         String updateOrderStatusURL = request.getContextPath() + "/MainController?action=orderUpdate";
-        
+        String loginURL = request.getContextPath() + "/MainController?action=login" ;
+        User user = (User) session.getAttribute("LoginedUser");
 
-        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
-        if (list == null) {
-            //only for testing
-            UserDAO userDao = new UserDAO();
-            User user = userDao.getUserById(1);
-            session.setAttribute("user", user);
+        if (user == null) {
+           response.sendRedirect(loginURL);
+           return;
             
-            
-            
-            Map<Product, Integer> cart = new HashMap<>();
-            session.setAttribute("cart", cart);
         }
         
         
-        User user = (User) session.getAttribute("user");
+        UserDAO userDAO = new UserDAO();
+        user = userDAO.getUserWithOrders(user.getId());
+        session.setAttribute("user", user);
+        
         Map<Integer,Order> orderList = user.getOrderHistory();
         
 //        Map<Integer,Order> orderList = (Map<Integer,Order>) session.getAttribute("orderList");
