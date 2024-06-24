@@ -41,8 +41,4 @@ public class CustomerPlan extends MealPlan implements Serializable {
         this.dateApply = dateApply;
     }
 
-  
-
-  
-
-}
+    }
