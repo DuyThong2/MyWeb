@@ -17,7 +17,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Meal Details</title>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+        <%@include file="../../../cssAdder.jsp" %>
         <style>
             .quantity {
                 display: flex;
@@ -28,12 +28,19 @@
                 text-align: center;
                 border: 0;
             }
+
+            .fixed-size-img {
+                width: 150px;
+                height: 150px;
+                object-fit: cover;
+            }
         </style>
     </head>
     <%
 
         String addToCartURL = request.getContextPath() + "/MainController?action=addToCart";
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
+        String shopURL = request.getContextPath() + "/MainController?action=shop";
         String mealId = request.getParameter("productId");
         if (mealId == null) {
             response.sendRedirect(request.getContextPath() + "/MainController?action=shop");
@@ -46,6 +53,7 @@
         request.setAttribute("meal", meal);
     %>
     <body>
+        <%@include file="../header.jsp" %>
 
         <!-- Navbar start -->
 
@@ -82,13 +90,7 @@
                                             <h5 class="fw-bold mb-3">Packet : <%=String.format("%.2f", meal.getPacket().getPriceAfterDiscount())%> $</h5>
                                         </c:when>
                                     </c:choose>
-                                    <div class="d-flex mb-4">
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star text-secondary"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
+
                                     <p class="mb-4"><%=meal.getDescription()%></p>
 
                                     <div class="input-group quantity mb-5" style="width: 100px;">
@@ -153,7 +155,7 @@
                                                         </c:when>
                                                         <c:otherwise>
                                                             <div><h2>recipe classify</h2></div>
-                                                            
+
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </div>
@@ -170,13 +172,13 @@
                     <div class="col-lg-4 col-xl-3">
                         <div class="row g-4 fruite">
                             <div class="col-lg-12">
-                                <form action="#" method="POST" class="input-group w-100 mx-auto d-flex mb-4">
+                                <form action="<%=shopURL %>" method="POST" class="input-group w-100 mx-auto d-flex mb-4">
                                     <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
                                     <button type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button>
                                 </form>
                                 <div class="mb-4">
                                     <h4>Sort Option</h4>
-                                    <form action="#" method="POST">
+                                    <form action="<%=shopURL %>" method="POST">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="cate" id="category" value="category">
                                             <label class="form-check-label" for="category">Category</label>
@@ -258,42 +260,33 @@
                 <div class="vesitable">
                     <div class="owl-carousel vegetable-carousel justify-content-center">
                         <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="vesitable-img">
-                                <a href="<%=detailURL%>&productId=<%=item.getId()%>"> 
-                                    <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid w-100 rounded-top" alt="">
-                                </a>
-                            </div>
-                            <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-
-                            <div class="p-4 pb-0 rounded-bottom">
-                                <h4><%=item.getName()%></h4>
-                                <p><%= item.getDescription()%></p>
-                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                    <% if (item.isOnSale()) {%>
-                                    <p style="color: red"class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPriceAfterDiscount())%> </p>
-                                    <%
-                                    } else {%>
-                                    <p class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPrice())%> </p>
-
-                                    <%
-
-                                        }
-                                    %>
-                                    <a href="<%=addToCartURL%>&productId=<%= item.getId()%>" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                            <div class="row no-gutters">
+                                <div class="col-auto">
+                                    <a href="<%=detailURL%>&productId=<%=item.getId()%>"> 
+                                        <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid fixed-size-img" alt="<%=item.getName()%>">
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <div class="p-4 pb-0 rounded-bottom">
+                                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;"><%=item.getCategory()%></div>
+                                        <h4><%=item.getName()%></h4>
+                                        <p><%= item.getDescription()%></p>
+                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                            <% if (item.isOnSale()) {%>
+                                            <p style="color: red" class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPriceAfterDiscount())%> </p>
+                                            <% } else {%>
+                                            <p class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPrice())%> </p>
+                                            <% }%>
+                                            <a href="<%=addToCartURL%>&productId=<%= item.getId()%>" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                         <%
                             }
                         %>
-                        <!-- related product start loop -->
-
-
-
-
-
-
+                        <!-- related product end loop -->
                     </div>
                 </div>
             </div>
@@ -312,58 +305,54 @@
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
         <!-- JavaScript Libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <%@include file="../../../jsAdder.jsp" %>
 
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+
 
         <!-- Custom JavaScript -->
         <script>
 
-                                                        function submitForm(actionURL) {
+            function submitForm(actionURL) {
 
-                                                            const form = document.getElementById('orderForm');
+                const form = document.getElementById('orderForm');
 
-                                                            form.action = actionURL;
-                                                            form.submit();
-                                                        }
-                                                        function validateQuantity() {
-                                                            const quantityInput = document.getElementById('quantityInput');
-                                                            if (quantityInput.value < 1) {
-                                                                quantityInput.value = 1;
-                                                            } else if (quantityInput.value > 20) {
-                                                                quantityInput.value = 20; // Ensure it doesn't exceed the maximum
-                                                            }
-                                                        }
-
-
+                form.action = actionURL;
+                form.submit();
+            }
+            function validateQuantity() {
+                const quantityInput = document.getElementById('quantityInput');
+                if (quantityInput.value < 1) {
+                    quantityInput.value = 1;
+                } else if (quantityInput.value > 20) {
+                    quantityInput.value = 20; // Ensure it doesn't exceed the maximum
+                }
+            }
 
 
-                                                        document.addEventListener('DOMContentLoaded', function () {
-                                                            document.querySelectorAll('.btn-minus').forEach(function (button) {
-                                                                button.addEventListener('click', function () {
-                                                                    const input = button.parentElement.nextElementSibling;
-                                                                    let value = parseInt(input.value);
-                                                                    if (value > 1) {
-                                                                        input.value = value - 1;
-                                                                    }
-                                                                });
-                                                            });
 
-                                                            document.querySelectorAll('.btn-plus').forEach(function (button) {
-                                                                button.addEventListener('click', function () {
-                                                                    const input = button.parentElement.previousElementSibling;
-                                                                    let value = parseInt(input.value);
-                                                                    input.value = value + 1;
-                                                                });
-                                                            });
-                                                        });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.btn-minus').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        const input = button.parentElement.nextElementSibling;
+                        let value = parseInt(input.value);
+                        if (value > 1) {
+                            input.value = value - 1;
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.btn-plus').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        const input = button.parentElement.previousElementSibling;
+                        let value = parseInt(input.value);
+                        input.value = value + 1;
+                    });
+                });
+            });
         </script>
     </body>
 </html>

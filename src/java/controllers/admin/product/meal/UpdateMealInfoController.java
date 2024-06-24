@@ -117,7 +117,13 @@ public class UpdateMealInfoController extends HttpServlet {
 
                         }
                     } catch (Exception e) {
-                        imgURL = "images/ingredient/example.png";
+                        String oldMealImg = dao.getMealFromId(id).getImageURL();
+                        if(oldMealImg==null){
+                            imgURL = "images/meal/example.png";
+                        }else{
+                            imgURL = oldMealImg;
+                        }
+                        
                     }
                 }
             }

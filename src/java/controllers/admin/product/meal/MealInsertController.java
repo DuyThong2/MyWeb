@@ -108,7 +108,7 @@ public class MealInsertController extends HttpServlet {
 
                         }
                     } catch (Exception e) {
-                        imgURL = "images/ingredient/example.png";
+                        imgURL = "images/meal/example.png";
                     }
                     // Handle file uploads
 

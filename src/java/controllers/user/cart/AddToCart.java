@@ -6,6 +6,7 @@
 package controllers.user.cart;
 
 import dao.product.ProductDAO;
+import dto.account.User;
 import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,8 +46,9 @@ public class AddToCart extends HttpServlet {
             
         
         Map<Product,Integer> cart = (Map<Product,Integer>) session.getAttribute("cart");
+        User user = (User) session.getAttribute("LoginedUser");
         
-        if (cart == null){
+        if (cart == null || user == null){
             //redirect login
             request.getRequestDispatcher(loginURL).forward(request, response);
         }else{

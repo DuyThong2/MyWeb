@@ -8,9 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Update User Information</title>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <%@include file="../../../cssAdder.jsp" %>
     </head>
     <body>
+        <%@include file="../../user/header.jsp" %>
+        
         <%
             // Retrieve the user data from the database
             String loginURL = request.getContextPath()+"/MainController?action=login" ;
@@ -46,7 +48,7 @@
                 <!-- Right side: Form to input new values -->
                 <div class="col-md-6">
                     <h4>Update User Details</h4>
-                    <form id="userForm" action="<%= request.getContextPath() + "/AMainController?action=userUpdate"%>" method="post" enctype="multipart/form-data">
+                    <form id="userForm" action="<%= request.getContextPath() + "/MainController?action=userUpdate"%>" method="post" enctype="multipart/form-data">
                         <input type="hidden" class="form-control" id="userId" name="id" value="<%= user.getId()%>">
                         <div class="form-group">
                             <label for="userName">Name</label>
@@ -94,8 +96,6 @@
         </div>
 
         <!-- Bootstrap JS and dependencies -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../../../jsAdder.jsp" %>
     </body>
 </html>

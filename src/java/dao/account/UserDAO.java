@@ -300,13 +300,14 @@ public class UserDAO {
                     return result;
                 }
 
-                String insertCustomerSql = "insert Customers(email,pw,name,phone,status) values(?,?,?,?,?)";
+                String insertCustomerSql = "insert Customers(email,pw,name,phone,imgURL,status) values(?,?,?,?,?,?)";
                 PreparedStatement pstInsertCustomer = cn.prepareStatement(insertCustomerSql);
                 pstInsertCustomer.setString(1, user.getEmail());
                 pstInsertCustomer.setString(2, user.getPw());
                 pstInsertCustomer.setString(3, user.getName());
                 pstInsertCustomer.setString(4, user.getPhone());
-                pstInsertCustomer.setString(5, user.getStatus());
+                pstInsertCustomer.setString(5, "images/customer/example.png");
+                pstInsertCustomer.setString(6, user.getStatus());
                 result = pstInsertCustomer.executeUpdate();
                 if (result >= 1) {
                     String retrieveIdSql = "select top 1 id from Customers order by id desc";
@@ -350,4 +351,32 @@ public class UserDAO {
 
         return result;
     }
+    
+    
+    public boolean isBanned(int id){
+        String sql = "Select status \n"
+                        + "from Customers \n"
+                        + "where id ="+id;
+        try (Connection conn = JDBCUtil.getConnection();
+                Statement st = conn.createStatement()) {
+
+            ResultSet rs = st.executeQuery(sql);
+            if (rs != null){
+                if(rs.next()){
+                    String status = rs.getString(1);
+                    return !status.equalsIgnoreCase("ACTIVE");
+                }
+            }
+            
+           
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    
+    
 }

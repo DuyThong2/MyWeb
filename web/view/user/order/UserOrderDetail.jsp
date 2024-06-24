@@ -23,17 +23,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Order Details</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <%@include file="../../../cssAdder.jsp" %>
     </head>
 
     <%
         String updateOrderStatusURL = request.getContextPath() + "/MainController?action=updateUserPage";
         String redirectURL = request.getContextPath() + "/MainController?action=userDetailPage";
-        String loginURL = request.getContextPath() +"/MainController?action=login";
-  
+        String loginURL = request.getContextPath() + "/MainController?action=login";
+
         Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
         User user = (User) session.getAttribute("LoginedUser");
-        
+
         if (user == null) {
             // only for testing
             response.sendRedirect(loginURL);
@@ -41,22 +41,23 @@
         }
 
         String orderIdStr = request.getParameter("orderId");
-        if (orderIdStr == null){
+        if (orderIdStr == null) {
             response.sendRedirect(redirectURL);
             return;
         }
-        
-        OrderDAO orderDAO= new OrderDAO();
+
+        OrderDAO orderDAO = new OrderDAO();
         int orderid = Integer.parseInt(orderIdStr);
         Order order = orderDAO.getOrderByOrderId(orderid);
-        
+
         List<OrderItem> orderItems = order.getOrderDetail();
         request.setAttribute("orderItems", orderItems);
-       
 
-        
+
     %>
     <body>
+        <%@include file="../header.jsp" %>
+
 
         <div class="container-fluid">
             <!-- First Row: Order Information -->
@@ -135,7 +136,7 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../../../jsAdder.jsp" %>
+
     </body>
 </html>

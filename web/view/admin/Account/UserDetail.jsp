@@ -121,7 +121,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Customer ID</th>
+                                    <th>Order Status</th>
                                     <th>Order Date</th>
                                     <th>Checking Date</th>
                                     <th>Abort Date</th>
@@ -145,13 +145,13 @@
                                     }
 
                                     if (!orders.isEmpty()) {
-                                        
+                                        String [] statusString = {"pending","processing","aborted","completed"};
                                         int realPage = pageNum - 1;
                                         List<Order> list = pages.get(realPage);
                                         for (Order order : list) {
                                 %>
                                 <tr>
-                                    <td><%= order.getCustomerID()%></td>
+                                    <td><%= statusString[order.getStatus()-1] %></td>
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>

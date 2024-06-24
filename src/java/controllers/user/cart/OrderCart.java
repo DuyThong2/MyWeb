@@ -39,6 +39,7 @@ public class OrderCart extends HttpServlet {
     private final String SUCCESS_URL = "/MainController?action=success";
     private final String FAIL_URL = "/MainController?action=error";
     private final String LOGIN_URL = "/MainController?action=login";
+    private final String UPDATE_PROFILE_URL = "/MainController?action=userUpdatePage";
     private final String SHOP_URL = "/MainController?action=shopPage";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -54,9 +55,11 @@ public class OrderCart extends HttpServlet {
         User user = (User) session.getAttribute("LoginedUser");
         if (user == null) {
             request.getRequestDispatcher(LOGIN_URL).forward(request, response);
-        } else {
+        }else if(user.getAddress() == null){
+            request.getRequestDispatcher(UPDATE_PROFILE_URL).forward(request, response);
+        }else {
             if (cart != null && !cart.isEmpty()) {
-                
+                System.out.println(user.getAddress() == null);
                 OrderDAO orderDAO = new OrderDAO();
                 try {
                     orderDAO.applyOrder(cart, user);

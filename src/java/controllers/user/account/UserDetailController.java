@@ -35,34 +35,51 @@ public class UserDetailController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     private final String LOGIN_URL = "/MainController?action=login";
     private final String SHOW_URL = "/MainController?action=userDetailPage";
+    private final String UPDATE_ORDER_URL = "/MainController?action=orderUpdate";
+    private final String ERROR_URL = "/MainController?action=error";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("LoginedUser");
-        
-        
 
         if (user != null) {
             OrderDAO orderDAO = new OrderDAO();
             String numPageStr = request.getParameter("numPage");
-            Map<Integer,Order> orderList = orderDAO.getOrdersByCustomerId(user.getId());
-            session.setAttribute("orderList", orderList);
-            int numPage = numPageStr != null ? Integer.parseInt(numPageStr)
-                    : session.getAttribute("numPage") != null
-                    ? (int) session.getAttribute("numPage") : 1;
-            session.setAttribute("numPage", numPage);
-            request.getRequestDispatcher(SHOW_URL).forward(request, response);
+            Map<Integer, Order> orderList = (Map<Integer, Order>) session.getAttribute("orderList");
+            if (orderList == null) {
+                orderList = orderDAO.getOrdersByCustomerId(user.getId());
+                session.setAttribute("orderList", orderList);
+            }
+            //if there were adjust in order detail do this:
+            String adjustedId = request.getParameter("orderId");
+            if (adjustedId != null) {
+                try {
+                    int id = Integer.parseInt(adjustedId);
+                    orderList.get(id).setStatus(3);
+                    request.getRequestDispatcher(UPDATE_ORDER_URL).forward(request, response);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    request.getRequestDispatcher(ERROR_URL).forward(request, response);
+                    return;
+                }
+            } else {
+                //continue on showing page
+                int numPage = numPageStr != null ? Integer.parseInt(numPageStr)
+                        : session.getAttribute("numPage") != null
+                        ? (int) session.getAttribute("numPage") : 1;
+                session.setAttribute("numPage", numPage);
+                request.getRequestDispatcher(SHOW_URL).forward(request, response);
+
+            }
         } else {
             request.getRequestDispatcher(LOGIN_URL).forward(request, response);
         }
 
-        
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

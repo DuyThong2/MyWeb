@@ -31,6 +31,9 @@ public class AddressDAO {
                 if (rs.next()) {
                     Address address = new Address(rs.getString(5), rs.getString(4),
                             rs.getString(3), rs.getString(2), rs.getInt(1));
+                    if (address.getCity() == null){
+                        return null;
+                    }
                     return address;
                 }
             }

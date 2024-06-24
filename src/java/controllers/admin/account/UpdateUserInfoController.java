@@ -48,7 +48,7 @@ public class UpdateUserInfoController extends HttpServlet {
             diskFileItemFactory.setRepository(new File(currentProjectPath.concat("web")));
             ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
             List<FileItem> fileItems = fileUpload.parseRequest(request);
-
+            User oldUser = dao.getUserById(id);
             for (FileItem fileItem : fileItems) {
                 if (fileItem.isFormField()) {
                     // Handle regular form fields
@@ -92,17 +92,23 @@ public class UpdateUserInfoController extends HttpServlet {
                         imgURL = IMAGES_DIRECTORY + fileName;
                     }
                     }catch(Exception e){
-                        imgURL = "images/customer/newUser.png";
+                        if (oldUser.getImgURL() == null){
+                            imgURL = "images/customer/example.png";
+                        }else{
+                            imgURL = oldUser.getImgURL();
+                        }
                     }
                     
                 }
             }
-            Address address = null;
+            Address address = oldUser.getAddress();
             if (city!= null && ward!= null &&district!= null && street!= null){
-                address = new Address(city, district, ward, street, id);
+                if (!city.isEmpty() && !ward.isEmpty() && !district.isEmpty() && !street.isEmpty()){
+                    address = new Address(city, district, ward, street, id);
+                }
             }
 
-            User oldUser = dao.getUserById(id);
+            
             // Save the user data to the database
             User user = new User(id, email, oldUser.getPw(), name,address, phone, imgURL, oldUser.getStatus());
             dao.updateUser(user);

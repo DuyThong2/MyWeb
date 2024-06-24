@@ -17,9 +17,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <%@include file="../../../cssAdder.jsp" %>
         <style>
             .user-info, .user-options {
                 height: auto;
@@ -45,43 +45,44 @@
             .table th, .table td {
                 vertical-align: middle;
             }
+            
+            .container{
+                border-radius: 10px;
+                border: solid grey thin;
+            }
         </style>
         <title>User Detail</title>
     </head>
     <%
-        String redirectURL = request.getContextPath() +"/MainController?action=userDetail";
-        String updateStatusURL = request.getContextPath()+"/MainController?action=updateUser";
-        String orderDetailURL = request.getContextPath()+"/MainController?action=orderDetailPage";
+        String redirectURL = request.getContextPath() + "/MainController?action=userDetail";
+        String updateStatusURL = request.getContextPath() + "/MainController?action=userUpdatePage";
+        String orderDetailURL = request.getContextPath() + "/MainController?action=orderDetailPage";
         String updateOrderStatusURL = request.getContextPath() + "/MainController?action=orderUpdate";
-        String loginURL = request.getContextPath() + "/MainController?action=login" ;
+        String loginURL = request.getContextPath() + "/MainController?action=login";
         User user = (User) session.getAttribute("LoginedUser");
 
         if (user == null) {
-           response.sendRedirect(loginURL);
-           return;
-            
+            response.sendRedirect(loginURL);
+            return;
+
         }
-        
-        
-        UserDAO userDAO = new UserDAO();
-        user = userDAO.getUserWithOrders(user.getId());
+
         session.setAttribute("user", user);
-        
-        Map<Integer,Order> orderList = user.getOrderHistory();
-        
-//        Map<Integer,Order> orderList = (Map<Integer,Order>) session.getAttribute("orderList");
+
+        Map<Integer, Order> orderList = (Map<Integer, Order>) session.getAttribute("orderList");
 
     %>
 
 
 
     <body>
-        <div class="container">
+        <%@include file="../../user/header.jsp" %>
+        <div class="container bg-white">
             <!-- User Info and Options -->
             <div class="row mt-4">
                 <div class="col-md-6">
                     <div class="card user-info">
-                        <div class="card-header">
+                        <div class="card-header bg-warning">
                             <h3>User Information</h3>
                         </div>
                         <div class="card-body">
@@ -100,7 +101,7 @@
                         </div>
                         <div class="card-body">
                             <p><strong>Status:</strong> ${user.getStatus()}</p>
-                            
+
                             <a href="<%=updateStatusURL%>" class="btn btn-success btn-sm mt-2">Edit User</a>
                         </div>
                     </div>
@@ -115,7 +116,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Customer ID</th>
+                                    <th>Order status</th>
                                     <th>Order Date</th>
                                     <th>Checking Date</th>
                                     <th>Abort Date</th>
@@ -131,28 +132,45 @@
                                     pages = Tool.splitToPage(orders, 12);
                                     int pageNum = 1;
                                     Object numString = session.getAttribute("numPage");
-                                        if (numString != null) {
-                                            pageNum = (int) numString;
-                                            if (pageNum < 1 || pageNum > pages.size()) {
-                                                pageNum = 1;
-                                            }
+                                    if (numString != null) {
+                                        pageNum = (int) numString;
+                                        if (pageNum < 1 || pageNum > pages.size()) {
+                                            pageNum = 1;
                                         }
+                                    }
 
-                                    if (orders != null&& !orders.isEmpty()) {
+                                    if (orders != null && !orders.isEmpty()) {
                                         int realPage = pageNum - 1;
                                         List<Order> elementInPage = pages.get(realPage);
+                                        String[] statusString = {"pending", "processing", "aborted", "completed"};
                                         for (Order order : elementInPage) {
                                 %>
                                 <tr>
-                                    <td><%= order.getCustomerID()%></td>
+                                    <td><%= statusString[order.getStatus() - 1]%></td>
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
-                                    <td><%= order.getTotalItem() %> items</td>
-                                    <td><%= String.format("%.2f $",order.getTotalPrice()) %></td>
+                                    <td><%= order.getTotalItem()%> items</td>
+                                    <td><%= String.format("%.2f $", order.getTotalPrice())%></td>
                                     <td>
                                         <a href="<%=orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
-                                        <a href="<%=updateOrderStatusURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-danger btn-sm">Abort</a>
+                                        <c:choose>
+
+                                            <c:when test="<%=order.getStatus() == 3%>">
+                                                <button class="btn btn-secondary btn-sm">Aborted</button>
+                                            </c:when>
+                                            <c:when test="<%=order.getStatus() == 4%>">
+                                                <button class="btn btn-success btn-sm">Delivered</button>
+                                            </c:when>
+                                            <c:when test="<%=order.getStatus() != 3%>">
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&status=3" class="btn btn-danger btn-sm">Abort</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button class="btn btn-detail btn-sm"><%= statusString[order.getStatus() - 1]%></button>
+                                            </c:otherwise>
+
+                                        </c:choose>
+
                                     </td>
                                 </tr>
                                 <%
@@ -187,7 +205,7 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../../../jsAdder.jsp" %>
+
     </body>
 </html>

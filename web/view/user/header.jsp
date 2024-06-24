@@ -6,7 +6,16 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String homeURL = request.getContextPath() + "/MainController?action=mainPagePage";
+    String ShopURL = request.getContextPath() +"/MainController?action=shopPage";
+    String accountDetail = request.getContextPath()+"/MainController?action=userDetail";
+    String viewCartDetail = request.getContextPath() +"/MainController?action=cartDisplayPage";
+    String PlanURL = request.getContextPath() + "/MainController?action=";
+    String myPlan = request.getContextPath() + "/MainController?action=";
+    
 
+%>
 <!-- Nav Bar -->
 <div class="header-container">
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -16,10 +25,10 @@
             <!-- central-links -->
             <div class="central-links col-lg-4 col-md-2 col-sm-1 container-fluid">
                 <ul class="navbar-nav">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="<%=homeURL%>">Home</a></li>
+                    <li><a href="<%=ShopURL %>">Shop</a></li>
+                    <li><a href="<%=PlanURL %>">Plan</a></li>
+                    <li><a href="<%=myPlan %>">My Schedule</a></li>
                     <label class="menu-button" for="">
                         <svg xmlns="http://www.w3.org/2000/svg" height="32px"
                              viewBox="0 -960 960 960" width="32px" fill="#000000">
@@ -38,14 +47,14 @@
                         d="M792-120.67 532.67-380q-30 25.33-69.64 39.67Q423.39-326 378.67-326q-108.44 0-183.56-75.17Q120-476.33 120-583.33t75.17-182.17q75.16-75.17 182.5-75.17 107.33 0 182.16 75.17 74.84 75.17 74.84 182.27 0 43.23-14 82.9-14 39.66-40.67 73l260 258.66-48 48Zm-414-272q79.17 0 134.58-55.83Q568-504.33 568-583.33q0-79-55.42-134.84Q457.17-774 378-774q-79.72 0-135.53 55.83-55.8 55.84-55.8 134.84t55.8 134.83q55.81 55.83 135.53 55.83Z" />
                     </svg>
                 </label>
-                <a href="#">
+                <a href="<%=viewCartDetail%>">
                     <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960"
                          width="32px" fill="#000000">
                     <path
                         d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
                     </svg>
                 </a>
-                <a href="#">
+                <a href="<%=accountDetail%>">
                     <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960"
                          width="40px" fill="#000000">
                     <path
