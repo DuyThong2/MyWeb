@@ -173,7 +173,7 @@
                         <div class="row g-4 fruite">
                             <div class="col-lg-12">
                                 <form action="<%=shopURL %>" method="POST" class="input-group w-100 mx-auto d-flex mb-4">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                    <input type="search" name="searching" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
                                     <button type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button>
                                 </form>
                                 <div class="mb-4">

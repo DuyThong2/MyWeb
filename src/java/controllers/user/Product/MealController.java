@@ -31,9 +31,9 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "MealController", urlPatterns = {"/user/MealController"})
 public class MealController extends HttpServlet {
-    
+
     private final String SHOP_PAGE = "/MainController?action=shopPage";
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,87 +48,85 @@ public class MealController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         MealDAO dao = new MealDAO();
         HttpSession session = request.getSession();
-        
-        
-        
+
         // Get the numPage parameter from the request
         String numPageStr = request.getParameter("numPage");
         int numPage = 1;
-        if (numPageStr != null){
+        if (numPageStr != null) {
             numPage = Integer.parseInt(numPageStr);
         }
 
-        
         //create table if null
-        if (session.getAttribute("mealList") == null ) {
+        if (session.getAttribute("mealList") == null) {
             List<Meal> list = dao.getCustomerMealList();
             session.setAttribute("mealList", list);
             //only for testing:
-            
-            
-            Map<Product, Integer> cart = new HashMap<>();
-            session.setAttribute("cart", cart);
-        } else {
-            
-            List<Meal> list = (List<Meal>)session.getAttribute("mealList");
-            List<Meal> copyList = searchingMeal(request, dao);
-            //search name
-            if(copyList != null){
-                 session.setAttribute("mealList", copyList);
-            }
-            
-            //check if sort
-            copyList = sortListFromRequest(request, list);
-            if(copyList != null){
-                 session.setAttribute("mealList", copyList);
-            }
-            //save last page access
-            session.setAttribute("numPage", numPage);
-            
+
         }
-        
-        
+
+        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
+        List<Meal> copyList = searchingMeal(request, dao);
+        //search name
+        if (copyList != null) {
+            session.setAttribute("mealList", copyList);
+        }
+
+        //check if sort
+        copyList = sortListFromRequest(request, list);
+        if (copyList != null) {
+            session.setAttribute("mealList", copyList);
+        }
+        //save last page access
+        session.setAttribute("numPage", numPage);
 
         request.getRequestDispatcher(SHOP_PAGE).forward(request, response);
     }
-    
-    private List<Meal> sortListFromRequest(HttpServletRequest request,List<Meal> list){
-        
-        if (request != null){
+
+    private List<Meal> sortListFromRequest(HttpServletRequest request, List<Meal> list) {
+
+        if (request != null) {
             String sortOrder = request.getParameter("sort");
             String sortBy = request.getParameter("cate");
-            if (sortOrder != null && sortBy!= null){
+            if (sortOrder != null && sortBy != null) {
                 Comparator<Meal> comparator = null;
-                switch(sortBy){
-                    case "category": comparator = Comparator.comparing(Meal::getCategory);break;
-                    case "price": comparator = Comparator.comparing(Meal::getPriceAfterDiscount);break;
-                    case "isOnSale": comparator = Comparator.comparing(Meal::getDiscountPercent);break;
-                    default: comparator = Comparator.comparing(Meal::getId); break;
+                switch (sortBy) {
+                    case "category":
+                        comparator = Comparator.comparing(Meal::getCategory);
+                        break;
+                    case "price":
+                        comparator = Comparator.comparing(Meal::getPriceAfterDiscount);
+                        break;
+                    case "isOnSale":
+                        comparator = Comparator.comparing(Meal::getDiscountPercent);
+                        break;
+                    default:
+                        comparator = Comparator.comparing(Meal::getId);
+                        break;
                 }
-                if (sortOrder.matches("max")){
+                if (sortOrder.matches("max")) {
                     comparator = comparator.reversed();
                 }
                 List<Meal> copyList = new ArrayList<>(list);
-                Collections.sort(copyList,comparator);
+                Collections.sort(copyList, comparator);
                 return copyList;
             }
         }
         return null;
-        
+
     }
-    
-    private List<Meal> searchingMeal(HttpServletRequest request, MealDAO dao){
-         if (request != null){
+
+    private List<Meal> searchingMeal(HttpServletRequest request, MealDAO dao) {
+        if (request != null) {
             String seachName = request.getParameter("searching");
-            
-            if (seachName != null){
+
+            if (seachName != null) {
                 List<Meal> copyList = dao.getMealsByNameForCustomer(seachName);
                 return copyList;
             }
         }
         return null;
-        
-     }
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

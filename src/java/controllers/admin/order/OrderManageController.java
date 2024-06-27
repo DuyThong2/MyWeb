@@ -31,24 +31,31 @@ public class OrderManageController extends HttpServlet {
 
     private final String MANAGE_URL = "/AMainController?action=orderManagePage";
     private final String UPDATE_ORDER_STATUS = "/AMainController?action=updateOrderStatus";
+    
+    private final Comparator defaultComparator = Comparator.comparing(Order::getOrderDate)
+                        .thenComparing((Order order) -> order.getAddress().getCity())
+                        .thenComparing((Order order) -> order.getAddress().getDistrict())
+                        .thenComparing((Order order) -> order.getAddress().getWard())
+                        .reversed();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            
+
             HttpSession session = request.getSession();
             OrderDAO orderDAO = new OrderDAO();
 
             // Fetch orders based on the status
             Map<Integer, Order> ordersMap = (Map<Integer, Order>) session.getAttribute("map");
             List<Order> orders = (List<Order>) session.getAttribute("orders");
-            
+
             String status = request.getParameter("status");
-            
+
             if (status != null) {
                 ordersMap = orderDAO.getAllOrdersByStatus(Integer.parseInt(status));
                 session.setAttribute("map", ordersMap);
                 orders = new ArrayList<>(ordersMap.values());
+                Collections.sort(orders, defaultComparator);
                 session.setAttribute("orders", orders);
             }
 
@@ -68,17 +75,14 @@ public class OrderManageController extends HttpServlet {
                 numPage = numPageStr != null ? Integer.parseInt(numPageStr)
                         : session.getAttribute("numPage") != null
                         ? (int) session.getAttribute("numPage") : 1;
-                
-                
+
                 //sort or search
                 List<Order> copyList = searchingForOrder(request);
-                orders = (copyList != null ) ? copyList : orders;
+                orders = (copyList != null) ? copyList : orders;
 
                 sortListFromRequest(request, orders);
-                
-                //grouping by date and address
-                
 
+                //grouping by date and address
                 // Set attributes and forward to JSP sort the list if needed
                 session.setAttribute("orders", orders);
                 session.setAttribute("numPage", numPage);
@@ -114,13 +118,7 @@ public class OrderManageController extends HttpServlet {
                 }
                 Collections.sort(list, comparator);
 
-            }else{
-                Comparator comparator = Comparator.comparing(Order::getOrderDate).thenComparing((Order order) -> order.getAddress().getCity()).
-                                thenComparing((Order order) -> order.getAddress().getDistrict())
-                                .thenComparing((Order order) -> order.getAddress().getWard())
-                                .reversed();
-                Collections.sort(list,comparator);
-            }
+            } 
         }
     }
 
@@ -135,14 +133,14 @@ public class OrderManageController extends HttpServlet {
                     return orderDAO.getOrdersByPartialAddress(searchValue);
                 } else if (searchCategory.matches("date")) {
                     LocalDateTime time = Tool.inputTime(searchValue);
-                    
+
                     if (time != null) {
-                        List <Order> orderDate = orderDAO.getOrdersByOrderDate(time);
+                        List<Order> orderDate = orderDAO.getOrdersByOrderDate(time);
                         System.out.println(orderDate.size());
                         return orderDate.stream()
                                 .filter(order -> order.getOrderDate().toLocalDate().equals(time.toLocalDate()))
                                 .collect(Collectors.toList());
-                        
+
                     }
                 } else {
                     UserDAO userDao = new UserDAO();
@@ -152,7 +150,7 @@ public class OrderManageController extends HttpServlet {
                             .map(user -> user.getId())
                             .forEach(id -> {
                                 Map<Integer, Order> map = orderDAO.getOrdersByCustomerId(id);
-                                if (!map.isEmpty()){
+                                if (!map.isEmpty()) {
                                     orderList.addAll(map.values());
                                 }
                             });

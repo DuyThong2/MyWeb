@@ -151,6 +151,19 @@
                     <h1> Options: </h1>
                     <form action="<%= manageUrl %>" method="POST">
                         <div class="form-group">
+                            <label for="userGroup">Look for:</label>
+                            <select name="userGroup" id="searchCriteria" class="form-control">
+                                <option value="all">all user</option>
+                                <option value="warning">warning</option>
+                                <option value="banned">banned</option>
+                            </select>
+                        </div>
+                        
+                        <input type="submit" value="sort" class="btn btn-primary mt-2">
+                    </form>
+                    <hr>
+                    <form action="<%= manageUrl %>" method="POST">
+                        <div class="form-group">
                             <label for="searchCriteria">Search By:</label>
                             <select name="searchCriteria" id="searchCriteria" class="form-control">
                                 <option value="address">Destination</option>
@@ -165,7 +178,7 @@
                         </div>
                         <input type="submit" value="Search" class="btn btn-primary mt-2">
                     </form>
-                        <hr>
+                    <hr>   
                         
                 </div>
             </div>

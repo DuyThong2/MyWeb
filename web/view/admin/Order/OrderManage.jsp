@@ -13,29 +13,71 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
               integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <style>
+            body {
+                background-color: #f8f9fa;
+            }
+            .container {
+                margin-top: 30px;
+            }
             .table-responsive {
-                max-height: 400px;
+                max-height: 1000px;
                 overflow: auto;
             }
+            
+            
+            .fixed-search-bar {
+                position: sticky;
+                bottom: 0;
+                background-color: white;
+                padding: 10px 0;
+            }
+            .btn-block {
+                width: 100%;
+            }
+            .header-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .header-row .form-inline {
+                margin-left: auto;
+            }
         </style>
+
         <%
 
             String orderDetailURL = request.getContextPath() + "/AMainController?action=orderDetail";
             String redirectURL = request.getContextPath() + "/AMainController?action=orderManage";
 
             // Mock data for demonstration. Replace with actual data from the database
-            List<Order> orders = session.getAttribute("orders") != null ?
-                    (List<Order>)session.getAttribute("orders") : new ArrayList();
+            List<Order> orders = session.getAttribute("orders") != null
+                    ? (List<Order>) session.getAttribute("orders") : new ArrayList();
         %>
     </head>
     <body>
-        
+
 
         <div class="container">
             <div class="row">
                 <!-- First Row -->
                 <div class="col-lg-10">
-                    <h2>Orders</h2>
+                    <div class="header-row">
+                        <h2>Orders</h2>
+                        <form method="POST" action="<%= redirectURL%>" class="form-inline">
+                            <div class="form-group mb-0">
+                                <label for="status" class="mr-2">Order Status:</label>
+                                <select id="status" name="status" class="form-control mr-2">
+                                    <option value="4">Completed</option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">Processing</option>
+                                    <option value="3">Aborted</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -53,23 +95,23 @@
                             <tbody>
                                 <%
                                     List<List<Order>> pages = new ArrayList();
-                                    pages = Tool.splitToPage(orders, 12);
+                                    pages = Tool.splitToPage(orders, 2);
                                     int pageNum = 1;
                                     Object numString = session.getAttribute("numPage");
-                                        if (numString != null) {
-                                            pageNum = (int) numString;
-                                            if (pageNum < 1 || pageNum > pages.size()) {
-                                                pageNum = 1;
-                                            }
+                                    if (numString != null) {
+                                        pageNum = (int) numString;
+                                        if (pageNum < 1 || pageNum > pages.size()) {
+                                            pageNum = 1;
                                         }
+                                    }
 
-                                    if (orders != null&& !orders.isEmpty()) {
+                                    if (orders != null && !orders.isEmpty()) {
                                         int realPage = pageNum - 1;
                                         List<Order> list = pages.get(realPage);
                                         for (Order order : list) {
                                 %>
                                 <tr>
-                                    <td><%= order.getAddress() %></td>
+                                    <td><%= order.getAddress()%></td>
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
@@ -87,22 +129,22 @@
                                                     switch (status) {
                                                         case 2:
                                                 %>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=1" class="btn btn-warning btn-sm ">Pending</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=4" class="btn btn-success btn-sm ">Completed</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=3" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=1" class="btn btn-warning btn-sm mb-2">Pending</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=4" class="btn btn-success btn-sm mb-2 ">Completed</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=3" class="btn btn-danger btn-sm mb-2 " onclick="return confirm('Are you sure?')">Abort</a>
                                                 <%
                                                         break;
                                                     case 3:
                                                 %>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=1" class="btn btn-warning btn-sm ">Pending</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=2" class="btn btn-info btn-sm ">Processing</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=1" class="btn btn-warning btn-sm mb-2">Pending</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=2" class="btn btn-info btn-sm mb-2 ">Processing</a>
                                                 <%
                                                         break;
                                                     case 1:
                                                 %>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=2" class="btn btn-info btn-sm ">Processing</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=4" class="btn btn-success btn-sm ">Completed</a>
-                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=3" class="btn btn-danger btn-sm " onclick="return confirm('Are you sure?')">Abort</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=2" class="btn btn-info btn-sm mb-2">Processing</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=4" class="btn btn-success btn-sm mb-2">Completed</a>
+                                                <a href="<%=redirectURL%>&orderId=<%= order.getOrderID()%>&OrderStatus=3" class="btn btn-danger btn-sm mb-2" onclick="return confirm('Are you sure?')">Abort</a>
                                                 <%
                                                             break;
                                                     }
@@ -143,6 +185,8 @@
                     </div>
                 </div>
                 <div class="col-lg-2">
+
+
                     <h2>Filter</h2>
                     <form action="<%=redirectURL%>" method="POST">
                         <div class="form-group">
@@ -161,20 +205,7 @@
                         </div>
                         <input type="submit" value="Search" class="btn btn-primary mt-2">
                     </form>
-                    <form method="POST" action="<%= redirectURL%>">
-                        <div class="form-group">
-                            <label for="status">Order Status:</label>
-                            <select id="status" name="status" class="form-control">
-                                <option value="4">Completed</option>
-                                <option value="1">Pending</option>
-                                <option value="2">Processing</option>
-                                <option value="3">Aborted</option>
-                            </select>
-                        </div>
 
-
-                        <button type="submit" class="btn btn-primary">search</button>
-                    </form>
 
                     <form action="<%=redirectURL%>" method="POST">
                         <fieldset class="form-group">
@@ -187,7 +218,7 @@
                                 <input class="form-check-input" type="radio" id="category2" name="category" value="category2">
                                 <label class="form-check-label" for="category2">number of items</label>
                             </div>
-                            
+
                             <hr>
                             <div class="form-check">
                                 <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">

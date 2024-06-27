@@ -73,8 +73,14 @@ public class UserManageController extends HttpServlet {
             String refinedURl = DELETE_USER_URL + "&deleteUserId=" + deleteId+"&status="+status;
             request.getRequestDispatcher(refinedURl).forward(request, response);
         } else {
-            List<User> copyList = searchingUsers(request, dao);
+            //search group of user
+            List<User> copyList = findUserGroup(request, dao);
+            if (copyList != null) {
+                session.setAttribute("userList", copyList);
+            }
+            
             //search name
+            copyList = searchingUsers(request, dao);
             if (copyList != null) {
                 session.setAttribute("userList", copyList);
             }
@@ -112,6 +118,22 @@ public class UserManageController extends HttpServlet {
         if (optinal.isPresent()) {
             optinal.get().setStatus(status);
         }
+    }
+    
+    private List<User> findUserGroup(HttpServletRequest request, UserDAO dao){
+        if (request != null) {
+            String searchCategory = request.getParameter("userGroup");
+            if (searchCategory != null) {
+                if (searchCategory.matches("all")){
+                    return dao.getAllUser();
+                }else if(searchCategory.matches("banned")){
+                    return dao.getBannedUser();
+                }else{
+                    return dao.getWarningUser();
+                }
+            }
+        }
+        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

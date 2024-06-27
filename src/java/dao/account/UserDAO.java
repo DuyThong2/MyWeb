@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +32,8 @@ public class UserDAO {
 
     public List<User> getAllUser() {
 
-        String userQuery = "SELECT [id], [email], [pw], [name], [phone], [imgURL], [status] FROM [PRJ301].[dbo].[Customers]";
+        String userQuery = "SELECT [id], [email], [pw], [name], [phone], [imgURL], [status] FROM [PRJ301].[dbo].[Customers]"
+                + "order by status asc";
         String addressQuery = "select street, ward,district,city from address where id = ?";
         List<User> users = new ArrayList<>();
 
@@ -351,32 +354,104 @@ public class UserDAO {
 
         return result;
     }
-    
-    
-    public boolean isBanned(int id){
+
+    public boolean isBanned(int id) {
         String sql = "Select status \n"
-                        + "from Customers \n"
-                        + "where id ="+id;
+                + "from Customers \n"
+                + "where id =" + id;
         try (Connection conn = JDBCUtil.getConnection();
                 Statement st = conn.createStatement()) {
 
             ResultSet rs = st.executeQuery(sql);
-            if (rs != null){
-                if(rs.next()){
+            if (rs != null) {
+                if (rs.next()) {
                     String status = rs.getString(1);
                     return !status.equalsIgnoreCase("ACTIVE");
                 }
             }
-            
-           
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    
-    
-    
-    
+
+    public List<User> getBannedUser() {
+        String sql = "Select id,email,pw,name,phone,imgURL,status \n"
+                + "from Customers \n"
+                + "where status = 'disable'";
+        List<User> result = new ArrayList<>();
+        try (Connection conn = JDBCUtil.getConnection();
+                Statement st = conn.createStatement()) {
+
+            ResultSet rs = st.executeQuery(sql);
+            if (rs != null) {
+                AddressDAO addressDAO = new AddressDAO();
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    User user = new User(
+                            id,
+                            rs.getString("email"),
+                            rs.getString("pw"),
+                            rs.getString("name"),
+                            addressDAO.getAddressByCustomerId(id, conn),
+                            rs.getString("phone"),
+                            rs.getString("imgURL"),
+                            rs.getString("status"));
+                    result.add(user);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public List<User> getWarningUser() {
+        String sql = "SELECT customerID\n"
+                + "FROM [Order]\n"
+                + "WHERE abortDate BETWEEN DATEADD(DAY, -1, ?) AND ?\n"
+                + "GROUP BY customerID\n"
+                + "HAVING COUNT(abortDate) > 5";
+        String usrSql = "Select id,email,pw,name,phone,imgURL,status \n"
+                + "from Customers \n"
+                + "where id = ?";
+
+        List<User> result = new ArrayList<>();
+
+        try (Connection con = JDBCUtil.getConnection();
+                PreparedStatement pst = con.prepareStatement(sql);
+                PreparedStatement pst2 = con.prepareStatement(usrSql)) {
+            pst.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            ResultSet rs = pst.executeQuery();
+            AddressDAO addressDAO = new AddressDAO();
+            if (rs != null) {
+                while (rs.next()) {
+                    int id = rs.getInt(1);
+                    pst2.setInt(1, id);
+                    ResultSet rs2 = pst2.executeQuery();
+                    if (rs2 != null) {
+                        if (rs2.next()) {
+                            User user = new User(
+                                    rs2.getInt("id"),
+                                    rs2.getString("email"),
+                                    rs2.getString("pw"),
+                                    rs2.getString("name"),
+                                    addressDAO.getAddressByCustomerId(id, con),
+                                    rs2.getString("phone"),
+                                    rs2.getString("imgURL"),
+                                    rs2.getString("status"));
+                            result.add(user);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }
