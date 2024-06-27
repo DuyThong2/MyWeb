@@ -453,5 +453,24 @@ public class UserDAO {
         }
         return result;
     }
+    
+    public int getTotalUsers() {
+        int totalUsers = 0;
+        String query = "SELECT COUNT(*) AS total FROM Customers";
+
+        try (Connection connection = JDBCUtil.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            if (resultSet.next()) {
+                totalUsers = resultSet.getInt("total");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalUsers;
+    }
 
 }

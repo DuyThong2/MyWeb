@@ -17,9 +17,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <%@include file="../adminCssAdder.jsp"%>
         <style>
             .user-info, .user-options {
                 height: auto;
@@ -64,7 +64,7 @@
 
     %>
 
-
+    <%@include file="../AdminHeader.jsp" %>
 
     <body>
         <div class="container">
@@ -134,7 +134,7 @@
                                 <%
                                     List<Order> orders = new ArrayList<>(user.getOrderHistory().values());
                                     List<List<Order>> pages = new ArrayList();
-                                    pages = Tool.splitToPage(orders, 12);
+                                    pages = Tool.splitToPage(orders, 20);
                                     int pageNum = 1;
                                     Object numString = session.getAttribute("numPage");
                                     if (numString != null) {
@@ -145,18 +145,18 @@
                                     }
 
                                     if (!orders.isEmpty()) {
-                                        String [] statusString = {"pending","processing","aborted","completed"};
+                                        String[] statusString = {"pending", "processing", "aborted", "completed"};
                                         int realPage = pageNum - 1;
                                         List<Order> list = pages.get(realPage);
                                         for (Order order : list) {
                                 %>
                                 <tr>
-                                    <td><%= statusString[order.getStatus()-1] %></td>
+                                    <td><%= statusString[order.getStatus() - 1]%></td>
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
-                                    <td><%= order.getTotalItem() %> items</td>
-                                    <td><%=String.format("%.2f $",order.getTotalPrice())%></td>
+                                    <td><%= order.getTotalItem()%> items</td>
+                                    <td><%=String.format("%.2f $", order.getTotalPrice())%></td>
                                     <td>
                                         <a href="<%= orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
                                     </td>
@@ -193,7 +193,6 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../adminJs.jsp" %>
     </body>
 </html>

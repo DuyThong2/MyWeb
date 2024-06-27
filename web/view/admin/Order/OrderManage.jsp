@@ -10,8 +10,7 @@
 <html>
     <head>
         <title>Order Management</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <%@include file="../adminCssAdder.jsp"%>
         <style>
             body {
                 background-color: #f8f9fa;
@@ -23,8 +22,8 @@
                 max-height: 1000px;
                 overflow: auto;
             }
-            
-            
+
+
             .fixed-search-bar {
                 position: sticky;
                 bottom: 0;
@@ -56,6 +55,9 @@
         %>
     </head>
     <body>
+        <header>
+            <%@include file="../AdminHeader.jsp" %>
+        </header>
 
 
         <div class="container">
@@ -95,7 +97,7 @@
                             <tbody>
                                 <%
                                     List<List<Order>> pages = new ArrayList();
-                                    pages = Tool.splitToPage(orders, 2);
+                                    pages = Tool.splitToPage(orders, 20);
                                     int pageNum = 1;
                                     Object numString = session.getAttribute("numPage");
                                     if (numString != null) {
@@ -233,8 +235,6 @@
             </div>
 
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.min.js"></script>
+        <%@include file="../adminJs.jsp" %>
     </body>
 </html>

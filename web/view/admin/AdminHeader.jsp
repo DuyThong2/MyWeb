@@ -5,13 +5,55 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<%
+    String homeURL = request.getContextPath()+"/AMainController?action=adminmainpage";
+    String OrderManageURL=request.getContextPath()+"/AMainController?action=orderManagePage";
+    String UserManageURL=request.getContextPath()+"/AMainController?action=userManage";
+    String IngredientURL=request.getContextPath()+"/AMainController?action=ingredientManage";
+    String MealManageURL=request.getContextPath()+"/AMainController?action=MealManage";
+    String planURL= request.getContextPath()+"";
+    String saleURL=request.getContextPath()+"";
+
+%>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="<%=homeURL %>">Admin</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=OrderManageURL%>">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=UserManageURL%>">Users</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="mealDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Meal
+                </a>
+                <div class="dropdown-menu" aria-labelledby="mealDropdown">
+                    <a class="dropdown-item" href="<%=IngredientURL %>">Ingredients</a>
+                    <a class="dropdown-item" href="<%=MealManageURL %>">Meal</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Plan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Sale</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Notifications
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="notificationDropdown">
+                    <a class="dropdown-item" href="#">No new notifications</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

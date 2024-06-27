@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Update Ingredient</title>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <%@include file="../../adminCssAdder.jsp" %>
     </head>
     <body>
         <%
@@ -27,6 +27,7 @@
             Meal oldMeal = dao.getMealFromId(id);
 
         %>
+        <%@include file="../../AdminHeader.jsp" %>
         <div class="container mt-5">
             <div class="row">
                 <!-- Left side: Display old information -->
@@ -114,8 +115,6 @@
         </script>
 
         <!-- Bootstrap JS and dependencies -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../../adminJs.jsp" %>
     </body>
 </html>

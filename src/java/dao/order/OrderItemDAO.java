@@ -14,6 +14,7 @@ import dto.product.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +99,25 @@ public class OrderItemDAO {
         }
 
         return totalPrice;
+    }
+    
+    public int getTotalOrderItems() {
+        int totalOrderItems = 0;
+        String query = "SELECT SUM(quantity) AS total FROM OrderItem";
+
+        try (Connection connection = JDBCUtil.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            if (resultSet.next()) {
+                totalOrderItems = resultSet.getInt("total");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalOrderItems;
     }
 
 }

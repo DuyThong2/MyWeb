@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,13 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Add New Meal</title>
         <!-- Bootstrap CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <%@include file="../../adminCssAdder.jsp" %>
     </head>
 
     <%
         String finishURL = request.getContextPath() + "/AMainController?action=MealInsert";
     %>
     <body>
+        <%@include file="../../AdminHeader.jsp" %>
+
         <div class="container">
             <!-- Meal Insert Form -->
             <div class="mt-5">
@@ -63,6 +65,8 @@
                 </form>
             </div>
         </div>
+
+        <%@include file="../../adminJs.jsp" %>
         <script>
             document.getElementById('finishMealButton').addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent the default anchor behavior
@@ -79,5 +83,7 @@
             });
         </script>
     </body>
+
+
 
 </html>

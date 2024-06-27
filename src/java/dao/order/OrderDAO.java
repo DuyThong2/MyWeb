@@ -60,9 +60,9 @@ public class OrderDAO {
                 OrderItemDAO orderItemDAO = new OrderItemDAO();
                 while (rs.next()) {
                     int orderId = rs.getInt("orderID");
-                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId,conn);
+                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId, conn);
 
-                    Address address = addressDao.getAddressByCustomerId(customerId,conn);
+                    Address address = addressDao.getAddressByCustomerId(customerId, conn);
                     Order order = new Order(
                             orderId,
                             rs.getTimestamp(2).toLocalDateTime(),
@@ -167,7 +167,7 @@ public class OrderDAO {
                     LocalDateTime abortDate = orderRs.getTimestamp("abortDate") != null ? orderRs.getTimestamp("abortDate").toLocalDateTime() : null;
                     int orderStatus = orderRs.getInt("status");
 
-                    Address address = addressDao.getAddressByCustomerId(customerId,cn);
+                    Address address = addressDao.getAddressByCustomerId(customerId, cn);
 
                     // Fetch order items for this order
                     orderItemPst.setInt(1, orderId);
@@ -224,8 +224,8 @@ public class OrderDAO {
                     int customerID = rs.getInt(6);
                     AddressDAO dao = new AddressDAO();
                     OrderItemDAO orderItemDAO = new OrderItemDAO();
-                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(id,conn);
-                    Address address = dao.getAddressByCustomerId(customerID,conn);
+                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(id, conn);
+                    Address address = dao.getAddressByCustomerId(customerID, conn);
 
                     Order order = new Order(id, orderDate, checkingDate, abortDate, status, customerID, address);
                     order.setOrderDetail(listOfOrderItem);
@@ -239,10 +239,11 @@ public class OrderDAO {
         return null;
     }
 
-    public void applyOrder(Map<Product, Integer> cart, User user) throws Exception {
+    public int applyOrder(Map<Product, Integer> cart, User user) throws Exception {
         String orderItemInsert = "INSERT INTO orderItem(quantity,price,productID,orderID) values (?,?,?,?)";
         String orderInsert = "INSERT INTO [Order](orderDate,status,customerId) values(?,?,?)";
         Connection conn = JDBCUtil.getConnection();
+        int orderId = 0;
         try (
                 PreparedStatement orderStatement = conn.prepareStatement(orderInsert, Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement orderItemStatement = conn.prepareStatement(orderItemInsert)) {
@@ -256,7 +257,6 @@ public class OrderDAO {
             orderStatement.executeUpdate();
             ResultSet orderIdRs = orderStatement.getGeneratedKeys();
 
-            int orderId = 0;
             if (orderIdRs != null && orderIdRs.next()) {
                 orderId = orderIdRs.getInt(1);
                 System.out.println(orderId);
@@ -282,6 +282,7 @@ public class OrderDAO {
                 throw new Exception("error with item insert");
             }
             conn.commit();
+
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
@@ -290,7 +291,7 @@ public class OrderDAO {
             conn.setAutoCommit(true);
             JDBCUtil.closeConnection(conn);
         }
-
+        return orderId;
     }
 
     public void abortOrderByUser(int orderId) throws Exception {
@@ -349,8 +350,8 @@ public class OrderDAO {
 
                 AddressDAO dao = new AddressDAO();
                 OrderItemDAO orderItemDAO = new OrderItemDAO();
-                List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId,conn);
-                Address address = dao.getAddressByCustomerId(customerID,conn);
+                List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId, conn);
+                Address address = dao.getAddressByCustomerId(customerID, conn);
 
                 Order order = new Order(orderId, orderDateResult, checkingDate, abortDate, status, customerID, address);
                 order.setOrderDetail(listOfOrderItem);
@@ -395,7 +396,7 @@ public class OrderDAO {
                 Address addressObj = new Address(city, district, ward, street, customerID);
 
                 OrderItemDAO orderItemDAO = new OrderItemDAO();
-                List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId,conn);
+                List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId, conn);
 
                 Order order = new Order(orderId, orderDate, checkingDate, abortDate, status, customerID, addressObj);
                 order.setOrderDetail(listOfOrderItem);
@@ -406,6 +407,54 @@ public class OrderDAO {
         }
 
         return orders;
+    }
+
+    public Map<Integer, Order> getNewestOrdersForMainPage(int quanity) {
+        Map<Integer, Order> result = new LinkedHashMap<>();
+        String orderSql = "SELECT TOP "+ quanity+ " orderId, orderDate, status, customerID "
+                + "FROM [Order] "
+                + "WHERE status = 1"
+                + "ORDER BY orderDate DESC";
+        try (Connection conn = JDBCUtil.getConnection();
+             Statement pst = conn.createStatement()) {
+            
+            ResultSet rs = pst.executeQuery(orderSql);
+            if (rs != null) {
+                AddressDAO addressDAO = new AddressDAO();
+                while (rs.next()) {
+                    int orderId = rs.getInt(1);
+                    LocalDateTime orderDate = rs.getTimestamp(2).toLocalDateTime();
+                    int status = rs.getInt("status");
+                    int customerId = rs.getInt(4);
+                    Address address = addressDAO.getAddressByCustomerId(customerId, conn);
+                    Order order = new Order(orderId, orderDate, null, null, status, customerId, address);
+                    result.put(orderId, order);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public int getTotalOrders() {
+        int totalOrders = 0;
+        String query = "SELECT COUNT(*) AS total FROM [Order]";
+
+        try (Connection connection = JDBCUtil.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)) {
+
+            if (resultSet.next()) {
+                totalOrders = resultSet.getInt("total");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalOrders;
     }
 
 }

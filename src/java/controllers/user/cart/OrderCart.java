@@ -5,13 +5,21 @@
  */
 package controllers.user.cart;
 
+import Utility.JDBCUtil;
+import Utility.Tool;
 import dao.account.UserDAO;
 import dao.order.OrderDAO;
 import dto.account.User;
 import dto.product.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Enumeration;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,9 +70,11 @@ public class OrderCart extends HttpServlet {
                 System.out.println(user.getAddress() == null);
                 OrderDAO orderDAO = new OrderDAO();
                 try {
-                    orderDAO.applyOrder(cart, user);
+                    int orderId = orderDAO.applyOrder(cart, user);
                     cart.clear();
                     request.setAttribute("successMessage", "thank for order");
+                    noticeAdminPage(user,orderId);
+                    session.removeAttribute("orderList");
                     request.getRequestDispatcher(SUCCESS_URL).forward(request, response);
                 } catch (Exception e) {
                     request.setAttribute("errorMessage", "error with order");
@@ -77,6 +87,27 @@ public class OrderCart extends HttpServlet {
         }
 
     }
+    
+    private void noticeAdminPage(User user,int orderId){
+        String insertNotificationSQL = "INSERT INTO Notifications (message, status, customerID,orderId,created_at) VALUES (?, ?, ?,?,?)";
+        try (Connection conn = JDBCUtil.getConnection() ;
+             PreparedStatement pstmt = conn.prepareStatement(insertNotificationSQL);) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+            LocalDateTime now = LocalDateTime.now();
+            pstmt.setString(1, "New order placed by user " + user.getName()+" at :"+ dtf.format(now));
+            pstmt.setString(2, "unread");
+            pstmt.setInt(3, user.getId());
+            pstmt.setInt(4, orderId);
+            pstmt.setTimestamp(5, Timestamp.valueOf(now));
+            pstmt.executeUpdate();
+            
+            // Commit transaction if needed
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -23,7 +23,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="style.css" rel="stylesheet">
         <title>Product Management</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <%@include file="../../adminCssAdder.jsp" %>
     </head>
     <body>
         <header>
@@ -38,7 +38,6 @@
                 response.sendRedirect(redirectUrl);
                 return;
             }
-            
 
             List<List<Meal>> pages = Tool.splitToPage(mList, 10);
 
@@ -52,12 +51,14 @@
             }
             int realPage = pageNum - 1;
             List<Meal> list = new ArrayList();
-            if (!pages.isEmpty()){
+            if (!pages.isEmpty()) {
                 list = pages.get(realPage);
             }
-            
+
             request.setAttribute("table", list);
         %>
+        <%@include file="../../AdminHeader.jsp" %>
+
         <div class="container">
             <div class="row">
                 <!-- Table section taking 80% of the row -->
@@ -87,23 +88,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for (Meal item : list) { %>
+                                <% for (Meal item : list) {%>
                                 <tr>    
                                     <td>
-                                        <img src="${pageContext.request.contextPath}/<%=item.getImageURL()%>" alt="<%= item.getName() %>" width="100" height="100">
+                                        <img src="${pageContext.request.contextPath}/<%=item.getImageURL()%>" alt="<%= item.getName()%>" width="100" height="100">
                                     </td>
-                                    <td><%= item.getId() %></td>
-                                    <td><%= item.getName() %></td>
-                                    <td><%= String.format("%.2f", item.getPrice()) %></td>
-                                    <td><%= item.getCategory() %></td>
-                                    <td><%= item.getDescription() %></td>
-                                    
+                                    <td><%= item.getId()%></td>
+                                    <td><%= item.getName()%></td>
+                                    <td><%= String.format("%.2f", item.getPrice())%></td>
+                                    <td><%= item.getCategory()%></td>
+                                    <td><%= item.getDescription()%></td>
+
                                     <td>
-                                        <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%" %>
+                                        <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%"%>
                                     </td>
                                     <td>
-                                        <a href="<%= request.getContextPath() %>/AMainController?action=addSale&id=<%= item.getId() %>" class="btn btn-sm btn-warning w-100 mb-2">Add Sale</a>
-                                        <a href="<%= request.getContextPath() %>/AMainController?action=MealDetail&mealId=<%= item.getId() %>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
+                                        <a href="<%= request.getContextPath()%>/AMainController?action=addSale&id=<%= item.getId()%>" class="btn btn-sm btn-warning w-100 mb-2">Add Sale</a>
+                                        <a href="<%= request.getContextPath()%>/AMainController?action=MealDetail&mealId=<%= item.getId()%>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
 
                                         <%
                                             String disableUrl = redirectUrl + "&status=";
@@ -115,10 +116,10 @@
 
                                             disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&deleteProductId=" + mealId + "' class='btn btn-sm " + disableBtnClass + " w-100 mb-2'>" + disableBtnText + "</a>";
                                         %>
-                                        <%= disableLink %>
+                                        <%= disableLink%>
                                     </td>
                                 </tr>
-                                <% } %>
+                                <% }%>
                             </tbody>
                         </table>
                     </div>
@@ -126,33 +127,33 @@
                     <!-- Search bar and insert buttons in the same row -->
                     <div class="row mt-4 fixed-search-bar">
                         <div class="col-md-2 d-flex align-items-center">
-                            <form action="<%= redirectUrl %>" method="POST" class="form-inline">
-                                <input type="hidden" name="numPage" value="<%= pageNum - 1 %>">
+                            <form action="<%= redirectUrl%>" method="POST" class="form-inline">
+                                <input type="hidden" name="numPage" value="<%= pageNum - 1%>">
                                 <button type="submit" class="btn btn-secondary mr-2">&lt;</button>
                             </form>
 
-                            <form action="<%= redirectUrl %>" method="POST" class="form-inline">
-                                <input name="numPage" type="number" value="<%= pageNum %>" class="form-control page-number"  min="1" max="<%= pages.size() %>">
-                                
+                            <form action="<%= redirectUrl%>" method="POST" class="form-inline">
+                                <input name="numPage" type="number" value="<%= pageNum%>" class="form-control page-number"  min="1" max="<%= pages.size()%>">
+
                             </form>
 
                             <span class="ml-2 mr-2">/</span>
-                            <span class="total-pages"><%= pages.size() %></span>
+                            <span class="total-pages"><%= pages.size()%></span>
 
-                            <form action="<%= redirectUrl %>" method="POST" class="form-inline">
-                                <input type="hidden" name="numPage" value="<%= pageNum + 1 %>">
+                            <form action="<%= redirectUrl%>" method="POST" class="form-inline">
+                                <input type="hidden" name="numPage" value="<%= pageNum + 1%>">
                                 <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                             </form>
                         </div>
 
                         <div class="col-md-6">
-                            <form action="<%= redirectUrl %>" method="POST" class="form-inline w-100">
+                            <form action="<%= redirectUrl%>" method="POST" class="form-inline w-100">
                                 <input name="searching" type="text" class="form-control flex-grow-1" placeholder="Search for name">
                                 <input type="submit" value="Search" class="btn btn-primary ml-2">
                             </form>
                         </div>
                         <div class="col-md-4 d-flex justify-content-end">
-                            <button class="btn btn-secondary w-100" onclick="location.href = '<%= request.getContextPath()+"/AMainController?action=MealInsertPage"%>'">Insert Meal</button>
+                            <button class="btn btn-secondary w-100" onclick="location.href = '<%= request.getContextPath() + "/AMainController?action=MealInsertPage"%>'">Insert Meal</button>
                         </div>
                     </div>
                 </div>
@@ -160,7 +161,7 @@
                 <!-- Category section taking 20% of the row -->
                 <div id="category" class="col-md-2 fixed-category">
                     <h1>Option</h1>
-                    <form action="<%= redirectUrl %>" method="POST">
+                    <form action="<%= redirectUrl%>" method="POST">
                         <div class="form-check">
                             <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">
                             <label for="category-checkbox" class="form-check-label">Show max (have discount)</label>
@@ -194,8 +195,6 @@
             <!-- Your footer content here -->
         </footer>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../../adminJs.jsp" %>
     </body>
 </html>
