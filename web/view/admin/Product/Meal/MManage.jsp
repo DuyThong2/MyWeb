@@ -33,13 +33,10 @@
             String disableMealURL = request.getContextPath() + "/AMainController?action=ProductDelete";
             String redirectUrl = request.getContextPath() + "/AMainController?action=MealManage";
             List<Meal> mList = (List<Meal>) session.getAttribute("mealList");
-
             if (mList == null) {
                 response.sendRedirect(redirectUrl);
                 return;
             }
-            
-
             List<List<Meal>> pages = Tool.splitToPage(mList, 10);
 
             Object numString = session.getAttribute("numPage");
@@ -102,7 +99,6 @@
                                         <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%" %>
                                     </td>
                                     <td>
-                                        <a href="<%= request.getContextPath() %>/AMainController?action=addSale&id=<%= item.getId() %>" class="btn btn-sm btn-warning w-100 mb-2">Add Sale</a>
                                         <a href="<%= request.getContextPath() %>/AMainController?action=MealDetail&mealId=<%= item.getId() %>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
 
                                         <%
@@ -177,11 +173,7 @@
                             <br>
 
                             <input name="cate" type="radio" id="category-checkbox" value="category" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Category</label>
-                            <br>
-
-                            <input name="cate" type="radio" id="category-checkbox" value="isOnSale" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Is on discount</label>
+                            <label for="category-checkbox" class="form-check-label">Tyoe</label>
                             <br>
                         </div>
                         <input type="submit" value="Sort" class="btn btn-primary mt-2">

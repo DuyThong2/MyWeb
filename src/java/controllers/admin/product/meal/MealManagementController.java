@@ -59,7 +59,6 @@ public class MealManagementController extends HttpServlet {
         if (session.getAttribute("mealList") == null) {
             List<Meal> list = dao.getAllMeals();
             session.setAttribute("mealList", list);
-
         }
         String deleteProductId = request.getParameter("deleteProductId");
         

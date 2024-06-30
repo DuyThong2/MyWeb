@@ -76,6 +76,11 @@ public class DayPlan implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "DayPlan{" + "id=" + id + ", mealId=" + mealId + ", mealPlanId=" + mealPlanId + ", customerPlanId=" + customerPlanId + ", dayInWeek=" + dayInWeek + ", status=" + status + '}';
+    }
     
     
 }

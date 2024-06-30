@@ -16,12 +16,25 @@ import java.util.List;
 public class MealPlan implements Serializable {
 
     private String id;
+    private String name;
     private String type;
     private String content;
     private String imgUrl;
     private int status;
     private List<DayPlan> dayPlanContains;
 
+    public MealPlan(String id, String name, String type, String content, String imgUrl, int status, List<DayPlan> dayPlanContains) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.content = content;
+        this.imgUrl = imgUrl;
+        this.status = status;
+        this.dayPlanContains = dayPlanContains;
+    }
+
+    
+    
     public MealPlan(String id, String type, String content, String imgUrl, int status) {
         this.id = id;
         this.type = type;
@@ -31,7 +44,16 @@ public class MealPlan implements Serializable {
         this.dayPlanContains = new ArrayList<DayPlan>();
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
+    
     public List<DayPlan> getDayPlanContains() {
         return dayPlanContains;
     }
@@ -78,6 +100,11 @@ public class MealPlan implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "MealPlan{" + "id=" + id + ", name=" + name + ", type=" + type + ", content=" + content + ", imgUrl=" + imgUrl + ", status=" + status + ", dayPlanContains=" + dayPlanContains.toString() + '}';
     }
 
 }

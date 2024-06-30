@@ -50,7 +50,10 @@ public class AMainController extends HttpServlet {
 
     private final String PRODUCT_DELETE = "";
     private final String PRODUCT_DELETE_CONTROLLER = "/DeleteMealController";
-
+    
+    //MEAL PLAN
+    private final String MEAL_PLAN_PAGE="view/admin/Product/MealPlan/MealPlanManage.jsp";
+    private final String MEAL_PLAN_CONTROLLER="MealPlanManageController";
     //PACKET
     private final String PACKET_INSERT = "view/admin/Product/Packet/InsertIngredientPacket.jsp";
     private final String PACKET_INSERT_CONTROLLER = "/admin/packet/InsertIngredientPacketController";
@@ -129,7 +132,10 @@ public class AMainController extends HttpServlet {
 
             case "PacketUpdatePage":url = PACKET_UPDATE;break;
             case "PacketUpdate":url = PACKET_UPDATE_CONTROLLER;break;
-                
+            //Meal Plan
+            case "MealPlan": url=MEAL_PLAN_CONTROLLER; break;
+            case "MealPlanPage": url=MEAL_PLAN_PAGE; break;
+            
             //product
             case "ProductDelete":url=PRODUCT_DELETE_CONTROLLER;break;
                 
