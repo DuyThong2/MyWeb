@@ -60,7 +60,7 @@
             <div class="row group-btn-sort ">
                 <div class="col-md-6">
                     <p style=" font-size:1.6rem;">Sort</p>
-                    <form action="">
+                    <form action="<%= switchPageUrl%>" method="POST">
                         <div class="form-check">
                             <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">
                             <label for="category-checkbox" class="form-check-label">Ascending</label>
@@ -71,32 +71,34 @@
                             <input name="cate" type="radio" id="category-checkbox" value="id" class="form-check-input">
                             <label for="category-checkbox" class="form-check-label">ID</label>
                             <br>
-                            <input name="cate" type="radio" id="category-checkbox" value="category" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Category</label>
+                            <input name="cate" type="radio" id="category-checkbox" value="name" class="form-check-input">
+                            <label for="category-checkbox" class="form-check-label">Name</label>
                             <br>
-                            <input name="cate" type="radio" id="category-checkbox" value="isOnSale" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Is on discount</label>
+                            <input name="cate" type="radio" id="category-checkbox" value="type" class="form-check-input">
+                            <label for="category-checkbox" class="form-check-label">Type</label>
                             <br>
+                            <input name="cate" type="radio" id="category-checkbox" value="status" class="form-check-input">
+                            <label for="category-checkbox" class="form-check-label">Status</label>
                         </div>
-                        <input type="submit" value="Sort" class="btn btn-primary mt-2">
+                        <input type="submit"  class="btn btn-primary mt-2">
                     </form>
                 </div>
                 <div class="col-md-6">
                     <p style=" font-size:1.6rem;">Type</p>
-                    <form action="">
-                        <input name="type" type="radio" id="type-checkbox" class="form-check-input">
-                        <label for="type-checkbox" class="form-check-label">Vegan</label>
-                        </br>
-                        <input name="type" type="radio" id="type-checkbox" class="form-check-input">
-                        <label for="type-checkbox" class="form-check-label">Vegetarian</label>
-                        </br>
-                        <input name="type" type="radio" id="type-checkbox" class="form-check-input">
-                        <label for="type-checkbox" class="form-check-label">Meat</label>
-                        </br>
-                        <input name="type" type="radio" id="type-checkbox" class="form-check-input">
-                        <label for="type-checkbox" class="form-check-label">Low Carbs</label>
+                    <form action="<%= switchPageUrl%>" method="POST">
+                        <div class="form-check">
+                            <input name="type" type="radio" id="type-checkbox" value="vegan" class="form-check-input">
+                            <label for="type-checkbox" class="form-check-label">Vegan</label>
+                            </br>
+                            <input name="type" type="radio" id="type-checkbox" value="vegetarian"class="form-check-input">
+                            <label for="type-checkbox" class="form-check-label">Vegetarian</label>
+                            </br>
+                            <input name="type" type="radio" id="type-checkbox" value="meat" class="form-check-input">
+                            <label for="type-checkbox" class="form-check-label">Meat</label>
+                            </br> 
+                        </div>
+                        <input type="submit" class="btn btn-primary mt-2">
                     </form>
-                    <input type="submit" value="Type" class="btn btn-primary mt-2">
                 </div>
             </div>
             <div class="row table">
@@ -167,9 +169,9 @@
         <footer style="height:500px;">
 
         </footer>
-                        <script>
-                            
-                        </script>
+        <script>
+
+        </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
