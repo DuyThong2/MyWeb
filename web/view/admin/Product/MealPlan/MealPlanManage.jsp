@@ -9,12 +9,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <title>JSP Page</title>
+        <title>Meal Plan Manage</title>
     </head>
     <body>
         <%
             String switchPageUrl = request.getContextPath() + "/AMainController?action=MealPlan";
             String searchPageUrl = request.getContextPath() + "/AMainController";
+            String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
             List<MealPlan> mealPlanList = (ArrayList<MealPlan>) request.getAttribute("MealPlanList");
             ArrayList<MealPlan> currentList = new ArrayList<>();
             List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 4);
@@ -126,7 +127,7 @@
                             <td><%= mealPlan.getType()%></td>
                             <td><%= mealPlan.getContent()%></td>
                             <td>
-                                <a href="" class="btn btn-sm btn-info mb-2">Detail</a>
+                                <a href="<%= detailPageUrl %>&id=<%=mealPlan.getId()%>" class="btn btn-sm btn-info mb-2">Detail</a>
                                 <% if (mealPlan.getStatus() == 1) {
 
                                 %>

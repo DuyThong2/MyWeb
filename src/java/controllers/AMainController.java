@@ -54,6 +54,8 @@ public class AMainController extends HttpServlet {
     //MEAL PLAN
     private final String MEAL_PLAN_PAGE="view/admin/Product/MealPlan/MealPlanManage.jsp";
     private final String MEAL_PLAN_CONTROLLER="MealPlanManageController";
+    private final String MEAL_PLAN_DETAIL_PAGE ="view/admin/Product/MealPlan/MealPlanDetail.jsp";
+    private final String MEAL_PLAN_DETAIL_CONTROLLER="MealPlanDetailController";
     //PACKET
     private final String PACKET_INSERT = "view/admin/Product/Packet/InsertIngredientPacket.jsp";
     private final String PACKET_INSERT_CONTROLLER = "/admin/packet/InsertIngredientPacketController";
@@ -135,6 +137,8 @@ public class AMainController extends HttpServlet {
             //Meal Plan
             case "MealPlan": url=MEAL_PLAN_CONTROLLER; break;
             case "MealPlanPage": url=MEAL_PLAN_PAGE; break;
+            case "MealPlanDetail": url=MEAL_PLAN_DETAIL_CONTROLLER; break;
+            case "MainPlanDetailPage": url=MEAL_PLAN_DETAIL_PAGE; break;
             
             //product
             case "ProductDelete":url=PRODUCT_DELETE_CONTROLLER;break;

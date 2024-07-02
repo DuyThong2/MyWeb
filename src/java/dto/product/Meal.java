@@ -39,8 +39,8 @@ public class Meal extends Product {
         this.packet = packet;
     }
     
-    
 
+    
     public IngredientPacket getPacket() {
         return packet;
     }
