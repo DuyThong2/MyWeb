@@ -6,11 +6,11 @@
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/SharedStyle/shared.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/NavBar/NavBar.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
 <!-- bootstrap 4.5 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+
 <!-- box icons -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- Google Web Fonts -->
@@ -21,3 +21,6 @@
 <!-- Icon Font Stylesheet -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/SharedStyle/shared.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/NavBar/NavBar.css">

@@ -59,7 +59,7 @@
         <%@include file="../header.jsp" %>
 
 
-        <div class="container-fluid">
+        <div  class="container bg-white">
             <!-- First Row: Order Information -->
             <div class="row mt-4">
                 <div class="col-lg-8">

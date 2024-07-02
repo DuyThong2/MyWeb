@@ -19,6 +19,11 @@
         <!-- Bootstrap CSS -->
         <%@include file="../../../cssAdder.jsp" %>
         <style>
+            .container {
+                margin-top: 200px;
+                border-radius: 20px;
+                border: solid orange 5px;
+            }
             .quantity {
                 display: flex;
                 justify-content: center;
@@ -68,8 +73,8 @@
         <!-- Single Page Header End -->
 
         <!-- Single Product Start -->
-        <div class="container-fluid py-5 mt-5">
-            <div class="container py-5">
+        <div class="container bg-white py-5">
+            <div class="container-fluid py-5">
                 <div class="row g-4 mb-5">
                     <div class="col-lg-8 col-xl-9">
                         <div class="row g-4">
@@ -82,8 +87,8 @@
                             </div>
                             <div class="col-lg-6">
                                 <form id="orderForm" action="#" method="POST">
-                                    <h4 class="fw-bold mb-3"><%=meal.getName()%></h4>
-                                    <p class="mb-3">Category: <%=meal.getCategory()%></p>
+                                    <h1 style="color: orange" class="fw-bold mb-3"><%=meal.getName()%></h1>
+                                    <p class="mb-3"><strong>Category:</strong> <%=meal.getCategory()%></p>
                                     <h5 class="fw-bold mb-3">Meal : <%=String.format("%.2f", meal.getPriceAfterDiscount())%> $</h5>
                                     <c:choose>
                                         <c:when test="${not empty packet}">
@@ -172,73 +177,43 @@
                     <div class="col-lg-4 col-xl-3">
                         <div class="row g-4 fruite">
                             <div class="col-lg-12">
-                                <form action="<%=shopURL %>" method="POST" class="input-group w-100 mx-auto d-flex mb-4">
+                                <form action="<%=shopURL%>" method="POST" class="input-group w-100 mx-auto d-flex mb-4">
                                     <input type="search" name="searching" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
                                     <button type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button>
                                 </form>
                                 <div class="mb-4">
-                                    <h4>Sort Option</h4>
-                                    <form action="<%=shopURL %>" method="POST">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="cate" id="category" value="category">
-                                            <label class="form-check-label" for="category">Category</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="cate" id="price" value="price">
-                                            <label class="form-check-label" for="price">Price</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="cate" id="isOnSale" value="isOnSale">
-                                            <label class="form-check-label" for="isOnSale">Is On Sale</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="cate" id="expired" value="expired">
-                                            <label class="form-check-label" for="expired">Expired</label>
-                                        </div>
-                                        <hr>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="sort" id="max" value="max">
-                                            <label class="form-check-label" for="max">Show max (have discount)</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="sort" id="min" value="min">
-                                            <label class="form-check-label" for="min">Show min (no discount)</label>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-3">Apply</button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <h4 class="mb-4">Featured products</h4>
-
-                                <!-- loop good product -->
-
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/vegetable-item-4.jpg" class="img-fluid rounded" alt="">
+                                    <div class="card-header">
+                                        <h4>Sort Option</h4>
                                     </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
+                                    <div class="card-body">
+                                        <form action="<%=shopURL%>" method="POST">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="cate" id="category" value="category">
+                                                <label class="form-check-label" for="category">Category</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="cate" id="price" value="price">
+                                                <label class="form-check-label" for="price">Price</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="cate" id="isOnSale" value="isOnSale">
+                                                <label class="form-check-label" for="isOnSale">Is On Sale</label>
+                                            </div>
+                                            <hr>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sort" id="max" value="max">
+                                                <label class="form-check-label" for="max">Show max (have discount)</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sort" id="min" value="min">
+                                                <label class="form-check-label" for="min">Show min (no discount)</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-3">Apply</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <!-- loop good product -->
-
-                                <!-- view more button -->
-                                <div class="d-flex justify-content-center my-4">
-                                    <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
-                                </div>
                             </div>
+
                             <div class="col-lg-12">
                                 <div class="position-relative">
                                     <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
@@ -247,48 +222,61 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <h1 class="fw-bold mb-0">Related products</h1>
-                <!-- related product start loop -->
-                <%
-                    List<Meal> relatedList = dao.getCustomerMealListByCategory(meal.getCategory(), 4);
-                    Collections.shuffle(relatedList);
-                    for (Meal item : relatedList) {
-                %>
-                <div class="vesitable">
-                    <div class="owl-carousel vegetable-carousel justify-content-center">
-                        <div class="border border-primary rounded position-relative vesitable-item">
-                            <div class="row no-gutters">
-                                <div class="col-auto">
-                                    <a href="<%=detailURL%>&productId=<%=item.getId()%>"> 
-                                        <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid fixed-size-img" alt="<%=item.getName()%>">
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <div class="p-4 pb-0 rounded-bottom">
-                                        <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;"><%=item.getCategory()%></div>
-                                        <h4><%=item.getName()%></h4>
-                                        <p><%= item.getDescription()%></p>
-                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                            <% if (item.isOnSale()) {%>
-                                            <p style="color: red" class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPriceAfterDiscount())%> </p>
-                                            <% } else {%>
-                                            <p class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPrice())%> </p>
-                                            <% }%>
-                                            <a href="<%=addToCartURL%>&productId=<%= item.getId()%>" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                        </div>
-                                    </div>
+                            <div class="col-lg-12">
+
+                                <!-- loop good product -->
+
+                                <!-- view more button -->
+                                <div class="d-flex justify-content-center my-4">
+                                    <a href="<%=ShopURL%>" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
                                 </div>
                             </div>
                         </div>
-                        <%
-                            }
-                        %>
-                        <!-- related product end loop -->
                     </div>
                 </div>
+
+            </div>
+        </div>
+
+
+        <div class="container bg-white mt-5">
+            <h1 class="fw-bold mb-0">Related products</h1>
+            <!-- related product start loop -->
+            <%
+                List<Meal> relatedList = dao.getCustomerMealListByCategory(meal.getCategory(), 4);
+                Collections.shuffle(relatedList);
+                for (Meal item : relatedList) {
+            %>
+
+            <div class="owl-carousel vegetable-carousel justify-content-center">
+                <div class="border border-primary rounded position-relative vesitable-item">
+                    <div class="row no-gutters">
+                        <div class="col-auto">
+                            <a href="<%=detailURL%>&productId=<%=item.getId()%>"> 
+                                <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="img-fluid fixed-size-img" alt="<%=item.getName()%>">
+                            </a>
+                        </div>
+                        <div class="col">
+                            <div class="p-4 pb-0 rounded-bottom">
+                                <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;"><%=item.getCategory()%></div>
+                                <h4><%=item.getName()%></h4>
+                                <p><%= item.getDescription()%></p>
+                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                    <% if (item.isOnSale()) {%>
+                                    <p style="color: red" class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPriceAfterDiscount())%> </p>
+                                    <% } else {%>
+                                    <p class="text-dark fs-5 fw-bold">$ <%=String.format("%.2f", item.getPrice())%> </p>
+                                    <% }%>
+                                    <a href="<%=addToCartURL%>&productId=<%= item.getId()%>" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%
+                    }
+                %>
+                <!-- related product end loop -->
             </div>
         </div>
         <!-- Single Product End -->

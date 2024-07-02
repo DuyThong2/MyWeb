@@ -62,6 +62,6 @@ public class IngredientPacket extends Product {
 
     @Override
     public String getImageURL() {
-        return "images/packet/packet.png";
+        return "images/packet/packet.jpg";
     }
 }

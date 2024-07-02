@@ -95,7 +95,7 @@
                                     <tr>    
                                         <td>
 
-                                            <img src="${pageContext.request.contextPath}/${item.getImgURL()}" alt="${request.contextPath}" width="500" height="500">
+                                            <img src="${pageContext.request.contextPath}/${item.getImgURL()}" alt="${request.contextPath}" width="100" height="100">
                                         </td>
 
                                         <td>${item.getId()}</td>

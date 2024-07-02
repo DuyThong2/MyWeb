@@ -58,23 +58,23 @@
                         </div>
                         <div class="form-group">
                             <label for="mealName">Meal Name</label>
-                            <input type="text" class="form-control" id="mealName" name="name" placeholder="Enter meal name">
+                            <input type="text" class="form-control" id="mealName" name="name" value="<%=oldMeal.getName() %>" placeholder="Enter meal name">
                         </div>
                         <div class="form-group">
                             <label for="mealPrice">Meal Price</label>
-                            <input type="text" class="form-control" id="mealPrice" name="price" placeholder="Enter meal price">
+                            <input type="text" class="form-control" id="mealPrice" value = <%=oldMeal.getPrice()%> name="price" placeholder="Enter meal price">
                         </div>
                         <div class="form-group">
                             <label for="mealDescription">Meal Description</label>
-                            <textarea class="form-control" id="mealDescription" rows="2" name="description" placeholder="Enter meal description"></textarea>
+                            <textarea class="form-control" id="mealDescription" rows="2" value="<%=oldMeal.getDescription()%>" name="description" placeholder="Enter meal description"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="mealContent">Content and Instruction</label>
-                            <textarea class="form-control" id="mealContent" rows="10" name="content" placeholder="Enter meal content nad methods"></textarea>
+                            <textarea class="form-control" id="mealContent" rows="10" value="<%=oldMeal.getContent()%>" name="content" placeholder="Enter meal content nad methods"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="mealCategory">Category</label>
-                            <select class="form-control" id="mealCategory" name="mealCategory">
+                            <select class="form-control" id="mealCategory" value="<%=oldMeal.getCategory()%>" name="mealCategory">
                                 <option value="breakfast">Breakfast</option>
                                 <option value="dinner">Dinner</option>
                                 <option value="lunch">Lunch</option>

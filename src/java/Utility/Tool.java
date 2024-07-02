@@ -110,7 +110,7 @@ public class Tool {
     }
 
     public static LocalDateTime inputTime(String msg) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime result = null;
 
         try {

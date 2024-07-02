@@ -20,11 +20,19 @@
         <meta content="" name="keywords">
         <meta content="" name="description">
         <%@include file="../../../cssAdder.jsp" %>
-        
-        
+
+
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+
+        <style>
+            .container{
+                margin-top: 200px;
+                border: solid orange thick;
+                border-radius: 10px;
+            }
+        </style>
     </head>
 
     <%
@@ -34,14 +42,13 @@
 
         Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
         User user = (User) session.getAttribute("LoginedUser");
-        
+
         if (user == null) {
             //only for testing
             response.sendRedirect(loginURL);
             return;
         }
 
-        
         double totalPrice = 0.0;
         List<Entry<Product, Integer>> shoppingList = new ArrayList<>(cart.entrySet());
         for (Entry<Product, Integer> item : shoppingList) {
@@ -53,8 +60,8 @@
     %>
     <body>
         <%@include file="../header.jsp" %>
-        <div class="container-fluid py-5">
-            <div class="container py-5">
+        <div class="container py-5 bg-white">
+            <div class="container-fluid py-5">
 
                 <div class="table-responsive">
                     <table class="table">
@@ -147,7 +154,7 @@
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
                                 <p class="mb-0 pe-4">$<%= String.format("%.2f", totalPrice + 3)%></p>
                             </div>
-                                <a href="<%=processURL%>" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="submit">Proceed Checkout</a>
+                            <a href="<%=processURL%>" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="submit">Proceed Checkout</a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +162,7 @@
 
             </div>
         </div>
-                
-                <%@include file="../../../jsAdder.jsp" %>
+
+        <%@include file="../../../jsAdder.jsp" %>
     </body>
 </html>

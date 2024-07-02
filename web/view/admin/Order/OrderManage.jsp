@@ -203,7 +203,7 @@
                         </div>
                         <div class="form-group">
                             <label for="searchValue">Search For:</label>
-                            <input type="text" name="searchValue" id="searchValue" class="form-control" placeholder="Enter search term">
+                            <input type="text" name="searchValue" id="searchValue" class="form-control" placeholder="time(yyyy/MM/dd)">
                         </div>
                         <input type="submit" value="Search" class="btn btn-primary mt-2">
                     </form>

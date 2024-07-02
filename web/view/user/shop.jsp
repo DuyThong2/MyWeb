@@ -19,10 +19,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Shop</title>        <!-- Include CSS files if not included in header.jsp -->
         <%@include file="../../cssAdder.jsp" %>
-       
-        
+
+
         <style>
-            
+            .container {
+                margin-top: 200px;
+                border-radius: 20px;
+                border: solid orange 5px;
+            }
+            .fruite-item {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+                margin-bottom: 20px; /* Add space between items */
+            }
+            .fruite-img img {
+                height: 200px;
+                object-fit: cover;
+            }
+            .fruite-item .details {
+                flex-grow: 1;
+            }
+            .pagination-buttons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px; /* Add space above pagination */
+            }
+            .pagination-buttons form {
+                display: inline-block;
+            }
         </style>
     </head>
 
@@ -76,10 +103,9 @@
         <!-- Single Page Header End -->
 
         <!-- Fruits Shop Start-->
-        <div class="container-fluid py-5">
-            <div class="container py-5">
-                <a href="<%= cartURL%>">here</a>
-                <h1 class="mb-4">Fresh Fruits Shop</h1>
+        <div class="container bg-white py-5">
+            <div class="py-5">
+                <h1 class="mb-4" style="justify-content: center;color: orange">Fresh Fruits Shop</h1>
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -96,66 +122,41 @@
                                 <div class="row g-4">
                                     <!-- category -->
                                     <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <h4>Sort Option</h4>
-                                            <form action="<%=redirectUrl%>" method="POST">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="cate" id="category" value="category">
-                                                    <label class="form-check-label" for="category">Category</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="cate" id="price" value="price">
-                                                    <label class="form-check-label" for="price">Price</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="cate" id="isOnSale" value="isOnSale">
-                                                    <label class="form-check-label" for="isOnSale">Is On Sale</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="cate" id="expired" value="expired">
-                                                    <label class="form-check-label" for="expired">Expired</label>
-                                                </div>
-                                                <hr>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="sort" id="max" value="max">
-                                                    <label class="form-check-label" for="max">Show max (have discount)</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="sort" id="min" value="min">
-                                                    <label class="form-check-label" for="min">Show min (no discount)</label>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary mt-3">Apply</button>
-                                            </form>
+                                        <div class="card mb-3">
+                                            <div class="card-header">
+                                                <h4>Sort Option</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="<%=redirectUrl%>" method="POST">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="cate" id="category" value="category">
+                                                        <label class="form-check-label" for="category">Category</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="cate" id="price" value="price">
+                                                        <label class="form-check-label" for="price">Price</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="cate" id="isOnSale" value="isOnSale">
+                                                        <label class="form-check-label" for="isOnSale">Is On Sale</label>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="sort" id="max" value="max">
+                                                        <label class="form-check-label" for="max">Show max (have discount)</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="sort" id="min" value="min">
+                                                        <label class="form-check-label" for="min">Show min (no discount)</label>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mt-3">Apply</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <!-- show expensive and beautiful meal -->
-                                    <div class="col-lg-12">
-                                        <h4 class="mb-3">Featured products</h4>
-                                        <div class="d-flex align-items-center justify-content-start">
-                                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                                <img src="img/featur-1.jpg" class="img-fluid rounded" alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-2">Big Banana</h6>
-                                                <div class="d-flex mb-2">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="d-flex mb-2">
-                                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-center my-4">
-                                            <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-lg-12">
                                         <div class="position-relative">
                                             <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
@@ -229,7 +230,7 @@
                                     <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                                 </form>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

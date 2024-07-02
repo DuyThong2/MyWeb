@@ -115,7 +115,7 @@
         <%@include file="../user/header.jsp" %>
 
         <!-- Carousel -->
-        <div class="container">
+        <div>
             <div id="carouselExampleControls" class="carousel slide mb-4" data-ride="carousel" data-interval="5000">
                 <div class="carousel-inner">
                     <c:forEach items="${carouselItems}" var="item" varStatus="status">
@@ -174,30 +174,6 @@
                 %>
 
                 <!-- Meal Card 2 -->
-                <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <img src="meal-image-2.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Meal 2</h5>
-                            <p class="card-text">Short description of Meal 2.</p>
-                            <a href="#" class="btn btn-primary">Buy Now</a>
-                            <a href="#" class="btn btn-success">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Meal Card 3 -->
-                <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <img src="meal-image-3.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Meal 3</h5>
-                            <p class="card-text">Short description of Meal 3.</p>
-                            <a href="#" class="btn btn-primary">Buy Now</a>
-                            <a href="#" class="btn btn-success">Add to Cart</a>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>

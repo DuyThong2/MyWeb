@@ -48,7 +48,8 @@
             
             .container{
                 border-radius: 10px;
-                border: solid grey thin;
+                border: solid orange thin;
+                margin-top: 200px;
             }
         </style>
         <title>User Detail</title>

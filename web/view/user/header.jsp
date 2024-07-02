@@ -102,6 +102,7 @@
     </label>
     <label id="search-overlay" for="search-active"></label>
 </div>
+                    <div class="background-container"></div>
 
 
 <!-- POP-UP SEARCH BOX -->
