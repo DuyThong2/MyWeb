@@ -11,7 +11,7 @@
     String UserManageURL=request.getContextPath()+"/AMainController?action=userManage";
     String IngredientURL=request.getContextPath()+"/AMainController?action=ingredientManage";
     String MealManageURL=request.getContextPath()+"/AMainController?action=MealManage";
-    String planURL= request.getContextPath()+"";
+    String planURL= request.getContextPath()+"/AMainController?action=MealPlan";
     String saleURL=request.getContextPath()+"";
 
 %>
@@ -39,7 +39,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Plan</a>
+                <a class="nav-link" href="<%=planURL%>">Plan</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Sale</a>

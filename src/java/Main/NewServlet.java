@@ -5,8 +5,11 @@
  */
 package Main;
 
+import dao.plan.MealPlanDAO;
+import dto.plan.MealPlan;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +35,9 @@ public class NewServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            MealPlanDAO mpdao = new MealPlanDAO();
+            ArrayList<MealPlan> mealPlanList = mpdao.getAllMeanLanByName("t");
+            out.print("<p>"+mealPlanList.toString()+"</p>");
         }
     }
 

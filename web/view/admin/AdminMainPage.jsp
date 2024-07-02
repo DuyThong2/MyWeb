@@ -34,6 +34,7 @@
 
 
     <body>
+
         <%@include file="AdminHeader.jsp" %>
         <div class="container">
             <h1>Welcome to the Admin Page</h1>
@@ -134,6 +135,7 @@
         <!-- Bootstrap JS and dependencies -->
         
         <%@include file="adminJs.jsp" %>
+
 
 
 
