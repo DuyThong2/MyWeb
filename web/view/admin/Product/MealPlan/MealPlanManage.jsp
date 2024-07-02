@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <%@include file="../../adminCssAdder.jsp" %>
         <title>JSP Page</title>
     </head>
     <body>
@@ -33,7 +33,7 @@
 
             session.setAttribute("currentList", mealPlanList);
         %>
-
+        <%@include file="../../AdminHeader.jsp" %>
         <div class="container">
             <div class="row mt-5 mb-5">
                 <h1 class="col-md-12 text-center text-success">Meal Plan Manage</h1>
@@ -169,11 +169,6 @@
         <footer style="height:500px;">
 
         </footer>
-        <script>
-
-        </script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <%@include file="../../adminJs.jsp" %>
     </body>
 </html>
