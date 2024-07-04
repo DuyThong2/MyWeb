@@ -35,9 +35,7 @@ public class NewServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            MealPlanDAO mpdao = new MealPlanDAO();
-            ArrayList<MealPlan> mealPlanList = mpdao.getAllMeanLanByName("t");
-            out.print("<p>"+mealPlanList.toString()+"</p>");
+           
         }
     }
 

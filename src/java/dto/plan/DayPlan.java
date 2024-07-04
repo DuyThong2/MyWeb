@@ -12,15 +12,15 @@ import java.io.Serializable;
  * @author ASUS
  */
 public class DayPlan implements Serializable {
-    private String id;
+    private int id;
     private String mealId;
     private String mealPlanId;
-    private String customerPlanId;
+    private int customerPlanId;
     private int dayInWeek;
     private int status;
     
 
-    public DayPlan(String id, String mealId, String mealPlanId, String customerPlanId, int dayInWeek, int status) {
+    public DayPlan(int id, String mealId, String mealPlanId, int customerPlanId, int dayInWeek, int status) {
         this.id = id;
         this.mealId = mealId;
         this.mealPlanId = mealPlanId;
@@ -29,11 +29,11 @@ public class DayPlan implements Serializable {
         this.status = status;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,11 +53,11 @@ public class DayPlan implements Serializable {
         this.mealPlanId = mealPlanId;
     }
 
-    public String getCustomerPlanId() {
+    public int getCustomerPlanId() {
         return customerPlanId;
     }
 
-    public void setCustomerPlanId(String customerPlanId) {
+    public void setCustomerPlanId(int customerPlanId) {
         this.customerPlanId = customerPlanId;
     }
 

@@ -35,8 +35,9 @@ public class MealPlan implements Serializable {
 
     
     
-    public MealPlan(String id, String type, String content, String imgUrl, int status) {
+    public MealPlan(String id,String name, String type, String content, String imgUrl, int status) {
         this.id = id;
+        this.name = name;
         this.type = type;
         this.content = content;
         this.imgUrl = imgUrl;

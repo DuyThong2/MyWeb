@@ -14,7 +14,9 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -45,12 +47,12 @@ public class MealPlanDAO {
                     ResultSet dayPlanRst = pst.executeQuery();
                     if (dayPlanRst != null) {
                         while (dayPlanRst.next()) {
-                            String dayPlanId = dayPlanRst.getString("id");
+                            int dayPlanId = dayPlanRst.getInt("id");
                             int dayInWeek = dayPlanRst.getInt("dayInWeek");
                             int dayPlanStatus = dayPlanRst.getInt("status");
                             String mealId = dayPlanRst.getString("MealId");
                             // String id, String mealId, String mealPlanId, String customerPlanId, int dayInWeek, int status
-                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, null, dayInWeek, dayPlanStatus);
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, -1, dayInWeek, dayPlanStatus);
                             dayPlanList.add(dayPlan);
                         }
                     }
@@ -89,12 +91,12 @@ public class MealPlanDAO {
                     ResultSet dayPlanTable = dayPlanPst.executeQuery();
                     if (dayPlanTable != null) {
                         while (dayPlanTable.next()) {
-                            String dayPlanId = dayPlanTable.getString("id");
+                            int dayPlanId = dayPlanTable.getInt("id");
                             int dayInWeek = dayPlanTable.getInt("dayInWeek");
                             int dayPlanStatus = dayPlanTable.getInt("status");
                             String mealId = dayPlanTable.getString("MealId");
                             // String id, String mealId, String mealPlanId, String customerPlanId, int dayInWeek, int status
-                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, null, dayInWeek, dayPlanStatus);
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, -1, dayInWeek, dayPlanStatus);
                             dayPlanList.add(dayPlan);
                         }
                     }
@@ -199,12 +201,12 @@ public class MealPlanDAO {
                     dayPlanPst.setString(1, mealPlanId);
                     try (ResultSet dayPlanTable = dayPlanPst.executeQuery()) {
                         while (dayPlanTable.next()) {
-                            String dayPlanId = dayPlanTable.getString("id");
+                            int dayPlanId = dayPlanTable.getInt("id");
                             int dayInWeek = dayPlanTable.getInt("dayInWeek");
                             int dayPlanStatus = dayPlanTable.getInt("status");
                             String mealId = dayPlanTable.getString("MealId");
                             // String id, String mealId, String mealPlanId, String customerPlanId, int dayInWeek, int status
-                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, null, dayInWeek, dayPlanStatus);
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, -1, dayInWeek, dayPlanStatus);
                             dayPlanList.add(dayPlan);
                         }
                     }
@@ -223,4 +225,83 @@ public class MealPlanDAO {
 
         return mealPlan;
     }
+
+    public int insertNewMealPlan(MealPlan mealPlan) {
+        int result = 0;
+        String insertSql = " insert [dbo].[MealPlan](id,type,imgURL,content,status,name) values(?,?,?,?,1,?)";
+        String checkExistSql = "select [id] from [MealPlan] where id =?";
+        Connection cn = null;
+
+        try {
+            String mealPlanId = mealPlan.getId();
+            cn = JDBCUtil.getConnection();
+            cn.setAutoCommit(false);
+            if (cn != null) {
+                PreparedStatement checkExistPst = cn.prepareStatement(checkExistSql);
+                checkExistPst.setString(1, mealPlanId);
+                ResultSet table = checkExistPst.executeQuery();
+                if (!table.next()) {
+                    PreparedStatement pst = cn.prepareStatement(insertSql);
+                    pst.setString(1, mealPlan.getId().trim());
+                    pst.setString(2, mealPlan.getType().trim());
+                    pst.setString(3, mealPlan.getImgUrl().trim());
+                    pst.setString(4, mealPlan.getContent().trim());
+                    pst.setString(5, mealPlan.getName().trim());
+                    result = pst.executeUpdate();
+                    if (result > 0) {
+                        cn.commit();
+                    } else {
+                        cn.rollback();
+                    }
+                } else {
+                    cn.rollback();
+                }
+            }
+        } catch (Exception e) {
+            if (cn != null) {
+                try {
+                    cn.rollback();
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.setAutoCommit(true);
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public Set<String> getAllMealPlanIds() {
+        Set<String> idSet = new HashSet<>();
+        String sql = "SELECT [Id] FROM [PRJ301].[dbo].[MealPlan]";
+        try (Connection con = JDBCUtil.getConnection();
+                Statement st = con.createStatement()) {
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                idSet.add(rs.getString(1));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return idSet;
+    }
+
+    public String checkValidMealPlanId(String id) {
+        if (!id.matches("MP[0-9]{1,4}")) {
+            return "Invalid ID pattern";
+        } else if (getAllMealPlanIds().contains(id)) {
+            return id + " already exists";
+        } else {
+            return null;
+        }
+    }
+
 }

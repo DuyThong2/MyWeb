@@ -14,6 +14,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>wrong!</h1>
+        <p>Hello</p>
+        <p><%= request.getContextPath()%>/images/mealPlan/blackhole.jpg</p>
+        <img src="<%= request.getContextPath()%>/images/mealPlan/blackhole.jpg" alt="hehe">
     </body>
 </html>
