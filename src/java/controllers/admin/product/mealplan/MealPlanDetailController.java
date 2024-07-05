@@ -3,23 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Main;
+package controllers.admin.product.mealplan;
 
 import dao.plan.MealPlanDAO;
+import dao.product.MealDAO;
 import dto.plan.MealPlan;
+import dto.product.Meal;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Admin
+ * @author ASUS
  */
-public class NewServlet extends HttpServlet {
+@WebServlet(name = "MealPlanDetailController", urlPatterns = {"/MealPlanDetailController"})
+public class MealPlanDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +42,31 @@ public class NewServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           
+            String id = request.getParameter("id");
+            HttpSession session = request.getSession();
+            MealPlanDAO mpdao = new MealPlanDAO();
+            MealDAO mdao = new MealDAO();
+            MealPlan mealPlan = mpdao.getMealPlanById(id);
+            TreeMap<Integer, Meal> mealList = new TreeMap<>();
+            boolean daysMark[] = new boolean[7];
+            if (mealPlan != null) {
+                mealPlan.getDayPlanContains().forEach(dayPlan -> {
+                    String mealId = dayPlan.getMealId();
+                    int day = dayPlan.getDayInWeek();
+                    daysMark[day] = true;
+                    Meal meal = mdao.getMealFromId(mealId);
+                    mealList.put(day, meal);
+                });
+            }
+            for (int i = 0; i < daysMark.length; i++) {
+                if (daysMark[i] == false) {
+                    Meal meal = new Meal();
+                    mealList.put(i, meal);
+                }
+            }
+            request.setAttribute("mealList", mealList);
+            request.setAttribute("mealPlan", mealPlan);
+            request.getRequestDispatcher("AMainController?action=MainPlanDetailPage").forward(request, response);
         }
     }
 

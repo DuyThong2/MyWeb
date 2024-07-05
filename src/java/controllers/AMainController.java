@@ -54,6 +54,15 @@ public class AMainController extends HttpServlet {
     //MEAL PLAN
     private final String MEAL_PLAN_PAGE="view/admin/Product/MealPlan/MealPlanManage.jsp";
     private final String MEAL_PLAN_CONTROLLER="MealPlanManageController";
+    private final String MEAL_PLAN_DETAIL_PAGE ="view/admin/Product/MealPlan/MealPlanDetail.jsp";
+    private final String MEAL_PLAN_DETAIL_CONTROLLER="MealPlanDetailController";
+    private final String MEAL_PLAN_INSERT_CONTROLLER="MealPlanInsertController";
+    private final String MEAL_PLAN_INSERT_PAGE="view/admin/Product/MealPlan/MealPlanInsert.jsp";
+    
+    //DAY PLAN
+    
+    private final String DAY_PLAN_INSERT_PAGE = "view/admin/Product/DayPlan/DayPlanInsert.jsp";
+    private final String DAY_PLAN_INSERT_CONTROLLER= "DayPlanInsertController";
     //PACKET
     private final String PACKET_INSERT = "view/admin/Product/Packet/InsertIngredientPacket.jsp";
     private final String PACKET_INSERT_CONTROLLER = "/admin/packet/InsertIngredientPacketController";
@@ -135,7 +144,14 @@ public class AMainController extends HttpServlet {
             //Meal Plan
             case "MealPlan": url=MEAL_PLAN_CONTROLLER; break;
             case "MealPlanPage": url=MEAL_PLAN_PAGE; break;
+            case "MealPlanDetail": url=MEAL_PLAN_DETAIL_CONTROLLER; break;
+            case "MainPlanDetailPage": url=MEAL_PLAN_DETAIL_PAGE; break;
+            case "MealPlanInsert": url=MEAL_PLAN_INSERT_CONTROLLER; break;
+            case "MealPlanInsertPage": url = MEAL_PLAN_INSERT_PAGE; break;
             
+            //DayPlan
+            case "DayPlanInsert": url =DAY_PLAN_INSERT_CONTROLLER; break;
+            case "DayPlanInsertPage":url =DAY_PLAN_INSERT_PAGE; break;
             //product
             case "ProductDelete":url=PRODUCT_DELETE_CONTROLLER;break;
                 

@@ -20,8 +20,8 @@ public class CustomerPlan extends MealPlan implements Serializable {
     private LocalDateTime dateApply;
 
     
-    public CustomerPlan(int week, LocalDateTime dateApply, String id, String type, String content, String imgUrl, int status) {
-        super(id, type, content, imgUrl, status);
+    public CustomerPlan(int week, String name, LocalDateTime dateApply, String id, String type, String content, String imgUrl, int status) {
+        super(id,name,type, content, imgUrl, status);
         this.week = week;
         this.dateApply = dateApply;
     }

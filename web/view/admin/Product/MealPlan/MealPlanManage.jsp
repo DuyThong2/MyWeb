@@ -15,6 +15,8 @@
         <%
             String switchPageUrl = request.getContextPath() + "/AMainController?action=MealPlan";
             String searchPageUrl = request.getContextPath() + "/AMainController";
+            String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
+            String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsert";
             List<MealPlan> mealPlanList = (ArrayList<MealPlan>) request.getAttribute("MealPlanList");
             ArrayList<MealPlan> currentList = new ArrayList<>();
             List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 4);
@@ -40,7 +42,7 @@
             </div>
             <div class="row meal-plan-btn-container mt-5 mb-5">
                 <div class="col-md-12 d-flex justify-content-center">
-                    <a class="btn btn-danger" href="#"><span class="h4">Insert Meal Plan</span></a>
+                    <a class="btn btn-danger" href="<%= insertPageUrl%>"><span class="h4">Insert Meal Plan</span></a>
                 </div>
             </div>
             <hr>
@@ -126,7 +128,7 @@
                             <td><%= mealPlan.getType()%></td>
                             <td><%= mealPlan.getContent()%></td>
                             <td>
-                                <a href="" class="btn btn-sm btn-info mb-2">Detail</a>
+                                <a href="<%= detailPageUrl %>&id=<%=mealPlan.getId()%>" class="btn btn-sm btn-info mb-2">Detail</a>
                                 <% if (mealPlan.getStatus() == 1) {
 
                                 %>
