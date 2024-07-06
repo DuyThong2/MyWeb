@@ -28,7 +28,7 @@ public class MealPlanDAO {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getAllMealPlanSql = "SELECT [id],[name],[type],[imgURL],[content],[status] from [dbo].[MealPlan] order by status desc";
         String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
-                + "               where MealPlanId = ? and status= 1 order by dayInWeek Asc";
+                + "               where MealPlanId = ? order by dayInWeek Asc";
         try (Connection conn = JDBCUtil.getConnection();
                 Statement statement = conn.createStatement();
                 PreparedStatement pst = conn.prepareStatement(getDayPlanSql);) {
@@ -70,7 +70,7 @@ public class MealPlanDAO {
     public ArrayList<MealPlan> getAllMeanLanByName(String searchName) {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
-                + "where MealPlanId = ? and status =1 order by dayInWeek Asc";
+                + "where MealPlanId = ?  order by dayInWeek Asc";
         String getMealPlanByNameSql = "select [id],[type],[imgURL],[content],[status],[name] from [dbo].[MealPlan]\n"
                 + "  where [name] like ? order by status desc";
         try (Connection cn = JDBCUtil.getConnection();
@@ -179,7 +179,7 @@ public class MealPlanDAO {
     public MealPlan getMealPlanById(String id) {
         MealPlan mealPlan = null;
         String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] FROM [dbo].[DayPlan] "
-                + "WHERE MealPlanId = ? AND status = 1 ORDER BY dayInWeek ASC";
+                + "WHERE MealPlanId = ? ORDER BY dayInWeek ASC";
         String getMealPlanByIdSql = "SELECT [id],[type],[imgURL],[content],[status],[name] FROM [dbo].[MealPlan] "
                 + "WHERE id = ?";
 

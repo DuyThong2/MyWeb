@@ -16,8 +16,12 @@
             String switchPageUrl = request.getContextPath() + "/AMainController?action=MealPlan";
             String searchPageUrl = request.getContextPath() + "/AMainController";
             String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
-            String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsert";
+            String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsertPage";
             List<MealPlan> mealPlanList = (ArrayList<MealPlan>) request.getAttribute("MealPlanList");
+            if(mealPlanList==null){
+                response.sendRedirect(switchPageUrl);
+                return;
+            }
             ArrayList<MealPlan> currentList = new ArrayList<>();
             List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 4);
             Integer numPageInt = (Integer) request.getAttribute("NumPage");

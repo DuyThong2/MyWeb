@@ -32,6 +32,10 @@
         <servlet-name>MealPlanManageController</servlet-name>
         <servlet-class>controllers.admin.product.mealplan.MealPlanManageController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>Main.TestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AMainController</servlet-name>
         <url-pattern>/AMainController</url-pattern>
@@ -43,6 +47,10 @@
     <servlet-mapping>
         <servlet-name>MealPlanManageController</servlet-name>
         <url-pattern>/MealPlanManageController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

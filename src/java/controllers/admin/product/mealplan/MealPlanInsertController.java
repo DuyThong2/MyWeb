@@ -37,7 +37,7 @@ public class MealPlanInsertController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private final String IMAGE_URL = "images\\mealPlan\\";
-    private final String DAYMEAL_URL = "/AMainController?action=DayPlanInsertPage";
+    private final String DAYMEAL_URL = "/AMainController?action=DayPlanInsert";
     private final String MEALINSERT_URL = "/AMainController?action=MealPlanInsertPage";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -106,10 +106,7 @@ public class MealPlanInsertController extends HttpServlet {
                 }
                 mealPlan = new MealPlan(id, name, type, content, imageUrl, status);
                 dao.insertNewMealPlan(mealPlan);
-                request.setAttribute("url2",uploadPath);
-                request.setAttribute("url", imageUrl);
-                request.setAttribute("fileName", fileName);
-                request.getRequestDispatcher(DAYMEAL_URL).forward(request, response);
+                response.sendRedirect(request.getContextPath() + DAYMEAL_URL + "&id=" + mealPlan.getId());
                 return;
 
             } else {

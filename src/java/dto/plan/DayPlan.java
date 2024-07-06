@@ -19,7 +19,9 @@ public class DayPlan implements Serializable {
     private int dayInWeek;
     private int status;
     
-
+    public DayPlan(){
+        
+    }
     public DayPlan(int id, String mealId, String mealPlanId, int customerPlanId, int dayInWeek, int status) {
         this.id = id;
         this.mealId = mealId;

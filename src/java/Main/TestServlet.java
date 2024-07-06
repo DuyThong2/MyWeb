@@ -10,7 +10,6 @@ import dao.plan.MealPlanDAO;
 import dto.plan.MealPlan;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Admin
+ * @author ASUS
  */
-public class NewServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,7 +35,16 @@ public class NewServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           
+                DayPlanDAO dao = new DayPlanDAO();
+                MealPlanDAO mpdao = new MealPlanDAO();
+                int result = dao.insertDayPlanList("MP001");
+                if (result > 0) {
+                    MealPlan mealPlan = mpdao.getMealPlanById("MP001");
+                    out.print("<p>" + mealPlan.toString() + "</p>");
+                } else {
+                    out.print("<p>Failed to insert day plans.</p>");
+                }
+            
         }
     }
 
