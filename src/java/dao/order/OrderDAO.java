@@ -60,7 +60,7 @@ public class OrderDAO {
                 OrderItemDAO orderItemDAO = new OrderItemDAO();
                 while (rs.next()) {
                     int orderId = rs.getInt("orderID");
-                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId, conn);
+//                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId, conn);
 
                     Address address = addressDao.getAddressByCustomerId(customerId, conn);
                     Order order = new Order(
@@ -71,7 +71,7 @@ public class OrderDAO {
                             rs.getInt("status"),
                             customerId, address
                     );
-                    order.setOrderDetail(listOfOrderItem);
+//                    order.setOrderDetail(listOfOrderItem);
                     orders.put(order.getOrderID(), order);
                 }
             }

@@ -125,8 +125,7 @@
                                     <th>Order Date</th>
                                     <th>Checking Date</th>
                                     <th>Abort Date</th>
-                                    <th>Total</th>
-                                    <th>Price</th>
+                                    
                                     <th>Options</th>
                                 </tr>
                             </thead>
@@ -155,8 +154,7 @@
                                     <td><%= Tool.parseTime(order.getOrderDate())%></td>
                                     <td><%= Tool.parseTime(order.getCheckingDate())%></td>
                                     <td><%= Tool.parseTime(order.getAbortDate())%></td>
-                                    <td><%= order.getTotalItem()%> items</td>
-                                    <td><%=String.format("%.2f $", order.getTotalPrice())%></td>
+
                                     <td>
                                         <a href="<%= orderDetailURL%>&orderId=<%= order.getOrderID()%>" class="btn btn-primary btn-sm">Detail</a>
                                     </td>
