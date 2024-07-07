@@ -25,7 +25,7 @@
     <body>
         <%@include file="../../AdminHeader.jsp" %>
         <div class="container">
-            <h2 class="mt-3">Add packet info for ${mealInfo.getName()}</h2>
+            <h2 class="">Add packet info for ${mealInfo.getName()}</h2>
 
             <!-- Ingredient Insert Section -->
             <div class="row mt-3">

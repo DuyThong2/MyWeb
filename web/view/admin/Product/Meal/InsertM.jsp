@@ -17,7 +17,7 @@
 
         <div class="container">
             <!-- Meal Insert Form -->
-            <div class="mt-5">
+            <div class="">
                 <h4>Insert Meal Details</h4>
                 <!-- Form for inserting meal details -->
                 <form id="mealForm" action="<%=finishURL%>" method="post" enctype="multipart/form-data">

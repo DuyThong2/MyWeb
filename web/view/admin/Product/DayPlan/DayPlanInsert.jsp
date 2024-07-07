@@ -19,7 +19,6 @@
         <title>JSP Page</title>
         <style>
             .main-container {
-                margin-top: 100px;
             }
 
             body {

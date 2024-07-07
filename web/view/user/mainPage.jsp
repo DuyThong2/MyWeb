@@ -59,6 +59,7 @@
                 border: solid orange thick;
                 border-radius: 10px;
             }
+
         </style>
     </head>
 
@@ -113,7 +114,6 @@
 
         <!-- Navbar -->
         <%@include file="../user/header.jsp" %>
-
         <!-- Carousel -->
         <div>
             <div id="carouselExampleControls" class="carousel slide mb-4" data-ride="carousel" data-interval="5000">

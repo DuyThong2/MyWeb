@@ -17,6 +17,7 @@ body{
      background: url('../../images/vietnamesecuisine.jpg') no-repeat;
      background-size:center;
      background-position:center;
+     min-height:100vh;
 }
 
 .wrapper{

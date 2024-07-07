@@ -34,7 +34,7 @@
     %>
     <body>
         <%@include file="../../AdminHeader.jsp" %>
-        <div class="container mt-3">
+        <div class="container ">
             <!-- Top Row: Meal Image and Info -->
             <div class="row">
                 <!-- Meal Image and Basic Info (40%) -->

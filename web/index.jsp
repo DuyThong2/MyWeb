@@ -9,13 +9,23 @@
         <link rel="stylesheet" href="<%=request.getContextPath()%>/view/css/LoginAndRegister/LoginAndRegister.css">     
         <!-- boxicons -->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <style>
+             html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
+        .wrapper {
+            
+        }
+        </style>
     </head>
     <body>
         <%
-            String returnEmail= (String)session.getAttribute("ReturnedEmail");
-            returnEmail = returnEmail==null?"":returnEmail;
-            %>
+            String returnEmail = (String) session.getAttribute("ReturnedEmail");
+            returnEmail = returnEmail == null ? "" : returnEmail;
+        %>
         <div class="wrapper">
             <form action='<%=request.getContextPath()%>/AMainController' method="POST">
                 <h1>Login</h1>
@@ -36,25 +46,24 @@
             </form>
         </div>
         <%
-            String printMessage="";
-            String errorMessage= (String)session.getAttribute("ERROR");
-            if(errorMessage!=null){
-                if(errorMessage.equalsIgnoreCase("WrongPassword")){
-                    printMessage="WRONG PASSWORD! PLEASE ENTER AGAIN!";
+            String printMessage = "";
+            String errorMessage = (String) session.getAttribute("ERROR");
+            if (errorMessage != null) {
+                if (errorMessage.equalsIgnoreCase("WrongPassword")) {
+                    printMessage = "WRONG PASSWORD! PLEASE ENTER AGAIN!";
+                } else if (errorMessage.equalsIgnoreCase("banned")) {
+                    printMessage = "YOUR ACCOUNT IS BANNED!";
+                } else {
+                    printMessage = "YOUR ACCOUNT DOES NOT EXIST!</br>PLEASE REGISTER A NEW ACCOUNT.";
                 }
-                else if(errorMessage.equalsIgnoreCase("banned")){
-                    printMessage="YOUR ACCOUNT IS BANNED!";
-                }else{
-                    printMessage="YOUR ACCOUNT DOES NOT EXIST!</br>PLEASE REGISTER A NEW ACCOUNT.";
-                }
-            
+
         %>
         <div class="popup-error">
 
             <i class='error-close bx bxs-x-circle'  onclick="closeError()"></i>
 
             <p class="error-text">
-                <%= printMessage %>
+                <%= printMessage%>
             </p>
         </div>
         <div class="overlay">
@@ -62,7 +71,7 @@
 
         <%
                 session.removeAttribute("ERROR");
-        }
+            }
         %>
         <script>
             function closeError() {

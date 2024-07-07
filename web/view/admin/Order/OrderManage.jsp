@@ -60,7 +60,7 @@
         </header>
 
 
-        <div class="container" style="margin-top: 150px">
+        <div class="container" style="">
             <div class="row">
                 <!-- First Row -->
                 <div class="col-lg-10">

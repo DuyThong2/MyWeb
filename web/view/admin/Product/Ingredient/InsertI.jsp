@@ -23,7 +23,7 @@
     %>
     <%@include file="../../AdminHeader.jsp" %>
     <h1>Insert New Ingredient</h1>
-    <div class="container mt-5">
+    <div class="container ">
         <form action="<%=request.getContextPath()+ url%>" method="post" enctype="multipart/form-data">
             <div class="form-group row">
                 <label for="price" class="col-sm-2 col-form-label">ID</label>

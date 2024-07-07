@@ -1,15 +1,14 @@
 <%@page import="dto.plan.MealPlan"%>
-<%@page contentType="text/html; charset=UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix='c'%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%@include file="../../adminCssAdder.jsp" %> <!-- Including CSS styles -->
         <title>Meal Plan Insert</title>
         <style>
             .main-container{
-                margin-top:100px;
             }
             .popup-error {
                 position: fixed;
@@ -57,10 +56,14 @@
         </style>
     </head>
     <body>
+
         <% String insertUrl = request.getContextPath() + "/AMainController?action=MealPlanInsert";
             String error = (String) request.getAttribute("ERROR");
             MealPlan mealPlan = (MealPlan) request.getAttribute("mealPlan");
         %>
+
+
+        <%@include file="../../AdminHeader.jsp" %> <!-- Including Header -->
         <% if (error != null) {%>
         <div class="popup-error">
             <p class="error-close" onclick="closeMessage()">x<p>
@@ -118,7 +121,6 @@
                 </form>
             </div>
         </div>
-        <div class="bottom"></div>
         <%
             request.removeAttribute("ERROR");
             request.removeAttribute("mealPlan");
@@ -130,8 +132,10 @@
                 const overlay = document.querySelector('.overlay');
                 overlay.classList.remove('overlay');
             }
-           
+
         </script>
+        <%@include file="../../adminJs.jsp" %> <!-- Including JavaScript -->
+
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

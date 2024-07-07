@@ -29,7 +29,7 @@
 %>
 
 <%@include file="../../AdminHeader.jsp" %>
-<div class="container mt-5">
+<div class="container ">
     <div class="row">
         <!-- Left side: Display old information -->
         <div class="col-md-6">

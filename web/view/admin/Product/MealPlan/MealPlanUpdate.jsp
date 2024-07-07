@@ -21,7 +21,6 @@
         }
 
         .main-container {
-            margin-top: 100px;
         }
 
         .meal-plan-img {
@@ -180,7 +179,6 @@
             </form>
         </div>
     </div>
-    <div class="bottom"></div>
     <script>
         function closeMessage() {
             const message = document.querySelector('.popup-error');

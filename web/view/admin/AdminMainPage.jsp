@@ -12,7 +12,6 @@
         <%@include file="adminCssAdder.jsp" %>
         <style>
             body {
-                padding-top: 56px; /* Adjust according to the height of the navbar */
             }
             .dropdown-item button {
                 margin-left: 10px;
@@ -39,7 +38,7 @@
         <div class="container">
             <h1>Welcome to the Admin Page</h1>
             <!-- Other admin content goes here -->
-            <div class="container mt-5">
+            <div class="container ">
                 <h1 class="mb-4">Admin Dashboard</h1>
                 <div class="row">
                     <div class="col-md-4">

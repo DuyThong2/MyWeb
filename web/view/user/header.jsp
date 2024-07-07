@@ -8,12 +8,12 @@
 <!DOCTYPE html>
 <%
     String homeURL = request.getContextPath() + "/MainController?action=mainPagePage";
-    String ShopURL = request.getContextPath() +"/MainController?action=shopPage";
-    String accountDetail = request.getContextPath()+"/MainController?action=userDetail";
-    String viewCartDetail = request.getContextPath() +"/MainController?action=cartDisplayPage";
+    String ShopURL = request.getContextPath() + "/MainController?action=shopPage";
+    String accountDetail = request.getContextPath() + "/MainController?action=userDetail";
+    String viewCartDetail = request.getContextPath() + "/MainController?action=cartDisplayPage";
     String PlanURL = request.getContextPath() + "/MainController?action=";
     String myPlan = request.getContextPath() + "/MainController?action=";
-    
+
 
 %>
 <!-- Nav Bar -->
@@ -26,9 +26,9 @@
             <div class="central-links col-lg-4 col-md-2 col-sm-1 container-fluid">
                 <ul class="navbar-nav">
                     <li><a href="<%=homeURL%>">Home</a></li>
-                    <li><a href="<%=ShopURL %>">Shop</a></li>
-                    <li><a href="<%=PlanURL %>">Plan</a></li>
-                    <li><a href="<%=myPlan %>">My Schedule</a></li>
+                    <li><a href="<%=ShopURL%>">Shop</a></li>
+                    <li><a href="<%=PlanURL%>">Plan</a></li>
+                    <li><a href="<%=myPlan%>">My Schedule</a></li>
                     <label class="menu-button" for="">
                         <svg xmlns="http://www.w3.org/2000/svg" height="32px"
                              viewBox="0 -960 960 960" width="32px" fill="#000000">
@@ -98,12 +98,12 @@
                 </label>
             </form>
         </div>
-
     </label>
     <label id="search-overlay" for="search-active"></label>
 </div>
-                    <div class="background-container"></div>
+<div class="background-container"></div>
 
+<div class="space" style="width:100vw; height:150px;"></div>
 
 <!-- POP-UP SEARCH BOX -->
 

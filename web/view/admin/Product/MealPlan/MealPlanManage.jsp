@@ -12,8 +12,16 @@
         <title>JSP Page</title>
         <style>
             .main-container{
-                margin-top:100px;
                 padding:20px;
+                position:relative;
+            }
+            .insert-button{
+                position:absolute;
+                top:0px;
+                right: 0;
+            }
+            .description-col{
+                width:400px;
             }
         </style>
     </head>
@@ -48,81 +56,35 @@
         <%@include file="../../AdminHeader.jsp" %>
 
         <div class="container main-container bg-white border border-warning p-3" style="border-radius:10px;">
-            <div class="row mt-5 mb-5">
-                <h1 class="col-md-12 text-center text-success">Meal Plan Manage</h1>
-            </div>
-            <div class="row meal-plan-btn-container mt-5 mb-5">
-                <div class="col-md-12 d-flex justify-content-center">
-                    <a class="btn btn-danger" href="<%= insertPageUrl%>"><span class="h4">Insert Meal Plan</span></a>
+            <div class="row  mb-2 w-100 d-flex justify-content-center">
+                <h1 class=" text-center text-dark">Meal Plan Manage</h1>
+                <div class="d-flex justify-content-center insert-button">
+                    <a class="btn btn-success" href="<%= insertPageUrl%>"><span class="h5">Insert</span></a>
                 </div>
             </div>
+
             <hr>
-            <div class="row px-3">
-                <h2 class="text-info">Meal Plan Table</h2>
-            </div>
-            <hr>
+           
+
+
             <div class="row search-bar p-0 w-100">
                 <form action="<%=searchPageUrl%>" class="w-100" method="POST">
                     <div class="row form-group form-inline">
-                        <label for="search-bar" class="col-md-3 w-100 align-start" style=" font-size:1.6rem;">Search Name</label>
-                        <input  type="text" name="txtsearch" id="search-bar" class="form-control col-md-7" value="${sessionScope.localSearch}" placeholder="">
-                        <input type="submit" name="action" value="MealPlan" class="btn btn-primary col-md-2">
+                        <label for="search-bar" class="col-md-3" style=" font-size:1.6rem;">Search Meal Plan</label>
+                        <input  type="text" name="txtsearch" id="search-bar" class="form-control col-md-7" value="${sessionScope.localSearch}" placeholder="Search for meal plan">
+                        <input type="submit" name="action" value="MealPlan"  class="btn btn-primary btn-md btn-warning col-md-1">
                     </div>
                 </form>
             </div>
-            <div class="row group-btn-sort ">
-                <div class="col-md-6">
-                    <p style=" font-size:1.6rem;">Sort</p>
-                    <form action="<%= switchPageUrl%>" method="POST">
-                        <div class="form-check">
-                            <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Ascending</label>
-                            </br>
-                            <input name="sort" type="radio" id="category-checkbox" value="min" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Descending</label>
-                            <hr>
-                            <input name="cate" type="radio" id="category-checkbox" value="id" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">ID</label>
-                            <br>
-                            <input name="cate" type="radio" id="category-checkbox" value="name" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Name</label>
-                            <br>
-                            <input name="cate" type="radio" id="category-checkbox" value="type" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Type</label>
-                            <br>
-                            <input name="cate" type="radio" id="category-checkbox" value="status" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Status</label>
-                        </div>
-                        <input type="submit"  class="btn btn-primary mt-2">
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <p style=" font-size:1.6rem;">Type</p>
-                    <form action="<%= switchPageUrl%>" method="POST">
-                        <div class="form-check">
-                            <input name="type" type="radio" id="type-checkbox" value="vegan" class="form-check-input">
-                            <label for="type-checkbox" class="form-check-label">Vegan</label>
-                            </br>
-                            <input name="type" type="radio" id="type-checkbox" value="vegetarian"class="form-check-input">
-                            <label for="type-checkbox" class="form-check-label">Vegetarian</label>
-                            </br>
-                            <input name="type" type="radio" id="type-checkbox" value="meat" class="form-check-input">
-                            <label for="type-checkbox" class="form-check-label">Meat</label>
-                            </br> 
-                        </div>
-                        <input type="submit" class="btn btn-primary mt-2">
-                    </form>
-                </div>
-            </div>
             <div class="row table ml-1">
                 <table class="table table-striped mt-4">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th>Images</th>
                             <th>Id</th>
                             <th>Name</th>
                             <th>Type</th>
-                            <th>Description</th>
+                            <th class="description-col">Description</th>
                             <th>Option</th>
                         </tr>
                     </thead>
@@ -138,17 +100,16 @@
                             <td><%= mealPlan.getName()%></td>
                             <td><%= mealPlan.getType()%></td>
                             <td><%= mealPlan.getContent()%></td>
-                            <td>
-                                <a href="<%= detailPageUrl%>&id=<%=mealPlan.getId()%>" class="btn btn-sm btn-info mb-2">Detail</a>
+                            <td class="d-flex flex-column justify-content-space-between w-100">
+                                <a href="<%= detailPageUrl%>&id=<%=mealPlan.getId()%>" class="btn btn-md btn-primary mb-2">Detail</a>
                                 <% if (mealPlan.getStatus() == 1) {
-
                                 %>
-                                <a href='<%=switchPageUrl%>&id=<%= mealPlan.getId()%>' onclick="" class="btn btn-sm btn-danger mb-2">Disable</a>
+                                <a href='<%=switchPageUrl%>&id=<%= mealPlan.getId()%>' onclick="" class="btn btn-md btn-danger mb-2">Disable</a>
 
                                 <%
                                 } else {
                                 %>
-                                <a href='<%=switchPageUrl%>&id=<%= mealPlan.getId()%>' class="btn btn-sm btn-success mb-2">Enable</a>
+                                <a href='<%=switchPageUrl%>&id=<%= mealPlan.getId()%>' class="btn btn-md btn-success mb-2">Enable</a>
                                 <%
                                     }
                                 %>
@@ -165,7 +126,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <form action="<%= switchPageUrl%>" method="POST" class="form-check">
                         <input type="hidden" name="NumPage" value="<%= currentNumPage - 1%>">
-                        <button type="submit" class="btn btn-info">&lt;</button>
+                        <button type="submit" class="btn btn-dark">&lt;</button>
                     </form>
                     <form action="<%= switchPageUrl%>" method="POST" class="form-check">
                         <input name="NumPage" class="form-control page-number" value="<%=currentNumPage%>"type="number" min="1" max="<%=paginationList.size()%>">
@@ -173,15 +134,73 @@
                     <span style="font-size: 1.5rem; "class="align-items-end ml-1"> /<%=paginationList.size()%></span>
                     <form action="<%=switchPageUrl%>" method="Post" class="form-check">
                         <input type="hidden" name="NumPage" value="<%= Math.min(currentNumPage + 1, paginationList.size())%>">
-                        <button type="submit" class="btn btn-info">&gt;</button>
+                        <button type="submit" class="btn btn-dark">&gt;</button>
                     </form> 
 
                 </div>
             </div>
-        </div>
-        <footer style="height:500px;">
+                        
+            <div class="row group-btn-sort ">
+                <div class="col-md-6">
+                    <form action="<%= switchPageUrl%>" method="POST">
+                        <div class="form-check d-flex justify-content-around align-items-center">
+                            <div>
+                                <p style=" font-size:1.6rem;">Sort By</p>
+                            </div>
+                            <div>
+                                <select name="cate" id="" class="form-select" required>
+                                    <option value=""> Choose Category</option>
+                                    <option value="id">ID</option>
+                                    <option value="name">Name</option>
+                                    <option value="type">Type</option>
+                                    <option value="status">Status</option>
+                                </select>
+                                <div>
+                                    <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">
+                                    <label for="category-checkbox" class="form-check-label">Ascending</label>
+                                </div>
+                                <div>
+                                    <input name="sort" type="radio" id="category-checkbox" value="min" class="form-check-input">
+                                    <label for="category-checkbox" class="form-check-label">Descending</label>
+                                </div>
+                            </div> 
+                            <div>
+                                <input type="submit"  value="sort" class="btn btn-primary mt-2">
 
-        </footer>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form action="<%= switchPageUrl%>" method="POST">
+                        <div class="form-check d-flex justify-content-around align-items-center">
+                            <div>
+                                <p style=" font-size:1.6rem;">Type</p>
+                            </div>
+                            <div>
+                                <div>
+                                    <input name="type" type="radio" id="type-checkbox" value="vegan" class="form-check-input">
+                                    <label for="type-checkbox" class="form-check-label">Vegan</label>
+                                </div>
+                                <div>
+                                    <input name="type" type="radio" id="type-checkbox" value="vegetarian"class="form-check-input">
+                                    <label for="type-checkbox" class="form-check-label">Vegetarian</label> 
+                                </div>
+                                <div>
+                                    <input name="type" type="radio" id="type-checkbox" value="meat" class="form-check-input">
+                                    <label for="type-checkbox" class="form-check-label">Meat</label>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="submit" class="btn btn-primary mt-2">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
         <%@include file="../../adminJs.jsp" %>
     </body>
 </html>

@@ -6,18 +6,18 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String homeURL = request.getContextPath()+"/AMainController?action=adminmainpage";
-    String OrderManageURL=request.getContextPath()+"/AMainController?action=orderManagePage";
-    String UserManageURL=request.getContextPath()+"/AMainController?action=userManage";
-    String IngredientURL=request.getContextPath()+"/AMainController?action=ingredientManage";
-    String MealManageURL=request.getContextPath()+"/AMainController?action=MealManage";
-    String planURL= request.getContextPath()+"/AMainController?action=MealPlan";
-    String saleURL=request.getContextPath()+"";
+    String homeURL = request.getContextPath() + "/AMainController?action=adminmainpage";
+    String OrderManageURL = request.getContextPath() + "/AMainController?action=orderManagePage";
+    String UserManageURL = request.getContextPath() + "/AMainController?action=userManage";
+    String IngredientURL = request.getContextPath() + "/AMainController?action=ingredientManage";
+    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManage";
+    String planURL = request.getContextPath() + "/AMainController?action=MealPlan";
+    String saleURL = request.getContextPath() + "";
 
 %>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="<%=homeURL %>">Admin</a>
+    <a class="navbar-brand" href="<%=homeURL%>">Admin</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,8 +34,8 @@
                     Meal
                 </a>
                 <div class="dropdown-menu" aria-labelledby="mealDropdown">
-                    <a class="dropdown-item" href="<%=IngredientURL %>">Ingredients</a>
-                    <a class="dropdown-item" href="<%=MealManageURL %>">Meal</a>
+                    <a class="dropdown-item" href="<%=IngredientURL%>">Ingredients</a>
+                    <a class="dropdown-item" href="<%=MealManageURL%>">Meal</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -57,3 +57,4 @@
         </ul>
     </div>
 </nav>
+<div style="height:70px; width:100vw"></div>

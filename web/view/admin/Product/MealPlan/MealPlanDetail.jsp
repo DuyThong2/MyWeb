@@ -27,7 +27,6 @@
             }
 
             .main-container {
-                margin-top: 100px;
             }
 
             .meal-plan-img {

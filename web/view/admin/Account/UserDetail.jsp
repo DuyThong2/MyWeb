@@ -69,7 +69,7 @@
     <body>
         <div class="container">
             <!-- User Info and Options -->
-            <div class="row mt-4">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="card user-info">
                         <div class="card-header">

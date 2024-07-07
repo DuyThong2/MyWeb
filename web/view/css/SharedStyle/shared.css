@@ -18,7 +18,7 @@ and open the template in the editor.
 }
 
 body{
-    min-width:100 vw;
+    min-height:100vh;
 }
 
 .fruite-item {

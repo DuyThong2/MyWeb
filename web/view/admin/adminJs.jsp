@@ -9,6 +9,7 @@
 
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<div style="height:200px; width:100vw;"></div>
 <script>
     function fetchNotifications() {
         fetch('<%=request.getContextPath()%>/fetchNotifications')
@@ -23,7 +24,7 @@
                             if (notif.message) { // Ensure the message is not undefined or null
                                 let notificationItem = document.createElement('a');
                                 notificationItem.className = 'dropdown-item';
-                                notificationItem.href = '/AMainController?action=orderDetail' + '&orderId=' + notif.id;
+                                notificationItem.href = '<%= request.getContextPath() %>/AMainController?action=orderDetail' + '&orderId=' + notif.id;
                                 notificationItem.innerHTML = notif.message + `
             
                                         <button class="btn btn-primary btn-sm">View</button>

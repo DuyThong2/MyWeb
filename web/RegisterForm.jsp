@@ -12,6 +12,13 @@
         <!-- boxicons -->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <title>Document</title>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
     </head>
 
     <body>
@@ -67,7 +74,7 @@
                             printMessage = "Your account is banned!";
                             break;
                         case "FoundEmail":
-                            printMessage ="Your email has already been signed up";
+                            printMessage = "Your email has already been signed up";
                             break;
                         default:
                             printMessage = "Registration error! Please try again.";

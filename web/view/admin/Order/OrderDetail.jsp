@@ -30,7 +30,7 @@
 <%@include file="../AdminHeader.jsp" %>
 <div class="container-fluid">
     <!-- First Row: Order Information -->
-    <div class="row mt-4">
+    <div class="row ">
         <div class="col-lg-8">
             <h2>Order Information</h2>
             <table class="table table-bordered">
