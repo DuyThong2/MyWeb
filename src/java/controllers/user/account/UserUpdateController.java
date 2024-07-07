@@ -158,6 +158,14 @@ public class UserUpdateController extends HttpServlet {
         
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/MainController?action=userUpdatePage").forward(req, resp); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

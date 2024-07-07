@@ -137,7 +137,13 @@ public class IngredientManageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        IngredientDAO iDao = new IngredientDAO();
+        HttpSession session = request.getSession();
+        List<Ingredient> list = iDao.getAllIngredients();
+        session.setAttribute("ingredientList", list);
+        session.setAttribute("numPage", 1);
+        request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
     }
 
     /**

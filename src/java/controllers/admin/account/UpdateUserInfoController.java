@@ -1,3 +1,5 @@
+package controllers.admin.account;
+
 import dao.account.UserDAO;
 import dto.account.Address;
 import dto.account.User;
@@ -121,4 +123,11 @@ public class UpdateUserInfoController extends HttpServlet {
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/AMainController?action=userUpdatePage").forward(req, resp); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

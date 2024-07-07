@@ -50,7 +50,7 @@ public class UserManageController extends HttpServlet {
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
 
-        String deleteId = request.getParameter("deleteUserId");
+        
 
         // Get the numPage parameter from the request
         String numPageStr = request.getParameter("numPage");
@@ -67,29 +67,22 @@ public class UserManageController extends HttpServlet {
 
         List<User> list = (List<User>) session.getAttribute("userList");
 
-        if (deleteId != null) {
-            String status = request.getParameter("status");
-            setDelete(list, Integer.parseInt(deleteId), status);
-            String refinedURl = DELETE_USER_URL + "&deleteUserId=" + deleteId+"&status="+status;
-            request.getRequestDispatcher(refinedURl).forward(request, response);
-        } else {
-            //search group of user
-            List<User> copyList = findUserGroup(request, dao);
-            if (copyList != null) {
-                session.setAttribute("userList", copyList);
-            }
-            
-            //search name
-            copyList = searchingUsers(request, dao);
-            if (copyList != null) {
-                session.setAttribute("userList", copyList);
-            }
-
-            //save last page access
-            session.setAttribute("numPage", numPage);
-
-            request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+        //search group of user
+        List<User> copyList = findUserGroup(request, dao);
+        if (copyList != null) {
+            session.setAttribute("userList", copyList);
         }
+
+        //search name
+        copyList = searchingUsers(request, dao);
+        if (copyList != null) {
+            session.setAttribute("userList", copyList);
+        }
+
+        //save last page access
+        session.setAttribute("numPage", numPage);
+
+        request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
 
     }
 
@@ -98,15 +91,15 @@ public class UserManageController extends HttpServlet {
             String seachValue = request.getParameter("searchValue");
             String searchCategory = request.getParameter("searchCriteria");
             if (seachValue != null && searchCategory != null) {
-                if (!searchCategory.matches("address")){
+                if (!searchCategory.matches("address")) {
                     List<User> copyList = dao.getUsersByCategory(seachValue, searchCategory);
                     return copyList;
-                }else{
+                } else {
                     AddressDAO addressDAO = new AddressDAO();
                     List<Integer> ids = addressDAO.getCustomerIdsByPartialAddress(seachValue);
                     return ids.stream().map(dao::getUserById).collect(Collectors.toList());
                 }
-                
+
             }
         }
         return null;
@@ -119,16 +112,16 @@ public class UserManageController extends HttpServlet {
             optinal.get().setStatus(status);
         }
     }
-    
-    private List<User> findUserGroup(HttpServletRequest request, UserDAO dao){
+
+    private List<User> findUserGroup(HttpServletRequest request, UserDAO dao) {
         if (request != null) {
             String searchCategory = request.getParameter("userGroup");
             if (searchCategory != null) {
-                if (searchCategory.matches("all")){
+                if (searchCategory.matches("all")) {
                     return dao.getAllUser();
-                }else if(searchCategory.matches("banned")){
+                } else if (searchCategory.matches("banned")) {
                     return dao.getBannedUser();
-                }else{
+                } else {
                     return dao.getWarningUser();
                 }
             }
@@ -148,7 +141,23 @@ public class UserManageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        UserDAO dao = new UserDAO();
+        HttpSession session = request.getSession();
+        List<User> list = (List<User>) session.getAttribute("userList");
+        
+        String deleteId = request.getParameter("deleteUserId");
+        if (deleteId != null) {
+            String status = request.getParameter("status");
+            setDelete(list, Integer.parseInt(deleteId), status);
+            String refinedURl = DELETE_USER_URL + "&deleteUserId=" + deleteId + "&status=" + status;
+            request.getRequestDispatcher(refinedURl).forward(request, response);
+        } else {
+            list = dao.getAllUser();
+            session.setAttribute("userList", list);
+            session.setAttribute("numPage", 1);
+
+            request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+        }
     }
 
     /**
