@@ -10,6 +10,7 @@ import dto.plan.MealPlan;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -89,7 +90,10 @@ public class MealPlanInsertController extends HttpServlet {
                         }
                     } else {
                         if (fileItem.getFieldName().equals("imgUrl")) {
-                            fileName = fileItem.getName();
+                            System.out.println(fileItem.getName());
+                            System.out.println(Paths.get(fileItem.getName()));
+                            System.out.println(Paths.get(fileItem.getName()).toAbsolutePath().getFileName());
+                            fileName = Paths.get(fileItem.getName()).getFileName().toString();
                             imageItem = fileItem;
                             if (fileName != null && !fileName.isEmpty()) {
                                 imageUrl += fileName;
@@ -138,7 +142,7 @@ public class MealPlanInsertController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher(MEALINSERT_URL).forward(request, response);
     }
 
     /**

@@ -50,7 +50,7 @@ public class NotificationServlet extends HttpServlet {
 
         try {
             conn = JDBCUtil.getConnection();// Get your database connection
-            String fetchNotificationsSQL = "SELECT orderId, message FROM Notifications WHERE status = 'unread'";
+            String fetchNotificationsSQL = "SELECT orderId, message FROM Notifications WHERE status = 'unread' order by orderId desc";
             pstmt = conn.prepareStatement(fetchNotificationsSQL);
             rs = pstmt.executeQuery();
 

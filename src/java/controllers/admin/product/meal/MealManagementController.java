@@ -60,32 +60,25 @@ public class MealManagementController extends HttpServlet {
             List<Meal> list = dao.getAllMeals();
             session.setAttribute("mealList", list);
         }
-        String deleteProductId = request.getParameter("deleteProductId");
         
+
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
-        if (deleteProductId != null) {
-            String status = request.getParameter("status");
-            setDelete(list, deleteProductId, status);
-            String refinedURl = DELETE_PRODUCT_URL + "&deleteProductId=" + deleteProductId+"&status="+status;
-            request.getRequestDispatcher(refinedURl).forward(request, response);
-        } else {
-            
-            List<Meal> copyList = searchingMeal(request, dao);
-            //search name
-            if (copyList != null) {
-                session.setAttribute("mealList", copyList);
-            }
 
-            //check if sort
-            copyList = sortListFromRequest(request, list);
-            if (copyList != null) {
-                session.setAttribute("mealList", copyList);
-            }
-            //save last page access
-            session.setAttribute("numPage", numPage);
-
-            request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+        List<Meal> copyList = searchingMeal(request, dao);
+        //search name
+        if (copyList != null) {
+            session.setAttribute("mealList", copyList);
         }
+
+        //check if sort
+        copyList = sortListFromRequest(request, list);
+        if (copyList != null) {
+            session.setAttribute("mealList", copyList);
+        }
+        //save last page access
+        session.setAttribute("numPage", numPage);
+
+        request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
 
     }
 
@@ -154,7 +147,23 @@ public class MealManagementController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        MealDAO dao = new MealDAO();
+        HttpSession session = request.getSession();
+        String deleteProductId = request.getParameter("deleteProductId");
+
+        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
+
+        if (deleteProductId != null) {
+            String status = request.getParameter("status");
+            setDelete(list, deleteProductId, status);
+            String refinedURl = DELETE_PRODUCT_URL + "&deleteProductId=" + deleteProductId + "&status=" + status;
+            request.getRequestDispatcher(refinedURl).forward(request, response);
+        } else {
+            list = dao.getAllMeals();
+            session.setAttribute("mealList", list);
+            session.setAttribute("numPage", 1);
+            request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+        }
     }
 
     /**

@@ -140,7 +140,13 @@ public class MealController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        MealDAO dao = new MealDAO();
+        HttpSession session = request.getSession();
+        List<Meal> list = dao.getCustomerMealList();
+        session.setAttribute("mealList", list);
+        session.setAttribute("numPage", 1);
+
+        request.getRequestDispatcher(SHOP_PAGE).forward(request, response);
     }
 
     /**

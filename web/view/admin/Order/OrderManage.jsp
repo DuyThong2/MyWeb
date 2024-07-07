@@ -60,7 +60,7 @@
         </header>
 
 
-        <div class="container">
+        <div class="container" style="margin-top: 150px">
             <div class="row">
                 <!-- First Row -->
                 <div class="col-lg-10">
@@ -203,7 +203,7 @@
                         </div>
                         <div class="form-group">
                             <label for="searchValue">Search For:</label>
-                            <input type="text" name="searchValue" id="searchValue" class="form-control" placeholder="time(yyyy/MM/dd)">
+                            <input type="text" name="searchValue" id="searchValue" class="form-control" placeholder="time(dd/MM/yyyy)">
                         </div>
                         <input type="submit" value="Search" class="btn btn-primary mt-2">
                     </form>
@@ -225,6 +225,7 @@
                             <div class="form-check">
                                 <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">
                                 <label for="category-checkbox" class="form-check-label">Show max </label>
+                                <br>
                                 <input name="sort" type="radio" id="category-checkbox" value="min" class="form-check-input">
                                 <label for="category-checkbox" class="form-check-label">Show min </label>
                             </div>

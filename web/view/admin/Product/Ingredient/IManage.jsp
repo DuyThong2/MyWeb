@@ -64,7 +64,7 @@
         %>
         <%@include file="../../AdminHeader.jsp" %>
         
-        <div class="container">
+        <div class="container" style="margin-top: 200px">
             <div class="row">
                 <!-- Table section taking 80% of the row -->
                 <div id="table" class="col-md-10">
