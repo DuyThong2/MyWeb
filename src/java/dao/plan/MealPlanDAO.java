@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -304,4 +306,35 @@ public class MealPlanDAO {
         }
     }
 
+    public boolean updateMealPlan(MealPlan mealPlan) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = JDBCUtil.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE MealPlan SET name = ?, type = ?, content = ?, imgUrl = ?, status = ? WHERE id = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, mealPlan.getName());
+                ps.setString(2, mealPlan.getType());
+                ps.setString(3, mealPlan.getContent());
+                ps.setString(4, mealPlan.getImgUrl());
+                ps.setInt(5, mealPlan.getStatus());
+                ps.setString(6, mealPlan.getId());
+                return ps.executeUpdate() > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(MealPlanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

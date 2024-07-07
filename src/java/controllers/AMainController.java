@@ -17,14 +17,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author Admin
  */
 public class AMainController extends HttpServlet {
-    
+
     private final String SUCCESS = "view/success.jsp";
     private final String ERROR = "view/error.jsp";
     private final String REGISTER_FORM = "RegisterForm.jsp";
     private final String LOGIN = "LoginServlet";
-    private final String REGISTER= "RegisterServlet";
-    private final String USER_MAINPAGE="view/user/mainPage.jsp";
-    private final String ADMIN_MAINPAGE="view/admin/AdminMainPage.jsp";
+    private final String REGISTER = "RegisterServlet";
+    private final String USER_MAINPAGE = "view/user/mainPage.jsp";
+    private final String ADMIN_MAINPAGE = "view/admin/AdminMainPage.jsp";
 
     //Ingredient
     private final String INGREDIENT_MANAGE = "view/admin/Product/Ingredient/IManage.jsp";
@@ -50,19 +50,23 @@ public class AMainController extends HttpServlet {
 
     private final String PRODUCT_DELETE = "";
     private final String PRODUCT_DELETE_CONTROLLER = "/DeleteMealController";
-    
+
     //MEAL PLAN
-    private final String MEAL_PLAN_PAGE="view/admin/Product/MealPlan/MealPlanManage.jsp";
-    private final String MEAL_PLAN_CONTROLLER="MealPlanManageController";
-    private final String MEAL_PLAN_DETAIL_PAGE ="view/admin/Product/MealPlan/MealPlanDetail.jsp";
-    private final String MEAL_PLAN_DETAIL_CONTROLLER="MealPlanDetailController";
-    private final String MEAL_PLAN_INSERT_CONTROLLER="MealPlanInsertController";
-    private final String MEAL_PLAN_INSERT_PAGE="view/admin/Product/MealPlan/MealPlanInsert.jsp";
-    
+    private final String MEAL_PLAN_PAGE = "view/admin/Product/MealPlan/MealPlanManage.jsp";
+    private final String MEAL_PLAN_CONTROLLER = "MealPlanManageController";
+
+    private final String MEAL_PLAN_DETAIL_PAGE = "view/admin/Product/MealPlan/MealPlanDetail.jsp";
+    private final String MEAL_PLAN_DETAIL_CONTROLLER = "MealPlanDetailController";
+
+    private final String MEAL_PLAN_INSERT_CONTROLLER = "MealPlanInsertController";
+    private final String MEAL_PLAN_INSERT_PAGE = "view/admin/Product/MealPlan/MealPlanInsert.jsp";
+
+    private final String MEAL_PLAN_UPDATE_CONTROLLER = "MealPlanUpdateController";
+    private final String MEAL_PLAN_UPDATE_PAGE = "view/admin/Product/MealPlan/MealPlanUpdate.jsp";
     //DAY PLAN
-    
+
     private final String DAY_PLAN_INSERT_PAGE = "view/admin/Product/DayPlan/DayPlanInsert.jsp";
-    private final String DAY_PLAN_INSERT_CONTROLLER= "DayPlanInsertController";
+    private final String DAY_PLAN_INSERT_CONTROLLER = "DayPlanInsertController";
     //PACKET
     private final String PACKET_INSERT = "view/admin/Product/Packet/InsertIngredientPacket.jsp";
     private final String PACKET_INSERT_CONTROLLER = "/admin/packet/InsertIngredientPacketController";
@@ -73,126 +77,221 @@ public class AMainController extends HttpServlet {
     //USER
     private final String USER_MANAGE = "view/admin/Account/UserManage.jsp";
     private final String USER_MANAGE_CONTROLLER = "/admin/account/UserManageController";
-    
-    private final String USER_DETAIL="view/admin/Account/UserDetail.jsp";
-    private final String USER_DETAIL_CONTROLLER="/admin/account/UserDetail";
-    
-    private final String USER_DELETE="";
-    private final String USER_DELETE_CONTROLLER="/admin/account/DeleteUser";
-    
-    private final String USER_UPDATE="view/admin/Account/UpdateUser.jsp";
+
+    private final String USER_DETAIL = "view/admin/Account/UserDetail.jsp";
+    private final String USER_DETAIL_CONTROLLER = "/admin/account/UserDetail";
+
+    private final String USER_DELETE = "";
+    private final String USER_DELETE_CONTROLLER = "/admin/account/DeleteUser";
+
+    private final String USER_UPDATE = "view/admin/Account/UpdateUser.jsp";
     private final String USER_UPDATE_CONTROLLER = "/admin/user/UpdateUserInfoController";
 
     //ORDER
-    private final String ORDER_MANAGE="view/admin/Order/OrderManage.jsp";
-    private final String ORDER_MANAGE_CONTROLLER="/admin/order/orderManage";
-    
+    private final String ORDER_MANAGE = "view/admin/Order/OrderManage.jsp";
+    private final String ORDER_MANAGE_CONTROLLER = "/admin/order/orderManage";
+
     private final String ORDER_DETAIL = "view/admin/Order/OrderDetail.jsp";
-    private final String ORDER_DETAIL_CONTROLLER ="/admin/order/OrderDetail";
-    
-    private final String ORDER_UPDATE ="";
-    private final String ORDER_UPDATE_CONTROLLER="/admin/order/OrderStatusUpdate";
+    private final String ORDER_DETAIL_CONTROLLER = "/admin/order/OrderDetail";
+
+    private final String ORDER_UPDATE = "";
+    private final String ORDER_UPDATE_CONTROLLER = "/admin/order/OrderStatusUpdate";
+
     //SALE
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
 
-        if(action==null){
+        if (action == null) {
             action = "";
 
         }
         String url = "";
-        
+
         switch (action) {
-            
-            
 
-            
-            
-            case "error": url=ERROR;break;
-            case "success": url =SUCCESS;break;
+            case "error":
+                url = ERROR;
+                break;
+            case "success":
+                url = SUCCESS;
+                break;
             //Ingredient
-            case "ingredientManagePage": url = INGREDIENT_MANAGE;break;
-            case "ingredientManage": url = INGREDIENT_MANAGE_CONTROLLER;break;
+            case "ingredientManagePage":
+                url = INGREDIENT_MANAGE;
+                break;
+            case "ingredientManage":
+                url = INGREDIENT_MANAGE_CONTROLLER;
+                break;
 
-            case "IngredientInsertPage":url = INGREDIENT_INSERT;break;
-            case "IngredientInsert":url = INGREDIENT_INSERT_CONTROLLER;break;
+            case "IngredientInsertPage":
+                url = INGREDIENT_INSERT;
+                break;
+            case "IngredientInsert":
+                url = INGREDIENT_INSERT_CONTROLLER;
+                break;
 
-            case "IngredientUpdatePage":url = INGREDIENT_UPDATE;break;
-            case "IngredientUpdate":url = INGREDIENT_UPDATE_CONTROLLER;break;
+            case "IngredientUpdatePage":
+                url = INGREDIENT_UPDATE;
+                break;
+            case "IngredientUpdate":
+                url = INGREDIENT_UPDATE_CONTROLLER;
+                break;
 
             //Meal
-            
-            case "MealDetail":url =MEAL_DETAIL;break;
-            
-            case "MealManagePage":url = MEAL_MANAGE;break;
-            case "MealManage":url = MEAL_MANAGE_CONTROLLER;break;
+            case "MealDetail":
+                url = MEAL_DETAIL;
+                break;
 
-            case "MealInsertPage":url = MEAL_INSERT;break;
-            case "MealInsert":url = MEAL_INSERT_CONTROLLER;break;
+            case "MealManagePage":
+                url = MEAL_MANAGE;
+                break;
+            case "MealManage":
+                url = MEAL_MANAGE_CONTROLLER;
+                break;
 
-            case "MealUpdatePage": url = MEAL_UPDATE; break;
-            case "MealUpdate":url = MEAL_UPDATE_CONTROLLER;break;
+            case "MealInsertPage":
+                url = MEAL_INSERT;
+                break;
+            case "MealInsert":
+                url = MEAL_INSERT_CONTROLLER;
+                break;
+
+            case "MealUpdatePage":
+                url = MEAL_UPDATE;
+                break;
+            case "MealUpdate":
+                url = MEAL_UPDATE_CONTROLLER;
+                break;
 
             //IngredientPacket
-            case "PacketInsertPage":url = PACKET_INSERT;break;
-            case "PacketInsert":url = PACKET_INSERT_CONTROLLER;break;
+            case "PacketInsertPage":
+                url = PACKET_INSERT;
+                break;
+            case "PacketInsert":
+                url = PACKET_INSERT_CONTROLLER;
+                break;
 
-            case "PacketUpdatePage":url = PACKET_UPDATE;break;
-            case "PacketUpdate":url = PACKET_UPDATE_CONTROLLER;break;
+            case "PacketUpdatePage":
+                url = PACKET_UPDATE;
+                break;
+            case "PacketUpdate":
+                url = PACKET_UPDATE_CONTROLLER;
+                break;
             //Meal Plan
-            case "MealPlan": url=MEAL_PLAN_CONTROLLER; break;
-            case "MealPlanPage": url=MEAL_PLAN_PAGE; break;
-            case "MealPlanDetail": url=MEAL_PLAN_DETAIL_CONTROLLER; break;
-            case "MainPlanDetailPage": url=MEAL_PLAN_DETAIL_PAGE; break;
-            case "MealPlanInsert": url=MEAL_PLAN_INSERT_CONTROLLER; break;
-            case "MealPlanInsertPage": url = MEAL_PLAN_INSERT_PAGE; break;
-            
-            //DayPlan
-            case "DayPlanInsert": url =DAY_PLAN_INSERT_CONTROLLER; break;
-            case "DayPlanInsertPage":url =DAY_PLAN_INSERT_PAGE; break;
-            //product
-            case "ProductDelete":url=PRODUCT_DELETE_CONTROLLER;break;
-                
-            //sale
-            
-            
-            //user
-            case "userManagePage": url = USER_MANAGE;break;
-            case "userManage":url=USER_MANAGE_CONTROLLER;break;
-            
-            case "deleteUser":url = USER_DELETE_CONTROLLER;break;
-            
-            case "userUpdatePage": url =USER_UPDATE;break;
-            case "userUpdate":url =USER_UPDATE_CONTROLLER;break;
+            case "MealPlan":
+                url = MEAL_PLAN_CONTROLLER;
+                break;
+            case "MealPlanPage":
+                url = MEAL_PLAN_PAGE;
+                break;
 
-            case "userDetailPage": url = USER_DETAIL;break;
-            case "userDetail": url=USER_DETAIL_CONTROLLER;break;
+            case "MealPlanDetail":
+                url = MEAL_PLAN_DETAIL_CONTROLLER;
+                break;
+            case "MainPlanDetailPage":
+                url = MEAL_PLAN_DETAIL_PAGE;
+                break;
+
+            case "MealPlanInsert":
+                url = MEAL_PLAN_INSERT_CONTROLLER;
+                break;
+            case "MealPlanInsertPage":
+                url = MEAL_PLAN_INSERT_PAGE;
+                break;
+
+            case "MealPlanUpdate":
+                url = MEAL_PLAN_UPDATE_CONTROLLER;
+                break;
+            case "MealPlanUpdatePage":
+                url = MEAL_PLAN_UPDATE_PAGE;
+                break;
+
+            //DayPlan
+            case "DayPlanInsert":
+                url = DAY_PLAN_INSERT_CONTROLLER;
+                break;
+            case "DayPlanInsertPage":
+                url = DAY_PLAN_INSERT_PAGE;
+                break;
+            //product
+            case "ProductDelete":
+                url = PRODUCT_DELETE_CONTROLLER;
+                break;
+
+            //sale
+            //user
+            case "userManagePage":
+                url = USER_MANAGE;
+                break;
+            case "userManage":
+                url = USER_MANAGE_CONTROLLER;
+                break;
+
+            case "deleteUser":
+                url = USER_DELETE_CONTROLLER;
+                break;
+
+            case "userUpdatePage":
+                url = USER_UPDATE;
+                break;
+            case "userUpdate":
+                url = USER_UPDATE_CONTROLLER;
+                break;
+
+            case "userDetailPage":
+                url = USER_DETAIL;
+                break;
+            case "userDetail":
+                url = USER_DETAIL_CONTROLLER;
+                break;
             //order
-            case "orderManagePage":url =ORDER_MANAGE;break;
-            case "orderManage":url = ORDER_MANAGE_CONTROLLER;break;
-            
-            case "orderDetailPage": url = ORDER_DETAIL;break;
-            case "orderDetail":url =ORDER_DETAIL_CONTROLLER;break;
-            
-            case "updateOrderStatus":url = ORDER_UPDATE_CONTROLLER;break;
-            
-            case "insertOrder":break;
-            
-            
+            case "orderManagePage":
+                url = ORDER_MANAGE;
+                break;
+            case "orderManage":
+                url = ORDER_MANAGE_CONTROLLER;
+                break;
+
+            case "orderDetailPage":
+                url = ORDER_DETAIL;
+                break;
+            case "orderDetail":
+                url = ORDER_DETAIL_CONTROLLER;
+                break;
+
+            case "updateOrderStatus":
+                url = ORDER_UPDATE_CONTROLLER;
+                break;
+
+            case "insertOrder":
+                break;
+
             //REGISTER 
-            case "mainpage": url=USER_MAINPAGE; break;
-            case "registerform": url= REGISTER_FORM; break;
-            case "register": url=REGISTER; break;
-            case "login" : url =LOGIN; break;
-            case "adminmainpage": url= ADMIN_MAINPAGE; break;
-          
-            default: url="index.jsp"; break;
+            case "mainpage":
+                url = USER_MAINPAGE;
+                break;
+            case "registerform":
+                url = REGISTER_FORM;
+                break;
+            case "register":
+                url = REGISTER;
+                break;
+            case "login":
+                url = LOGIN;
+                break;
+            case "adminmainpage":
+                url = ADMIN_MAINPAGE;
+                break;
+
+            default:
+                url = "index.jsp";
+                break;
         }
 
         request.getRequestDispatcher(url).forward(request, response);
-        
+
         return;
 
     }

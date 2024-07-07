@@ -11,6 +11,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%@include file="../../adminCssAdder.jsp" %> <!-- Including CSS styles -->
+
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
         <title>Meal Plan Detail</title>
@@ -62,10 +64,17 @@
     <body>
         <%
             MealPlan mealPlan = (MealPlan) request.getAttribute("mealPlan");
+            String id = request.getParameter("id");
+            String updateMealPlanUrl = request.getContextPath() + "/AMainController?action=MealPlanUpdatePage&id=" + id;
+            String updateDayPlanUrl = request.getContextPath() +"/AMainController?action=DayPlanInsert&id=" +id;
+            String mealDetailUrl = request.getContextPath() +"/AMainController?action=MealDetail";
             if (mealPlan == null) {
-                request.getRequestDispatcher(request.getContextPath() + "/AMainController?action=MealPlanDetail");
+                response.sendRedirect(request.getContextPath() + "/AMainController?action=MealPlanDetail&id=" + id);
+                return;
             }
         %>
+        <%@include file="../../AdminHeader.jsp" %> <!-- Including Header -->
+
         <c:set var="disablePage" value="${pageContext.request.contextPath}/AMainController?action=MealPlan&id=${mealPlan.id}"/>
         <div class="container main-container bg-white border border-warning" style="border-radius:10px;">
             <div class="container p-4 " style="border-bottom: 2px solid orange;">
@@ -105,10 +114,10 @@
                         <div class="row button-section h-25 mt-5 mb-4">
                             <div class="row w-100">
                                 <div class="col-lg-6 text-center p-3">
-                                    <a class="btn btn-primary btn-lg p-3" href="">Edit Meal Plan Info</a>
+                                    <a class="btn btn-primary btn-lg p-3" href="<%= updateMealPlanUrl%>">Edit Meal Plan Info</a>
                                 </div>
                                 <div class="col-lg-6 text-center p-3">
-                                    <a class="btn btn-success btn-lg p-3" href="">Edit Weekly Meal Plan</a>
+                                    <a class="btn btn-success btn-lg p-3" href="<%= updateDayPlanUrl%>">Edit Weekly Meal Plan</a>
                                 </div>
 
                             </div>
@@ -152,7 +161,7 @@
                                             <p></p>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="" class="btn btn-primary btn-md mb-3">Detail</a>
+                                            <a href="<%= mealDetailUrl %>&mealId=${entry.value.id}" class="btn btn-primary btn-md mb-3">Detail</a>
                                         </c:otherwise>
                                     </c:choose>
 
@@ -168,7 +177,7 @@
 
 
 
-
+        <%@include file="../../adminJs.jsp" %> <!-- Including JavaScript -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

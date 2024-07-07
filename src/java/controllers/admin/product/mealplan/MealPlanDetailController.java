@@ -66,7 +66,7 @@ public class MealPlanDetailController extends HttpServlet {
             }
             request.setAttribute("mealList", mealList);
             request.setAttribute("mealPlan", mealPlan);
-            request.getRequestDispatcher("AMainController?action=MainPlanDetailPage").forward(request, response);
+            request.getRequestDispatcher("AMainController?action=MainPlanDetailPage&id="+id).forward(request, response);
         }
     }
 

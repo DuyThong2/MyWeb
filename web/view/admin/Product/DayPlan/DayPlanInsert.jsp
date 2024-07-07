@@ -66,15 +66,16 @@
     </head>
     <body>
         <%
-            String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
             String insertDayPlanUrl = request.getContextPath() + "/AMainController?action=DayPlanInsert";
             MealPlan mealPlan = (MealPlan) request.getAttribute("mealPlan");
             ArrayList<Meal> searchList = (ArrayList<Meal>) session.getAttribute("searchList");
             TreeMap<Integer, Meal> mealList = (TreeMap<Integer, Meal>) request.getAttribute("mealList");
-            String id = (String) request.getAttribute("id");
+            String id = (String) request.getParameter("id");
             String searchMealUrl = request.getContextPath() + "/AMainController?action=DayPlanInsert&id=" + id;
             String addMealUrl = request.getContextPath() + "/AMainController?action=DayPlanInsert&id=" + id;
             String deleteMealUrl = request.getContextPath() + "/AMainController?action=DayPlanInsert&id=" + id;
+            String detailPageUrl = request.getContextPath() + "/AMainController?action=MainPlanDetailPage&id="+id;
+
             request.setAttribute("mealPlan", mealPlan);
             request.setAttribute("searchList", searchList);
             if (mealPlan == null) {
@@ -97,6 +98,7 @@
                 <div class="w-100 py-3 d-flex justify-content-between align-items-center">
                     <h4 class="text-danger m-0"><span>Your Meal Plan</span></h4>
                     <a href="#search-bar" class="btn btn-lg btn-warning text-light mx-3" style="width:150px; font-weight:bold;">SEARCH</a>
+                    <a href="<%= detailPageUrl%>" class="btn btn-lg btn-primary text-light" style="width:150px; font-weight:bold;">DETAIL</a>
                 </div>
                 <table class="table table-striped mt-4">
                     <thead class="thead-dark">

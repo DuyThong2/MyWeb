@@ -71,10 +71,8 @@ public class MealPlanManageController extends HttpServlet {
                     session.setAttribute("currentList", mealPlanList);
                 }
             } else {
-                if (mealPlanList == null) {
                     mealPlanList = mpdao.getAllMealPlans();
                     session.setAttribute("currentList", mealPlanList);
-                }
             }
             if (cate != null && sort != null) {
                 mealPlanList = sortMealPlan(mealPlanList, sort.trim(), cate.trim());

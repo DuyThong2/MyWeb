@@ -10,6 +10,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%@include file="../../adminCssAdder.jsp" %>
         <title>JSP Page</title>
+        <style>
+            .main-container{
+                margin-top:100px;
+                padding:20px;
+            }
+        </style>
     </head>
     <body>
         <%
@@ -18,12 +24,12 @@
             String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
             String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsertPage";
             List<MealPlan> mealPlanList = (ArrayList<MealPlan>) request.getAttribute("MealPlanList");
-            if(mealPlanList==null){
+            if (mealPlanList == null) {
                 response.sendRedirect(switchPageUrl);
                 return;
             }
             ArrayList<MealPlan> currentList = new ArrayList<>();
-            List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 4);
+            List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 10);
             Integer numPageInt = (Integer) request.getAttribute("NumPage");
             String numPage = numPageInt != null ? numPageInt.toString() : null;
             int currentNumPage = 1;
@@ -40,7 +46,8 @@
             session.setAttribute("currentList", mealPlanList);
         %>
         <%@include file="../../AdminHeader.jsp" %>
-        <div class="container">
+
+        <div class="container main-container bg-white border border-warning p-3" style="border-radius:10px;">
             <div class="row mt-5 mb-5">
                 <h1 class="col-md-12 text-center text-success">Meal Plan Manage</h1>
             </div>
@@ -50,16 +57,16 @@
                 </div>
             </div>
             <hr>
-            <div class="row">
+            <div class="row px-3">
                 <h2 class="text-info">Meal Plan Table</h2>
             </div>
             <hr>
-            <div class="row search bar">
-                <form action="<%=searchPageUrl%>" class="container" method="POST">
+            <div class="row search-bar p-0 w-100">
+                <form action="<%=searchPageUrl%>" class="w-100" method="POST">
                     <div class="row form-group form-inline">
-                        <label for="search-bar" class="col-md-3" style=" font-size:1.6rem;">Search Name</label>
-                        <input type="text" name="txtsearch" id="search-bar" class="form-control col-md-7" value="${sessionScope.localSearch}" placeholder="">
-                        <input type="submit" name="action" value="MealPlan" class="btn btn-primary col-md-1">
+                        <label for="search-bar" class="col-md-3 w-100 align-start" style=" font-size:1.6rem;">Search Name</label>
+                        <input  type="text" name="txtsearch" id="search-bar" class="form-control col-md-7" value="${sessionScope.localSearch}" placeholder="">
+                        <input type="submit" name="action" value="MealPlan" class="btn btn-primary col-md-2">
                     </div>
                 </form>
             </div>
@@ -107,7 +114,7 @@
                     </form>
                 </div>
             </div>
-            <div class="row table">
+            <div class="row table ml-1">
                 <table class="table table-striped mt-4">
                     <thead>
                         <tr>
@@ -132,7 +139,7 @@
                             <td><%= mealPlan.getType()%></td>
                             <td><%= mealPlan.getContent()%></td>
                             <td>
-                                <a href="<%= detailPageUrl %>&id=<%=mealPlan.getId()%>" class="btn btn-sm btn-info mb-2">Detail</a>
+                                <a href="<%= detailPageUrl%>&id=<%=mealPlan.getId()%>" class="btn btn-sm btn-info mb-2">Detail</a>
                                 <% if (mealPlan.getStatus() == 1) {
 
                                 %>
@@ -158,7 +165,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <form action="<%= switchPageUrl%>" method="POST" class="form-check">
                         <input type="hidden" name="NumPage" value="<%= currentNumPage - 1%>">
-                        <button type="summit" class="btn btn-info">&lt;</button>
+                        <button type="submit" class="btn btn-info">&lt;</button>
                     </form>
                     <form action="<%= switchPageUrl%>" method="POST" class="form-check">
                         <input name="NumPage" class="form-control page-number" value="<%=currentNumPage%>"type="number" min="1" max="<%=paginationList.size()%>">
@@ -166,7 +173,7 @@
                     <span style="font-size: 1.5rem; "class="align-items-end ml-1"> /<%=paginationList.size()%></span>
                     <form action="<%=switchPageUrl%>" method="Post" class="form-check">
                         <input type="hidden" name="NumPage" value="<%= Math.min(currentNumPage + 1, paginationList.size())%>">
-                        <button type="summit" class="btn btn-info">&gt;</button>
+                        <button type="submit" class="btn btn-info">&gt;</button>
                     </form> 
 
                 </div>
