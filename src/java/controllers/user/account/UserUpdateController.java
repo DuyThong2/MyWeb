@@ -77,7 +77,7 @@ public class UserUpdateController extends HttpServlet {
             ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
             List<FileItem> fileItems = fileUpload.parseRequest(request);
 
-            User oldUser = dao.getUserById(id);
+            User oldUser = dao.getUserById(user.getId());
             for (FileItem fileItem : fileItems) {
                 if (fileItem.isFormField()) {
                     // Handle regular form fields

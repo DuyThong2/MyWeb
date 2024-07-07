@@ -90,8 +90,8 @@ public class MealPlanInsertController extends HttpServlet {
                         }
                     } else {
                         if (fileItem.getFieldName().equals("imgUrl")) {
-                            System.out.println(fileItem.getName());
-                            System.out.println(Paths.get(fileItem.getName()));
+                            System.out.println("file item get name: " + fileItem.getName());
+                            System.out.println("file item get name: ptah + " + Paths.get(fileItem.getName()));
                             System.out.println(Paths.get(fileItem.getName()).toAbsolutePath().getFileName());
                             fileName = Paths.get(fileItem.getName()).getFileName().toString();
                             imageItem = fileItem;
