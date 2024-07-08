@@ -94,6 +94,7 @@
                 </div>
             </div>
         </div>
+        <%@include file="../mainFooter.jsp" %>
 
         <!-- Bootstrap JS and dependencies -->
         <%@include file="../../../jsAdder.jsp" %>

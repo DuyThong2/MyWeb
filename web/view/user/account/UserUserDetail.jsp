@@ -203,6 +203,7 @@
                 </div>
             </div>
         </div>
+        <%@include file="../mainFooter.jsp" %>
 
         <%@include file="../../../jsAdder.jsp" %>
 

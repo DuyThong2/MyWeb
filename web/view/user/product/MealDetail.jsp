@@ -20,7 +20,6 @@
         <%@include file="../../../cssAdder.jsp" %>
         <style>
             .container {
-                margin-top: 200px;
                 border-radius: 20px;
                 border: solid orange 5px;
             }
@@ -282,6 +281,7 @@
         <!-- Single Product End -->
 
         <!-- Footer Start -->
+        <%@include file="../mainFooter.jsp" %>
 
         <!-- Footer End -->
 
@@ -293,6 +293,7 @@
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
         <!-- JavaScript Libraries -->
+
         <%@include file="../../../jsAdder.jsp" %>
 
 

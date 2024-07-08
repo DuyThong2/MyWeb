@@ -132,7 +132,6 @@
         </div>
 
         <!-- Bootstrap JS and dependencies -->
-        
         <%@include file="adminJs.jsp" %>
 
 
