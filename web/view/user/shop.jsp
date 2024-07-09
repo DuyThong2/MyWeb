@@ -23,7 +23,6 @@
 
         <style>
             .container {
-                margin-top: 200px;
 
             }
             .fruite-item {
@@ -138,6 +137,31 @@
                 object-fit:cover;
                 z-index:0;
             }
+            @media(max-width:1500px){
+                .card{
+                    height:475px;
+                }
+                .card-img-top,.card-img-container{
+                    height: 185px;
+                }
+            }
+            @media (max-width:1300px){
+                .card{
+                    height:450px;
+                }
+                .card-img-top,.card-img-container {
+                    height: 170px;
+                }
+            }
+            @media(max-width:1100px){
+                .card{
+                    height:425px;
+                }
+                .card-img-top,.card-img-container {
+                    height: 160px;
+                }
+            }
+
         </style>
     </head>
 
@@ -191,7 +215,7 @@
         <!-- Single Page Header End -->
 
         <!-- Fruits Shop Start-->
-        <div stlye="min-witdth:100vw;" class="bg-white mt-5">
+        <div style="min-witdth:100vw;" class="bg-white mt-5">
             <div class="container bg-white py-5" style="min-width:90vw;">
                 <div class="py-5">
                     <h1 class="mb-4" style="justify-content: center;color: orange">Fresh Fruits Shop</h1>
@@ -329,7 +353,7 @@
 
         <!-- JavaScript Libraries -->
         <%@include file="mainFooter.jsp" %>
-
+        
         <%@include file="../../jsAdder.jsp" %>
     </body>
 

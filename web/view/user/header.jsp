@@ -11,8 +11,8 @@
     String ShopURL = request.getContextPath() + "/MainController?action=shopPage";
     String accountDetail = request.getContextPath() + "/MainController?action=userDetail";
     String viewCartDetail = request.getContextPath() + "/MainController?action=cartDisplayPage";
-    String PlanURL = request.getContextPath() + "/MainController?action=";
-    String myPlan = request.getContextPath() + "/MainController?action=";
+    String PlanURL = request.getContextPath() + "/MainController?action=planPage";
+    String myPlan = request.getContextPath() + "/MainController?action=customerPlanPage";
 
 
 %>

@@ -337,7 +337,8 @@ public class MealPlanDAO {
         }
         return false;
     }
-     public List<MealPlan> getCustomerAllMealPlans() {
+
+    public List<MealPlan> getCustomerAllMealPlans() {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getAllMealPlanSql = "SELECT [id],[name],[type],[imgURL],[content],[status] from [dbo].[MealPlan] where status=1";
         String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
@@ -379,4 +380,46 @@ public class MealPlanDAO {
         }
         return list;
     }
+
+    public List<MealPlan> getCustomerMealPlanListByType(String mpType, int quantity) {
+        String sql1 = String.format("SELECT TOP %d [id], [name], [type], [imgURL], [content], [status] FROM [dbo].[MealPlan] WHERE [status] = 1 AND [type] LIKE ?", quantity);
+        String sql2 = "SELECT [id], [dayInWeek], [status], [MealId], [MealPlanId], [CustomerPlanId] FROM [dbo].[DayPlan] WHERE [MealPlanId] = ? ORDER BY [dayInWeek] ASC";
+        List<MealPlan> mealPlanList = new ArrayList<>();
+        try (Connection con = JDBCUtil.getConnection();
+                PreparedStatement st1 = con.prepareStatement(sql1);
+                PreparedStatement st2 = con.prepareStatement(sql2)) {
+            st1.setString(1, "%" + mpType + "%");
+            ResultSet rs1 = st1.executeQuery();
+            if (rs1 != null) {
+                while (rs1.next()) {
+                    String mealPlanId = rs1.getString(1);
+                    String name = rs1.getString(2);
+                    String type = rs1.getString(3);
+                    String imgURL = rs1.getString(4);
+                    String content = rs1.getString(5);
+                    int status = rs1.getInt(6);
+                    List<DayPlan> dayPlanList = new ArrayList<>();
+                    st2.setString(1, mealPlanId);
+                    ResultSet rs2 = st2.executeQuery();
+                    if (rs2 != null) {
+                        while (rs2.next()) {
+                            int dayPlanId = rs2.getInt(1);
+                            int dayInWeek = rs2.getInt(2);
+                            int dayPlanStatus = rs2.getInt(3);
+                            String mealId = rs2.getString(4);
+                            String mealPlanIdFk = rs2.getString(5);
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanIdFk,-1, dayInWeek, dayPlanStatus);
+                            dayPlanList.add(dayPlan);
+                        }
+                    }
+                    MealPlan mealPlan = new MealPlan(mealPlanId, name, type, content, imgURL, status, dayPlanList);
+                    mealPlanList.add(mealPlan);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return mealPlanList;
+    }
+
 }

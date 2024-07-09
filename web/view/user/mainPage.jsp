@@ -54,6 +54,7 @@
                 height: 525px;
                 transition: 0.2s ease-in-out;
                 border: 1.5px solid grey;
+                box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
                 border-radius: 10px;
                 overflow: hidden;
             }
@@ -86,10 +87,72 @@
             .card-text {
                 flex-grow: 1;
             }
+          
+            .buy-button {
+                background-color: #F07B07; /* Primary button color */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 1.3em;
+                transition: background 0.3s ease;
+            }
+
+            .buy-button:hover {
+                background: linear-gradient(45deg, #F07B07, #FFA500);
+            }
+
+            .detail-button {
+                background-color: #343a40; /* Dark button color */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 1.3em;
+                transition: background 0.3s ease;
+            }
+
+            .detail-button:hover {
+                background:  linear-gradient(45deg, #F07B07, #FFA500);
+                color: transparent;
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                box-shadow: 0 0 5px #F07B07;
+            }
+            @media(max-width:1500px){
+                .card{
+                    height:475px;
+                }
+                .card-img-top,.card-img-container{
+                    height: 190px;
+                }
+            }
+            @media (max-width:1300px){
+                .card{
+                    height:450px;
+                }
+                .card-img-top,.card-img-container {
+                    height: 180px;
+                }
+            }
+            @media(max-width:1100px){
+                .card{
+                    height:425px;
+                }
+                .card-img-top,.card-img-container {
+                    height: 170px;
+                }
+            }
             .plan-card {
-                height: 200px;
+                height: 250px;
                 transition: 0.2s ease-in-out;
                 border: 1.5px solid grey;
+                box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
                 border-radius: 10px;
                 overflow: hidden;
             }
@@ -128,9 +191,9 @@
             /* Plan Add Button */
             .plan-add-button {
                 text-align: center;
-                height: 75px;
-                width: 90px;
-                font-size: 2.5rem;
+                height: 4.688rem;
+                width: 5.625rem;
+                font-size: 2.4em;
                 background-color: #F07B07;
                 color: white;
                 transition: all 0.3s ease;
@@ -141,42 +204,12 @@
                 background: linear-gradient(45deg, #F07B07, #FFA500);
                 /* Example gradient colors */
             }
-            .buy-button {
-                background-color: #F07B07; /* Primary button color */
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 1.3rem;
-                transition: background 0.3s ease;
-            }
+            @media (max-width: 1200px){
+                .plan-card{
+                    height:300px;
+                }
+            }  
 
-            .buy-button:hover {
-                background: linear-gradient(45deg, #F07B07, #FFA500);
-            }
-
-            .detail-button {
-                background-color: #343a40; /* Dark button color */
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 1.3rem;
-                transition: background 0.3s ease;
-            }
-
-            .detail-button:hover {
-                background:  linear-gradient(45deg, #F07B07, #FFA500);
-                color: transparent;
-                background-clip: text;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                box-shadow: 0 0 5px #F07B07;
-            }
         </style>
     </head>
 
@@ -184,7 +217,7 @@
 
         String cartURL = request.getContextPath() + "/MainController?action=addToCart";
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
-        String detailMealPlanUrl = request.getContextPath() + "/MainController?aciont=MealPlanDetailPage";
+        String detailMealPlanUrl = request.getContextPath() + "/MainController?action=mealPlanDetailPage";
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
 
         List<MealPlan> mealPlanList = (List<MealPlan>) session.getAttribute("mealPlanList");
@@ -299,17 +332,21 @@
                     <div class="col-md-9">
                         <c:forEach var="mealPlan" items="${mealPlanShow}">
                             <div class="plan-card row my-4">
-                                <div class="plan-card-img-container col-md-5 p-0">
+                                <div class="plan-card-img-container col-xl-5 col-lg-5 p-0">
                                     <a href="#">
                                         <img src="<%= request.getContextPath()%>/${mealPlan.imgUrl}" alt="${mealPlan.name}" class="plan-card-img-top">
                                     </a>
                                 </div>
-                                <div class="col-md-5 p-3">
-                                    <h3>${mealPlan.name}</h3>
-                                    <p>${mealPlan.type}</p>
-                                    <p>${mealPlan.content}</p>
+                                <div class="col-xl-5 col-lg-4 p-3">
+                                    <div style="height:50%;">
+                                        <h3>${mealPlan.name}</h3>
+                                        <p>${mealPlan.type}</p>
+                                    </div>
+                                    <div class=" d-flex align-items-center" style="height:50%">
+                                        <p>${mealPlan.content}</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 d-flex align-items-center">
+                                <div class="col-xl-2 col-lg-3 d-flex align-items-center">
                                     <a href="<%= detailMealPlanUrl%>&mealPlanId=${mealPlan.id}" class="plan-add-button btn btn-lg">ADD</a>
                                 </div>
                             </div>

@@ -37,6 +37,12 @@ public class MainController extends HttpServlet {
     private final String SHOP= "view/user/shop.jsp";
     private final String SHOP_CONTROLLER="/user/MealController";
     
+    private final String PLAN="view/user/plan.jsp";
+    private final String PLAN_CONTROLLER="";
+    
+    private final String CUSTOMER_PLAN_PAGE="view/user/customerPlan/CustomerPlanDetail.jsp";
+    private final String CUSTOMER_PLAN_CONTROLLER="";
+    
     private final String MAIN_PAGE = "view/user/mainPage.jsp";
     private final String MAIN_PAGE_CONTROLLER = "";
     
@@ -47,6 +53,7 @@ public class MainController extends HttpServlet {
     private final String ADD_TO_CART_CONTROLLER="/user/cart/AddToCart";
     
     private final String MEAL_DETAIL = "view/user/product/MealDetail.jsp";
+    private final String MEAL_PLAN_DETAIL= "view/user/customerPlan/MealPlanDetailC.jsp";
     
     private final String PROCESS_CART = "";
     private final String PROCESS_CART_CONTROLLER = "/user/cart/OrderCart";
@@ -84,6 +91,13 @@ public class MainController extends HttpServlet {
             case "shop":url=SHOP_CONTROLLER;break;
             case "shopPage":url=SHOP;break;
             
+            //plan 
+            case "plan":url=PLAN_CONTROLLER; break;
+            case "planPage": url=PLAN; break;
+            
+            //customerplan/
+            case "customerPlanPage": url= CUSTOMER_PLAN_PAGE; break;
+            case "customerPlan": url=CUSTOMER_PLAN_CONTROLLER; break;
             //cart manage
             case "addToCart":url = ADD_TO_CART_CONTROLLER;break;
             case "addToCartPage":break;
@@ -94,7 +108,8 @@ public class MainController extends HttpServlet {
             case "processCart":url = PROCESS_CART_CONTROLLER;break;//order item
             //shopping detail
             case "mealDetailPage":url = MEAL_DETAIL;break;
-            
+            case "mealPlanDetailPage" :url =MEAL_PLAN_DETAIL; break;
+
             //user 
             case "userDetailPage":url = USER_DETAIL;break;
             case "userDetail":url = USER_DETAIL_CONTROLLER;break;
@@ -108,7 +123,6 @@ public class MainController extends HttpServlet {
             case "orderDetailPage":url=ORDER_DETAIL;break;
             
             case "login" : url =LOGIN; break;
-
             
             default: url = "index.html"; break;
         }

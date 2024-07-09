@@ -33,6 +33,6 @@
                          </ul>
                     </div>
                </div>
-               <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+               <p>&copy; 2024 HappiCook. All rights reserved.</p>
           </div>
      </footer>
