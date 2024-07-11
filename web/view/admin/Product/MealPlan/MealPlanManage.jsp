@@ -31,13 +31,13 @@
             String searchPageUrl = request.getContextPath() + "/AMainController";
             String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
             String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsertPage";
-            List<MealPlan> mealPlanList = (ArrayList<MealPlan>) request.getAttribute("MealPlanList");
+            List<MealPlan> mealPlanList = (ArrayList<MealPlan>) session.getAttribute("currentList");
             if (mealPlanList == null) {
                 response.sendRedirect(switchPageUrl);
                 return;
             }
             ArrayList<MealPlan> currentList = new ArrayList<>();
-            List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 10);
+            List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 3);
             Integer numPageInt = (Integer) request.getAttribute("NumPage");
             String numPage = numPageInt != null ? numPageInt.toString() : null;
             int currentNumPage = 1;

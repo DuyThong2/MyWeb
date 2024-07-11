@@ -62,21 +62,30 @@ public class MealPlanManageController extends HttpServlet {
 
             String type = request.getParameter("type");
 
+            //changestatus
             if (changeStatusId != null) {
                 mpdao.changeStatusById(changeStatusId.trim());
                 mealPlanList = mpdao.getAllMealPlans();
+                session.setAttribute("currentList", mealPlanList);
             }
+
+            //search
             if (search != null) {
-                String localSearch = (String) session.getAttribute("localSearch");
-                if (localSearch == null || !localSearch.equalsIgnoreCase(search)) {
-                    session.setAttribute("localSearch", search);
-                    mealPlanList = searchNameList(search, mpdao);
-                    session.setAttribute("currentList", mealPlanList);
-                }
+                session.setAttribute("localSearch", search);
+                mealPlanList = searchNameList(search, mpdao);
+                session.setAttribute("currentList", mealPlanList);
             } else {
+                // Maintain search state across page navigations
+                search = (String) session.getAttribute("localSearch");
+                if (search != null && !search.isEmpty()) {
+                    mealPlanList = searchNameList(search, mpdao);
+                } else {
                     mealPlanList = mpdao.getAllMealPlans();
-                    session.setAttribute("currentList", mealPlanList);
+                }
+                session.setAttribute("currentList", mealPlanList);
             }
+
+            //sorting
             if (cate != null && sort != null) {
                 mealPlanList = sortMealPlan(mealPlanList, sort.trim(), cate.trim());
             }
@@ -85,25 +94,25 @@ public class MealPlanManageController extends HttpServlet {
                 mealPlanList = getListType(mealPlanList, type);
             }
 
-            request.setAttribute("MealPlanList", mealPlanList);
+            session.setAttribute("currentList", mealPlanList);
             request.setAttribute("NumPage", numPage);
             request.getRequestDispatcher("/AMainController?action=MealPlanPage").forward(request, response);
         }
 
     }
+    //    private ArrayList<MealPlan> searchNameList(HttpServletRequest request, MealPlanDAO mpdao) {
+    //
+    //        ArrayList<MealPlan> returnList = new ArrayList<>();
+    //        String search = (String) request.getParameter("txtsearch");
+    //        request.setAttribute("search",search);
+    //        if (search != null) {
+    //            returnList = mpdao.getAllMeanLanByName(search);
+    //        }else{
+    //            returnList= mpdao.getAllMealPlans();
+    //        }
+    //        return returnList;
+    //    }
 
-//    private ArrayList<MealPlan> searchNameList(HttpServletRequest request, MealPlanDAO mpdao) {
-//
-//        ArrayList<MealPlan> returnList = new ArrayList<>();
-//        String search = (String) request.getParameter("txtsearch");
-//        request.setAttribute("search",search);
-//        if (search != null) {
-//            returnList = mpdao.getAllMeanLanByName(search);
-//        }else{
-//            returnList= mpdao.getAllMealPlans();
-//        }
-//        return returnList;
-//    }
     private ArrayList<MealPlan> searchNameList(String search, MealPlanDAO mpdao) {
 
         ArrayList<MealPlan> returnList = new ArrayList<MealPlan>();
@@ -140,7 +149,7 @@ public class MealPlanManageController extends HttpServlet {
     }
 
     private ArrayList<MealPlan> getListType(ArrayList<MealPlan> mealPlanList, String type) {
-       
+
         return (ArrayList<MealPlan>) mealPlanList.stream()
                 .filter(t -> t.getType().equalsIgnoreCase(type))
                 .collect(Collectors.toList());
