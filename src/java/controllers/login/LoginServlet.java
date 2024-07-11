@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
                     if(loginUser.getName().equalsIgnoreCase("NotFound")){
                         errorMessage = "WrongPassword";
                     }else{
-                        session.setAttribute("LoginedUser",loginUser);
+                        session.setAttribute("admin",loginUser);
                         request.getRequestDispatcher("AMainController?action=adminmainpage").forward(request, response);
                         return;
                     }

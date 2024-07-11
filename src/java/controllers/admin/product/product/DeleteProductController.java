@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-@WebServlet(name = "DeleteMealController", urlPatterns = {"/DeleteMealController"})
+@WebServlet(name = "DeleteMealController", urlPatterns = {"/admin/DeleteMealController"})
 public class DeleteProductController extends HttpServlet {
 
     /**

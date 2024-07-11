@@ -28,6 +28,7 @@
             <!-- Your header content here -->
         </header>
         <%  
+            String error = (String) request.getAttribute("errorMessage");
             String manageUrl = request.getContextPath() + "/AMainController?action=ingredientManage";
             String updateUrl = request.getContextPath()+ "/AMainController?action=IngredientUpdatePage";
             String insertUrl = request.getContextPath() + "/AMainController?action=IngredientInsertPage";
@@ -63,7 +64,17 @@
 
         %>
         <%@include file="../../AdminHeader.jsp" %>
-        
+        <% if (error != null) {%>
+        <div class="popup-error">
+            <p class="error-close" onclick="closeMessage()">x<p>
+            <p class='error-text'>
+                <%= error%>
+            </p>
+        </div>
+        <div class="overlay"></div>
+
+        <% }
+        %>
         <div class="container" >
             <div class="row">
                 <!-- Table section taking 80% of the row -->
@@ -128,7 +139,7 @@
                                 
                             </form>
 
-                            <span class="ml-2 mr-2">/</span>
+                            <span class="ml-2 ">/</span>
                             <span class="total-pages"><%=pages.size()%></span>
 
                             <form action="<%=manageUrl%>" method="POST" class="form-inline">
@@ -136,8 +147,8 @@
                                 <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                             </form>
                         </div>
-
-                        <div class="col-md-6">
+                                
+                        <div class="col-md-6 ml-2">
                             <form action="<%=manageUrl%>" method="POST" class="form-inline w-100">
                                 <input name="searching" type="text" class="form-control flex-grow-1" placeholder="Search for name">
                                 <input type="submit" value="Search" class="btn btn-primary ml-2">

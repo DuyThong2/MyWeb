@@ -17,7 +17,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  * Servlet implementation class MealPlanUpdateController
  */
-@WebServlet(name = "MealPlanUpdateController", urlPatterns = {"/MealPlanUpdateController"})
+@WebServlet(name = "MealPlanUpdateController", urlPatterns = {"/admin/MealPlanUpdateController"})
 public class MealPlanUpdateController extends HttpServlet {
 
     private final String IMAGE_URL = "images/mealPlan/";

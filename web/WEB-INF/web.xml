@@ -11,12 +11,14 @@
     <filter-mapping>
         <filter-name>CheckIfAdminFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/view/admin/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>checkCustomerStatusFilter</filter-name>
         <url-pattern>/user/order/*</url-pattern>
+        <url-pattern>/user/cart/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -28,10 +30,10 @@
         <servlet-name>MainController</servlet-name>
         <servlet-class>controllers.MainController</servlet-class>
     </servlet>
-    <servlet>
+<!--    <servlet>
         <servlet-name>MealPlanManageController</servlet-name>
         <servlet-class>controllers.admin.product.mealplan.MealPlanManageController</servlet-class>
-    </servlet>
+    </servlet>-->
     <servlet>
         <servlet-name>TestServlet</servlet-name>
         <servlet-class>Main.TestServlet</servlet-class>
@@ -44,10 +46,10 @@
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
+<!--    <servlet-mapping>
         <servlet-name>MealPlanManageController</servlet-name>
-        <url-pattern>/MealPlanManageController</url-pattern>
-    </servlet-mapping>
+        <url-pattern>/admin/MealPlanManageController</url-pattern>
+    </servlet-mapping>-->
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
@@ -58,6 +60,14 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>AMainController</welcome-file>
+        <welcome-file>view/user/mainPage.jsp</welcome-file>
     </welcome-file-list>
+<!--    <error-page>
+        <error-code>404</error-code>
+        <location>/view/error.jsp</location>
+    </error-page>-->
+<!--    <error-page>
+        <error-code>500</error-code>
+        <location>/view/error.jsp</location>
+    </error-page>-->
 </web-app>

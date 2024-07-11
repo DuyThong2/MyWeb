@@ -84,12 +84,12 @@ public class UpdateIngredientController extends HttpServlet {
                 IngredientDAO dao = new IngredientDAO();
                 dao.updateIngredient(newIngredient); // Assume there's a method to update ingredient
 
-                request.getRequestDispatcher("/AMainController?action=success").forward(request, response);
+                request.getRequestDispatcher("/AMainController?action=ingredientManage").forward(request, response);
             } catch (Exception e) {
-                request.setAttribute("error", "invalid price or empty image or duplicate name");
+                request.setAttribute("errorMessage", "invalid id");
                 e.printStackTrace();
 
-                request.getRequestDispatcher("/AMainController?action=IngredientUpdate").forward(request, response);
+                request.getRequestDispatcher("/AMainController?action=IngredientUpdatePage").forward(request, response);
             }
         }
     }

@@ -20,7 +20,7 @@
             // Mock old ingredient data (in practice, retrieve this from the database)
             MealDAO dao = new MealDAO();
             if (request.getParameter("mealId") == null) {
-                response.sendRedirect(request.getContextPath()+"/AMainController?action=MealManagePage");
+                response.sendRedirect(request.getContextPath() + "/AMainController?action=MealManagePage");
                 return;
             }
             String id = request.getParameter("mealId");
@@ -53,12 +53,12 @@
                     <!-- Form for inserting meal details -->
                     <form id="mealForm" action="<%= request.getContextPath() + "/AMainController?action=MealUpdate"%>" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            
+
                             <input type="hidden" class="form-control" id="mealID" name="id" value="<%=oldMeal.getId()%>">
                         </div>
                         <div class="form-group">
                             <label for="mealName">Meal Name</label>
-                            <input type="text" class="form-control" id="mealName" name="name" value="<%=oldMeal.getName() %>" placeholder="Enter meal name">
+                            <input type="text" class="form-control" id="mealName" name="name" value="<%=oldMeal.getName()%>" placeholder="Enter meal name">
                         </div>
                         <div class="form-group">
                             <label for="mealPrice">Meal Price</label>
@@ -97,6 +97,11 @@
                 </div>
             </div>
         </div>
+        <%
+            request.removeAttribute("errorMessage");
+
+        %>
+
 
         <script>
             document.getElementById('finishMealButton').addEventListener('click', function (event) {
@@ -112,7 +117,14 @@
                 form.action += '&status=continue';
                 form.submit();
             });
+            function closeMessage() {
+                const message = document.querySelector('.popup-error');
+                message.style.top = "-100%";
+                const overlay = document.querySelector('.overlay');
+                overlay.classList.remove('overlay');
+            }
         </script>
+
 
         <!-- Bootstrap JS and dependencies -->
         <%@include file="../../adminJs.jsp" %>

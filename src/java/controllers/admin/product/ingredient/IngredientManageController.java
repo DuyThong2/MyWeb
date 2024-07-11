@@ -40,7 +40,7 @@ public class IngredientManageController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private final String URL_PRODUCT_MANAGE = "/view/admin/Product/Ingredient/IManage.jsp";
+    private final String URL_PRODUCT_MANAGE = "/AMainController?action=ingredientManagePage";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

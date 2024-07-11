@@ -49,24 +49,24 @@ public class AMainController extends HttpServlet {
     private final String MEAL_UPDATE_CONTROLLER = "/admin/meal/UpdateMealInfoController";
 
     private final String PRODUCT_DELETE = "";
-    private final String PRODUCT_DELETE_CONTROLLER = "/DeleteMealController";
+    private final String PRODUCT_DELETE_CONTROLLER = "/admin/DeleteMealController";
 
     //MEAL PLAN
     private final String MEAL_PLAN_PAGE = "view/admin/Product/MealPlan/MealPlanManage.jsp";
-    private final String MEAL_PLAN_CONTROLLER = "MealPlanManageController";
+    private final String MEAL_PLAN_CONTROLLER = "/admin/MealPlanManageController";
 
     private final String MEAL_PLAN_DETAIL_PAGE = "view/admin/Product/MealPlan/MealPlanDetail.jsp";
-    private final String MEAL_PLAN_DETAIL_CONTROLLER = "MealPlanDetailController";
+    private final String MEAL_PLAN_DETAIL_CONTROLLER = "/admin/MealPlanDetailController";
 
-    private final String MEAL_PLAN_INSERT_CONTROLLER = "MealPlanInsertController";
+    private final String MEAL_PLAN_INSERT_CONTROLLER = "/admin/MealPlanInsertController";
     private final String MEAL_PLAN_INSERT_PAGE = "view/admin/Product/MealPlan/MealPlanInsert.jsp";
 
-    private final String MEAL_PLAN_UPDATE_CONTROLLER = "MealPlanUpdateController";
+    private final String MEAL_PLAN_UPDATE_CONTROLLER = "/admin/MealPlanUpdateController";
     private final String MEAL_PLAN_UPDATE_PAGE = "view/admin/Product/MealPlan/MealPlanUpdate.jsp";
     //DAY PLAN
 
     private final String DAY_PLAN_INSERT_PAGE = "view/admin/Product/DayPlan/DayPlanInsert.jsp";
-    private final String DAY_PLAN_INSERT_CONTROLLER = "DayPlanInsertController";
+    private final String DAY_PLAN_INSERT_CONTROLLER = "/admin/DayPlanInsertController";
     //PACKET
     private final String PACKET_INSERT = "view/admin/Product/Packet/InsertIngredientPacket.jsp";
     private final String PACKET_INSERT_CONTROLLER = "/admin/packet/InsertIngredientPacketController";

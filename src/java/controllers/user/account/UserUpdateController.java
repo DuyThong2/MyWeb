@@ -150,7 +150,7 @@ public class UserUpdateController extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", e.getMessage());
+            request.setAttribute("errorMessage", "there is error, please check the inputs");
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
         }

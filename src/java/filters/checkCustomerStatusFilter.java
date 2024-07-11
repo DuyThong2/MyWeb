@@ -113,10 +113,11 @@ public class checkCustomerStatusFilter implements Filter {
         HttpSession session = httpRequest.getSession();
 
         User user = (User) session.getAttribute("LoginedUser");
+        System.out.println(user + "in filter");
         UserDAO dao = new UserDAO();
         if (user == null || dao.isBanned(user.getId())) {
             session.invalidate();
-            httpResponse.sendRedirect("/MainController?action=login");
+            httpResponse.sendRedirect(httpRequest.getContextPath()+"/MainController?action=login");
         } else {
             Throwable problem = null;
             try {

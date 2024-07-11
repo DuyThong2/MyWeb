@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 import javafx.print.Collation;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author ASUS
  */
+
+@WebServlet(urlPatterns = {"/admin/MealPlanManageController"})
 public class MealPlanManageController extends HttpServlet {
 
     /**
@@ -84,7 +87,7 @@ public class MealPlanManageController extends HttpServlet {
 
             request.setAttribute("MealPlanList", mealPlanList);
             request.setAttribute("NumPage", numPage);
-            request.getRequestDispatcher("AMainController?action=MealPlanPage").forward(request, response);
+            request.getRequestDispatcher("/AMainController?action=MealPlanPage").forward(request, response);
         }
 
     }

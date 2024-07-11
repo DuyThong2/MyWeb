@@ -120,7 +120,7 @@ public class MealInsertController extends HttpServlet {
             dao.InsertToTable(meal);
             if (request.getParameter("status").matches("done")) {
                 request.setAttribute("completeMessage", "successfully added meal");
-                request.getRequestDispatcher("/AMainController?action=success").forward(request, response);
+                request.getRequestDispatcher("/AMainController?action=MealDetail&mealId="+id).forward(request, response);
             } else if (request.getParameter("status").matches("continue")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("mealInfo", meal);
@@ -130,7 +130,7 @@ public class MealInsertController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/AMainController?action=error").forward(request, response);
+            request.getRequestDispatcher("/AMainController?action=MealInsertPage").forward(request, response);
         }
     }
 

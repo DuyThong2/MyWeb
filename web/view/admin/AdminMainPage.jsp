@@ -29,6 +29,9 @@
             response.sendRedirect(request.getContextPath() + "/admin/home");
             return;
         }
+        
+        
+        
     %>
 
 
@@ -113,11 +116,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <c:set var="status" value='${["pending","processing","abort","completed"]}'/>
                                 <c:forEach var="order" items="${orders}">
                                     <tr>
                                         <td>${order.orderDate}</td>
+                                        <td>${status[order.status-1]}</td>
                                         <td>${order.address}</td>
-                                        <td>${order.customerID}</td>
                                         <td>
                                             <a href="<%=orderDetailURL%>&orderId=${order.orderID}" class="btn btn-info btn-sm">Detail</a>
                                             <a href="<%=updateOrderStatusURL%>&orderId=${order.orderID}&OrderStatus=3" class="btn btn-warning btn-sm">Abort</a>

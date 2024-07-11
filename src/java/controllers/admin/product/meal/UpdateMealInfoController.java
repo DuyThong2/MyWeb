@@ -148,7 +148,7 @@ public class UpdateMealInfoController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/AMainController?action=error").forward(request, response);
+            request.getRequestDispatcher("/AMainController?action=MealUpdatePage").forward(request, response);
         }
         
     }

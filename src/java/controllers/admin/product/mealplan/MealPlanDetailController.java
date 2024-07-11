@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author ASUS
  */
-@WebServlet(name = "MealPlanDetailController", urlPatterns = {"/MealPlanDetailController"})
+@WebServlet(name = "MealPlanDetailController", urlPatterns = {"/admin/MealPlanDetailController"})
 public class MealPlanDetailController extends HttpServlet {
 
     /**
@@ -66,7 +66,7 @@ public class MealPlanDetailController extends HttpServlet {
             }
             request.setAttribute("mealList", mealList);
             request.setAttribute("mealPlan", mealPlan);
-            request.getRequestDispatcher("AMainController?action=MainPlanDetailPage&id="+id).forward(request, response);
+            request.getRequestDispatcher("/AMainController?action=MainPlanDetailPage&id="+id).forward(request, response);
         }
     }
 

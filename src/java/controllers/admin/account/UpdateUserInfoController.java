@@ -21,7 +21,7 @@ public class UpdateUserInfoController extends HttpServlet {
 
     private static final String IMAGES_DIRECTORY = "images/customer/";
     private static final String SUCCESS_URL = "/AMainController?action=userDetail";
-    private static final String ERROR_URL = "/AMainController?action=error";
+    private static final String ERROR_URL = "/AMainController?action=userUpdatePage";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -119,7 +119,7 @@ public class UpdateUserInfoController extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", e.getMessage());
+            request.setAttribute("errorMessage", "there are error(s) check the input again");
             request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
     }

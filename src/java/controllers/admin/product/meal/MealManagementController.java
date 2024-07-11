@@ -153,7 +153,7 @@ public class MealManagementController extends HttpServlet {
 
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
 
-        if (deleteProductId != null) {
+        if (deleteProductId != null && list!= null) {
             String status = request.getParameter("status");
             setDelete(list, deleteProductId, status);
             String refinedURl = DELETE_PRODUCT_URL + "&deleteProductId=" + deleteProductId + "&status=" + status;

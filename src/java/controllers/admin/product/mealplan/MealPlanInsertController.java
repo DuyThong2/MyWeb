@@ -25,7 +25,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author ASUS
  */
-@WebServlet(name = "MealPlanInsertController", urlPatterns = {"/MealPlanInsertController"})
+@WebServlet(name = "MealPlanInsertController", urlPatterns = {"/admin/MealPlanInsertController"})
 public class MealPlanInsertController extends HttpServlet {
 
     /**

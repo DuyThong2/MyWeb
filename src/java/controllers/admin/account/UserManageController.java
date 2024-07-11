@@ -50,8 +50,6 @@ public class UserManageController extends HttpServlet {
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
 
-        
-
         // Get the numPage parameter from the request
         String numPageStr = request.getParameter("numPage");
 
@@ -107,9 +105,13 @@ public class UserManageController extends HttpServlet {
     }
 
     private void setDelete(List<User> list, int id, String status) {
+        System.out.println(list);
+        System.out.println(id);
+        System.out.println(status);
         Optional<User> optinal = list.stream().filter(user -> user.getId() == id).findFirst();
         if (optinal.isPresent()) {
             optinal.get().setStatus(status);
+            
         }
     }
 
@@ -144,20 +146,27 @@ public class UserManageController extends HttpServlet {
         UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
         List<User> list = (List<User>) session.getAttribute("userList");
-        
-        String deleteId = request.getParameter("deleteUserId");
-        if (deleteId != null) {
-            String status = request.getParameter("status");
-            setDelete(list, Integer.parseInt(deleteId), status);
-            String refinedURl = DELETE_USER_URL + "&deleteUserId=" + deleteId + "&status=" + status;
-            request.getRequestDispatcher(refinedURl).forward(request, response);
-        } else {
-            list = dao.getAllUser();
-            session.setAttribute("userList", list);
-            session.setAttribute("numPage", 1);
+//        if (list == null){
+//            list = dao.getAllUser();
+//        }
+        try {
+            String deleteId = request.getParameter("deleteUserId");
+            if (deleteId != null && list != null) {
+                String status = request.getParameter("status");
+                setDelete(list, Integer.parseInt(deleteId), status);
+                String refinedURl = DELETE_USER_URL + "&deleteUserId=" + deleteId + "&status=" + status;
+                request.getRequestDispatcher(refinedURl).forward(request, response);
+            } else {
+                list = dao.getAllUser();
+                session.setAttribute("userList", list);
+                session.setAttribute("numPage", 1);
 
-            request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+                request.getRequestDispatcher(URL_PRODUCT_MANAGE).forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     /**

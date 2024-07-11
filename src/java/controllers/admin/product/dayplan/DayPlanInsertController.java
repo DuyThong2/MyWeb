@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author ASUS
  */
-@WebServlet(name = "DayPlanInsertController", urlPatterns = {"/DayPlanInsertController"})
+@WebServlet(name = "DayPlanInsertController", urlPatterns = {"/admin/DayPlanInsertController"})
 public class DayPlanInsertController extends HttpServlet {
 
     /**

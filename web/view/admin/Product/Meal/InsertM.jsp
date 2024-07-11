@@ -11,10 +11,22 @@
 
     <%
         String finishURL = request.getContextPath() + "/AMainController?action=MealInsert";
+        String error = (String) request.getAttribute("errorMessage");
+        System.out.println(error);
     %>
     <body>
         <%@include file="../../AdminHeader.jsp" %>
+        <% if (error != null) {%>
+        <div class="popup-error">
+            <p class="error-close" onclick="closeMessage()">x<p>
+            <p class='error-text'>
+                <%= error%>
+            </p>
+        </div>
+        <div class="overlay"></div>
 
+        <% }
+        %>
         <div class="container">
             <!-- Meal Insert Form -->
             <div class="">
@@ -31,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mealPrice">Meal Price</label>
-                        <input type="text" class="form-control" id="mealPrice" name="price" placeholder="Enter meal price">
+                        <input type="number" class="form-control" id="mealPrice" name="price" placeholder="Enter meal price">
                     </div>
                     <div class="form-group">
                         <label for="mealDescription">Meal Description</label>
@@ -65,7 +77,7 @@
                 </form>
             </div>
         </div>
-
+        <%request.removeAttribute("errorMessage");%>
         <%@include file="../../adminJs.jsp" %>
         <script>
             document.getElementById('finishMealButton').addEventListener('click', function (event) {
@@ -81,6 +93,13 @@
                 form.action += '&status=continue';
                 form.submit();
             });
+
+            function closeMessage() {
+                const message = document.querySelector('.popup-error');
+                message.style.top = "-100%";
+                const overlay = document.querySelector('.overlay');
+                overlay.classList.remove('overlay');
+            }
         </script>
     </body>
 

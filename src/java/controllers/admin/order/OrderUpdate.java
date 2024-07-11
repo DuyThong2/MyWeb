@@ -34,8 +34,8 @@ public class OrderUpdate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String orderIdStr = request.getParameter("orderId");
+        try{
+            String orderIdStr = request.getParameter("orderId");
         String status = request.getParameter("OrderStatus");
         if(orderIdStr != null&&status!= null){
             int orderId = Integer.parseInt(orderIdStr);
@@ -46,6 +46,14 @@ public class OrderUpdate extends HttpServlet {
         
         
         request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
+        }catch(Exception e){
+            e.printStackTrace();
+            request.setAttribute("errorMessage","invalid id");
+            request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
+                    
+        }
+                
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -12,6 +12,7 @@
     </head>
     <body>
         <%
+            String error = (String) request.getAttribute("errorMessage");
             // Retrieve the user data from the database
             UserDAO dao = new UserDAO();
             if (request.getParameter("userId") == null) {
@@ -22,7 +23,17 @@
             User user = dao.getUserById(id);
         %>
         <%@include file="../AdminHeader.jsp" %>
-        
+        <% if (error != null) {%>
+        <div class="popup-error">
+            <p class="error-close" onclick="closeMessage()">x<p>
+            <p class='error-text'>
+                <%= error%>
+            </p>
+        </div>
+        <div class="overlay"></div>
+
+        <% }
+        %>
         <div class="container">
             <div class="row">
                 <!-- Left side: Display old information -->
@@ -60,25 +71,25 @@
                             <label for="userPhone">Phone</label>
                             <input type="text" class="form-control" id="userPhone" name="phone" value="${item.getPhone()}" placeholder="Enter user phone">
                         </div>
-                        
 
-                            <div class="form-group">
-                                <label for="userCity">City</label>
-                                <input type="text" class="form-control" id="userCity" name="city" value="" placeholder="Enter city">
-                            </div>
-                            <div class="form-group">
-                                <label for="userDistrict">District</label>
-                                <input type="text" class="form-control" id="userDistrict" name="district" value="" placeholder="Enter district">
-                            </div>
-                            <div class="form-group">
-                                <label for="userWard">Ward</label>
-                                <input type="text" class="form-control" id="userWard" name="ward" value="" placeholder="Enter ward">
-                            </div>
-                            <div class="form-group">
-                                <label for="userStreet">Street</label>
-                                <input type="text" class="form-control" id="userStreet" name="street" value="" placeholder="Enter street">
-                            </div>
-                        
+
+                        <div class="form-group">
+                            <label for="userCity">City</label>
+                            <input type="text" class="form-control" id="userCity" name="city" value="" placeholder="Enter city">
+                        </div>
+                        <div class="form-group">
+                            <label for="userDistrict">District</label>
+                            <input type="text" class="form-control" id="userDistrict" name="district" value="" placeholder="Enter district">
+                        </div>
+                        <div class="form-group">
+                            <label for="userWard">Ward</label>
+                            <input type="text" class="form-control" id="userWard" name="ward" value="" placeholder="Enter ward">
+                        </div>
+                        <div class="form-group">
+                            <label for="userStreet">Street</label>
+                            <input type="text" class="form-control" id="userStreet" name="street" value="" placeholder="Enter street">
+                        </div>
+
                         <div class="form-group row">
                             <label for="imgURL" class="col-sm-2 col-form-label">Image File</label>
                             <div class="col-sm-10">
@@ -92,6 +103,20 @@
                 </div>
             </div>
         </div>
+
+        <%
+            request.removeAttribute("errorMessage");
+            
+        %>
+        <script>
+            function closeMessage() {
+                const message = document.querySelector('.popup-error');
+                message.style.top = "-100%";
+                const overlay = document.querySelector('.overlay');
+                overlay.classList.remove('overlay');
+            }
+
+        </script>
 
         <!-- Bootstrap JS and dependencies -->
         <%@include file="../adminJs.jsp" %>

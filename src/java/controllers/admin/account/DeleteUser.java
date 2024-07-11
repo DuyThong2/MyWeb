@@ -23,7 +23,7 @@ public class DeleteUser extends HttpServlet {
 
     
     private final String REDIRECT_PAGE ="/AMainController?action=userManagePage";
-    
+     private static final String ERROR_URL = "/AMainController?action=error";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,7 +46,8 @@ public class DeleteUser extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            request.setAttribute("errorMessage", "id is not valid for delete");
+            request.getRequestDispatcher(ERROR_URL).forward(request, response);
         }
        
     }

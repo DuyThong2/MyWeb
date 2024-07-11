@@ -99,11 +99,12 @@ public class UploadIngredientServlet extends HttpServlet {
             Ingredient ingredient = new Ingredient(id, ingredientName, unit, imgURL, price);
             IngredientDAO dao = new IngredientDAO();
             dao.InsertToTable(ingredient);
-            request.getRequestDispatcher("/AMainController?action=success").forward(request, response);
+            request.getRequestDispatcher("/AMainController?action=ingredientManage").forward(request, response);
         } catch (Exception e) {
-            request.setAttribute("error", e.getMessage());
+            System.out.println("hello");
             e.printStackTrace();
-
+            request.setAttribute("errorMessage", "invalid Id or duplicate name");
+            System.out.println(e.getMessage());
             request.getRequestDispatcher("/AMainController?action=IngredientInsertPage").forward(request, response);
         }
     }
