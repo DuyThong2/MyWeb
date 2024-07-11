@@ -125,7 +125,7 @@
                 <c:set var="daysInWeek" value='${["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]}' />
 
                 <table class="table table-striped mt-4">
-                    8<thead class="thead" style="background-color:#0d6efd;">
+                    <thead class="thead" style="background-color:#0d6efd;">
                         <tr scope="row" class="text-light">
                             <th class="table-head img-col">DId</th>
                             <th class="table-head">MealId</th>

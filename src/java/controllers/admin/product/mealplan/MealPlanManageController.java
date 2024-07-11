@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import javafx.print.Collation;
 import javax.servlet.ServletException;
@@ -51,8 +52,8 @@ public class MealPlanManageController extends HttpServlet {
             }
             MealPlanDAO mpdao = new MealPlanDAO();
             HttpSession session = request.getSession();
-            ArrayList<MealPlan> mealPlanList = (ArrayList<MealPlan>) session.getAttribute("currentList");
-
+            List<MealPlan> mealPlanList = (ArrayList<MealPlan>) session.getAttribute("currentList");
+            List<MealPlan> listFilter = (ArrayList<MealPlan>) session.getAttribute("listFilter");
             String search = request.getParameter("txtsearch");
             String changeStatusId = request.getParameter("id");
 
@@ -65,7 +66,11 @@ public class MealPlanManageController extends HttpServlet {
             //changestatus
             if (changeStatusId != null) {
                 mpdao.changeStatusById(changeStatusId.trim());
-                mealPlanList = mpdao.getAllMealPlans();
+                mealPlanList.forEach((MealPlan mealPlan) -> {
+                    if (mealPlan.getId().equals(changeStatusId)) {
+                        mealPlan.changeStatus();
+                    }
+                });
                 session.setAttribute("currentList", mealPlanList);
             }
 
@@ -73,30 +78,39 @@ public class MealPlanManageController extends HttpServlet {
             if (search != null) {
                 session.setAttribute("localSearch", search);
                 mealPlanList = searchNameList(search, mpdao);
+                session.removeAttribute("listFilter");
+                listFilter = null;
                 session.setAttribute("currentList", mealPlanList);
+                numPage=1;
             } else {
                 // Maintain search state across page navigations
                 search = (String) session.getAttribute("localSearch");
                 if (search != null && !search.isEmpty()) {
-                    mealPlanList = searchNameList(search, mpdao);
+                    mealPlanList = searchNameList(search.trim(), mpdao);
                 } else {
-                    mealPlanList = mpdao.getAllMealPlans();
+                    if (mealPlanList == null) {
+                        mealPlanList = mpdao.getAllMealPlans();
+                    }
                 }
                 session.setAttribute("currentList", mealPlanList);
             }
 
             //sorting
             if (cate != null && sort != null) {
-                mealPlanList = sortMealPlan(mealPlanList, sort.trim(), cate.trim());
+                if (listFilter == null) {
+                    mealPlanList = sortMealPlan(mealPlanList, sort.trim(), cate.trim());
+                }else{
+                    listFilter = sortMealPlan(listFilter, sort.trim(), cate.trim());
+                }
             }
-
             if (type != null) {
-                mealPlanList = getListType(mealPlanList, type);
+                listFilter = getListType(mealPlanList, type.trim());
+                numPage=1;
             }
-
             session.setAttribute("currentList", mealPlanList);
-            request.setAttribute("NumPage", numPage);
-            request.getRequestDispatcher("/AMainController?action=MealPlanPage").forward(request, response);
+            session.setAttribute("listFilter",listFilter);
+            session.setAttribute("NumPage", numPage);
+            request.getRequestDispatcher("AMainController?action=MealPlanPage").forward(request, response);
         }
 
     }
@@ -113,18 +127,18 @@ public class MealPlanManageController extends HttpServlet {
     //        return returnList;
     //    }
 
-    private ArrayList<MealPlan> searchNameList(String search, MealPlanDAO mpdao) {
+    private List<MealPlan> searchNameList(String search, MealPlanDAO mpdao) {
 
-        ArrayList<MealPlan> returnList = new ArrayList<MealPlan>();
+        List<MealPlan> returnList = new ArrayList<MealPlan>();
         if (search != null && !search.isEmpty()) {
-            returnList = mpdao.getAllMeanLanByName(search);
+            returnList = mpdao.getAllMeanPlanByName(search);
         } else {
             returnList = mpdao.getAllMealPlans();
         }
         return returnList;
     }
 
-    private ArrayList<MealPlan> sortMealPlan(ArrayList<MealPlan> list, String sort, String cate) {
+    private List<MealPlan> sortMealPlan(List<MealPlan> list, String sort, String cate) {
         int sortOrder = sort.equalsIgnoreCase("max") ? 1 : -1;
         Comparator<MealPlan> comparator = null;
         switch (cate) {
@@ -148,7 +162,7 @@ public class MealPlanManageController extends HttpServlet {
         return list;
     }
 
-    private ArrayList<MealPlan> getListType(ArrayList<MealPlan> mealPlanList, String type) {
+    private List<MealPlan> getListType(List<MealPlan> mealPlanList, String type) {
 
         return (ArrayList<MealPlan>) mealPlanList.stream()
                 .filter(t -> t.getType().equalsIgnoreCase(type))

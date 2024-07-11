@@ -32,13 +32,17 @@
             String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
             String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsertPage";
             List<MealPlan> mealPlanList = (ArrayList<MealPlan>) session.getAttribute("currentList");
+            List<MealPlan> filterList = (ArrayList<MealPlan>) session.getAttribute("listFilter");
             if (mealPlanList == null) {
                 response.sendRedirect(switchPageUrl);
                 return;
             }
+            if (filterList != null) {
+                mealPlanList = filterList;
+            }
             ArrayList<MealPlan> currentList = new ArrayList<>();
-            List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 3);
-            Integer numPageInt = (Integer) request.getAttribute("NumPage");
+            List<List<MealPlan>> paginationList = Tool.splitToPage(mealPlanList, 10);
+            Integer numPageInt = (Integer) session.getAttribute("NumPage");
             String numPage = numPageInt != null ? numPageInt.toString() : null;
             int currentNumPage = 1;
             if (numPage != null) {
@@ -50,11 +54,8 @@
             if (paginationList != null && !paginationList.isEmpty()) {
                 currentList = (ArrayList<MealPlan>) paginationList.get(currentNumPage - 1);
             }
-
-            session.setAttribute("currentList", mealPlanList);
         %>
         <%@include file="../../AdminHeader.jsp" %>
-
         <div class="container main-container bg-white border border-warning p-3" style="border-radius:10px;">
             <div class="row  mb-2 w-100 d-flex justify-content-center">
                 <h1 class=" text-center text-dark">Meal Plan Manage</h1>
@@ -64,7 +65,7 @@
             </div>
 
             <hr>
-           
+
 
 
             <div class="row search-bar p-0 w-100">
@@ -111,11 +112,11 @@
                                 %>
                                 <a href='<%=switchPageUrl%>&id=<%= mealPlan.getId()%>' class="btn btn-md btn-success mb-2">Enable</a>
                                 <%
-                                    }
                                 %>
                             </td>
                         </tr>
                         <%
+                                    }
                                 }
                             }
                         %>
@@ -139,7 +140,7 @@
 
                 </div>
             </div>
-                        
+
             <div class="row group-btn-sort ">
                 <div class="col-md-6">
                     <form action="<%= switchPageUrl%>" method="POST">
@@ -152,7 +153,6 @@
                                     <option value=""> Choose Category</option>
                                     <option value="id">ID</option>
                                     <option value="name">Name</option>
-                                    <option value="type">Type</option>
                                     <option value="status">Status</option>
                                 </select>
                                 <div>

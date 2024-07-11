@@ -69,12 +69,54 @@ public class MealPlanDAO {
         return list;
     }
 
-    public ArrayList<MealPlan> getAllMeanLanByName(String searchName) {
+    public ArrayList<MealPlan> getAllMeanPlanByName(String searchName) {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
                 + "where MealPlanId = ?  order by dayInWeek Asc";
         String getMealPlanByNameSql = "select [id],[type],[imgURL],[content],[status],[name] from [dbo].[MealPlan]\n"
                 + "  where [name] like ? order by status desc";
+        try (Connection cn = JDBCUtil.getConnection();
+                PreparedStatement mealPlanPst = cn.prepareStatement(getMealPlanByNameSql);
+                PreparedStatement dayPlanPst = cn.prepareStatement(getDayPlanSql);) {
+            mealPlanPst.setString(1, "%" + searchName + "%");
+            ResultSet mealPlanTable = mealPlanPst.executeQuery();
+            if (mealPlanTable != null) {
+                while (mealPlanTable.next()) {
+                    String mealPlanId = mealPlanTable.getString("id");
+                    String name = mealPlanTable.getString("name");
+                    String type = mealPlanTable.getString("type");
+                    String imgURL = mealPlanTable.getString("imgURL");
+                    String content = mealPlanTable.getString("content");
+                    int mealPlanStatus = mealPlanTable.getInt("status");
+                    List<DayPlan> dayPlanList = new ArrayList<>();
+                    dayPlanPst.setString(1, mealPlanId);
+                    ResultSet dayPlanTable = dayPlanPst.executeQuery();
+                    if (dayPlanTable != null) {
+                        while (dayPlanTable.next()) {
+                            int dayPlanId = dayPlanTable.getInt("id");
+                            int dayInWeek = dayPlanTable.getInt("dayInWeek");
+                            int dayPlanStatus = dayPlanTable.getInt("status");
+                            String mealId = dayPlanTable.getString("MealId");
+                            // String id, String mealId, String mealPlanId, String customerPlanId, int dayInWeek, int status
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, -1, dayInWeek, dayPlanStatus);
+                            dayPlanList.add(dayPlan);
+                        }
+                    }
+                    MealPlan mealPlan = new MealPlan(mealPlanId, name, type, content, imgURL, mealPlanStatus, dayPlanList);
+                    list.add(mealPlan);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<MealPlan> getCustomerAllMeanPlanByName(String searchName) {
+        ArrayList<MealPlan> list = new ArrayList<>();
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
+                + "where MealPlanId = ? and status=1 order by dayInWeek Asc";
+        String getMealPlanByNameSql = "select [id],[type],[imgURL],[content],[status],[name] from [dbo].[MealPlan]\n"
+                + "  where [name] like ? and status=1";
         try (Connection cn = JDBCUtil.getConnection();
                 PreparedStatement mealPlanPst = cn.prepareStatement(getMealPlanByNameSql);
                 PreparedStatement dayPlanPst = cn.prepareStatement(getDayPlanSql);) {

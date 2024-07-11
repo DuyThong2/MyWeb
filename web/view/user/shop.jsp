@@ -332,7 +332,7 @@
                                         <span class="total-pages"><%= pages.size()%></span>
 
                                         <form action="<%= redirectUrl%>" method="POST" class="form-inline">
-                                            <input type="hidden" name="numPage" value="<%= pageNum + 1%>">
+                                            <input type="hidden" name="numPage" value="<%= Math.min(pageNum + 1,pages.size())%>">
                                             <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                                         </form>
                                     </div>

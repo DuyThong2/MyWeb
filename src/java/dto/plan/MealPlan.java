@@ -104,6 +104,13 @@ public class MealPlan implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+    public void changeStatus(){
+        if(this.status==1){
+            status =0;
+        }else{
+            status =1;
+        }
+    }
 
     @Override
     public String toString() {
