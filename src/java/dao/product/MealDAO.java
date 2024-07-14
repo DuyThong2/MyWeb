@@ -321,6 +321,65 @@ public class MealDAO {
         return meal;
     }
 
+    public Meal getCustomerMealFromId(String idToFind) {
+        Meal meal = null;
+        String GET_MEAL_QUERY
+                = "SELECT Id, name, content, category, imgURL, status "
+                + "FROM Meal WHERE id = ? and status='active'";
+        String GET_PRODUCT_QUERY
+                = "SELECT description, isOnSale, DiscountID "
+                + "FROM Product WHERE id = ?";
+        String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
+        try (Connection con = JDBCUtil.getConnection();
+                PreparedStatement st1 = con.prepareStatement(GET_MEAL_QUERY);
+                PreparedStatement st2 = con.prepareStatement(GET_PRODUCT_QUERY);
+                PreparedStatement st3 = con.prepareStatement(sql3)) {
+
+            // Fetch Meal details
+            st1.setString(1, idToFind);
+            try (ResultSet rs1 = st1.executeQuery()) {
+                if (rs1.next()) {
+                    String id = rs1.getString("Id");
+                    String name = rs1.getString("name");
+                    String content = rs1.getString("content");
+                    String category = rs1.getString("category");
+                    String imgURL = rs1.getString("imgURL");
+                    String status = rs1.getString("status");
+
+                    double discountPercent = 0;
+                    // Fetch Product details
+                    st2.setString(1, id);
+                    try (ResultSet rs2 = st2.executeQuery()) {
+                        if (rs2.next()) {
+                            String description = rs2.getString("description");
+                            boolean isOnSale = rs2.getBoolean("isOnSale");
+                            int discountID = rs2.getInt("DiscountID");
+                            if (discountID != 0) {
+                                st3.setInt(1, discountID);
+                                ResultSet discountResult = st3.executeQuery();
+                                discountResult.next();
+                                discountPercent = discountResult.getDouble(1);
+                                LocalDateTime dateStart = discountResult.getTimestamp(2).toLocalDateTime();
+                                LocalDateTime dateEnd = discountResult.getTimestamp(3).toLocalDateTime();
+                                LocalDateTime now = LocalDateTime.now();
+                                isOnSale = now.isAfter(dateStart) && now.isBefore(dateEnd) && discountPercent > 0;
+                            }
+
+                            double price = getPrice(id);
+
+                            meal = new Meal(id, name, description, price, isOnSale, discountID, discountPercent, content, category, imgURL, status);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Log the exception or handle it as needed
+        }
+
+        return meal;
+    }
+
     public void updateMeal(Meal meal) throws Exception {
 
         String sql1 = "update Meal set name = ?,content = ?,category = ? ,imgURL = ? where Id = ?";
@@ -722,8 +781,8 @@ public class MealDAO {
         try (Connection cn = JDBCUtil.getConnection();
                 PreparedStatement pst = cn.prepareStatement(getMealSql);) {
             ResultSet table = pst.executeQuery();
-            while(table.next()){
-                
+            while (table.next()) {
+
             }
         } catch (Exception e) {
 

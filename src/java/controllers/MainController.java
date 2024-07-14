@@ -40,8 +40,15 @@ public class MainController extends HttpServlet {
     private final String PLAN_CONTROLLER = "/user/MealPlanController";
 
     private final String CUSTOMER_PLAN_PAGE = "view/user/customerPlan/CustomerPlanDetail.jsp";
-    private final String CUSTOMER_PLAN_CONTROLLER = "";
-
+    private final String CUSTOMER_PLAN_CONTROLLER = "/user/CustomerPlanDetailController";
+    
+    
+    private final String CUSTOMER_PLAN_UPDATE_PAGE ="view/user/customerPlan/CustomerPlanUpdate.jsp";
+    
+    private final String CUSTOMER_PLAN_UPDATE_CONTROLLER="/user/CustomerPlanUpdateController";
+    private final String ADD_TO_CUSTOMER_PLAN="/user/AddToCustomerPlan";
+    private final String ADD_TO_CUSTOMER_DAY_PLAN="/user/AddToCustomerDayPlan";
+    private final String DELETE_CUSTOMER_DAY_PLAN="/user/DeleteCustomerDayPlan";
     private final String MAIN_PAGE = "view/user/mainPage.jsp";
     private final String MAIN_PAGE_CONTROLLER = "";
 
@@ -50,12 +57,15 @@ public class MainController extends HttpServlet {
 
     private final String ADD_TO_CART = "";
     private final String ADD_TO_CART_CONTROLLER = "/user/cart/AddToCart";
-
+    
+    
+    
     private final String MEAL_DETAIL = "view/user/product/MealDetail.jsp";
     private final String MEAL_PLAN_DETAIL = "view/user/customerPlan/MealPlanDetailC.jsp";
 
     private final String PROCESS_CART = "";
     private final String PROCESS_CART_CONTROLLER = "/user/cart/OrderCart";
+    private final String ADD_ALL_TO_CART = "/user/cart/AddAllToCart";
 
     private final String USER_DETAIL = "view/user/account/UserUserDetail.jsp";
     private final String USER_DETAIL_CONTROLLER = "/user/account/UserDetailController";
@@ -107,13 +117,30 @@ public class MainController extends HttpServlet {
             case "planPage":
                 url = PLAN;
                 break;
-
+            case "addAllToCart":
+                url = ADD_ALL_TO_CART;
+                break;
             //customerplan/
             case "customerPlanPage":
                 url = CUSTOMER_PLAN_PAGE;
                 break;
             case "customerPlan":
                 url = CUSTOMER_PLAN_CONTROLLER;
+                break;
+            case "customerPlanUpdatePage":
+                url = CUSTOMER_PLAN_UPDATE_PAGE;
+                break;
+            case "deleteCustomerDayPlan":
+                url=DELETE_CUSTOMER_DAY_PLAN;
+                break;
+            case "customerPlanUpdate":
+                url=CUSTOMER_PLAN_UPDATE_CONTROLLER;
+                break;
+            case "addToCustomerPlan":
+                url= ADD_TO_CUSTOMER_PLAN;
+                break;
+            case "AddToCustomerDayPlan":
+                url= ADD_TO_CUSTOMER_DAY_PLAN;
                 break;
             //cart manage
             case "addToCart":

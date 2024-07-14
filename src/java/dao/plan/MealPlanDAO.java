@@ -29,7 +29,7 @@ public class MealPlanDAO {
     public ArrayList<MealPlan> getAllMealPlans() {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getAllMealPlanSql = "SELECT [id],[name],[type],[imgURL],[content],[status] from [dbo].[MealPlan] order by status desc";
-        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId], from [dbo].[DayPlan]\n"
                 + "               where MealPlanId = ? order by dayInWeek Asc";
         try (Connection conn = JDBCUtil.getConnection();
                 Statement statement = conn.createStatement();
@@ -71,7 +71,7 @@ public class MealPlanDAO {
 
     public ArrayList<MealPlan> getAllMeanPlanByName(String searchName) {
         ArrayList<MealPlan> list = new ArrayList<>();
-        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] from [dbo].[DayPlan]\n"
                 + "where MealPlanId = ?  order by dayInWeek Asc";
         String getMealPlanByNameSql = "select [id],[type],[imgURL],[content],[status],[name] from [dbo].[MealPlan]\n"
                 + "  where [name] like ? order by status desc";
@@ -111,9 +111,10 @@ public class MealPlanDAO {
         }
         return list;
     }
+
     public List<MealPlan> getCustomerAllMeanPlanByName(String searchName) {
         ArrayList<MealPlan> list = new ArrayList<>();
-        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] from [dbo].[DayPlan]\n"
                 + "where MealPlanId = ? and status=1 order by dayInWeek Asc";
         String getMealPlanByNameSql = "select [id],[type],[imgURL],[content],[status],[name] from [dbo].[MealPlan]\n"
                 + "  where [name] like ? and status=1";
@@ -222,7 +223,7 @@ public class MealPlanDAO {
 //    }
     public MealPlan getMealPlanById(String id) {
         MealPlan mealPlan = null;
-        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] FROM [dbo].[DayPlan] "
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] FROM [dbo].[DayPlan] "
                 + "WHERE MealPlanId = ? ORDER BY dayInWeek ASC";
         String getMealPlanByIdSql = "SELECT [id],[type],[imgURL],[content],[status],[name] FROM [dbo].[MealPlan] "
                 + "WHERE id = ?";
@@ -383,7 +384,7 @@ public class MealPlanDAO {
     public List<MealPlan> getCustomerAllMealPlans() {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getAllMealPlanSql = "SELECT [id],[name],[type],[imgURL],[content],[status] from [dbo].[MealPlan] where status=1";
-        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId],[CustomerPlanId] from [dbo].[DayPlan]\n"
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] from [dbo].[DayPlan]\n"
                 + "               where MealPlanId = ? order by dayInWeek Asc";
         try (Connection conn = JDBCUtil.getConnection();
                 Statement statement = conn.createStatement();
@@ -425,7 +426,7 @@ public class MealPlanDAO {
 
     public List<MealPlan> getCustomerMealPlanListByType(String mpType, int quantity) {
         String sql1 = String.format("SELECT TOP %d [id], [name], [type], [imgURL], [content], [status] FROM [dbo].[MealPlan] WHERE [status] = 1 AND [type] LIKE ?", quantity);
-        String sql2 = "SELECT [id], [dayInWeek], [status], [MealId], [MealPlanId], [CustomerPlanId] FROM [dbo].[DayPlan] WHERE [MealPlanId] = ? ORDER BY [dayInWeek] ASC";
+        String sql2 = "SELECT [id], [dayInWeek], [status], [MealId], [MealPlanId] FROM [dbo].[DayPlan] WHERE [MealPlanId] = ? ORDER BY [dayInWeek] ASC";
         List<MealPlan> mealPlanList = new ArrayList<>();
         try (Connection con = JDBCUtil.getConnection();
                 PreparedStatement st1 = con.prepareStatement(sql1);
@@ -450,7 +451,7 @@ public class MealPlanDAO {
                             int dayPlanStatus = rs2.getInt(3);
                             String mealId = rs2.getString(4);
                             String mealPlanIdFk = rs2.getString(5);
-                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanIdFk,-1, dayInWeek, dayPlanStatus);
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanIdFk, -1, dayInWeek, dayPlanStatus);
                             dayPlanList.add(dayPlan);
                         }
                     }
@@ -464,4 +465,103 @@ public class MealPlanDAO {
         return mealPlanList;
     }
 
+    public MealPlan getCustomerMealPlanById(String id) {
+        MealPlan mealPlan = null;
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] FROM [dbo].[DayPlan] "
+                + "WHERE MealPlanId = ? ORDER BY dayInWeek ASC";
+        String getMealPlanByIdSql = "SELECT [id],[type],[imgURL],[content],[status],[name] FROM [dbo].[MealPlan] "
+                + "WHERE id = ? and status =1 ";
+
+        try (Connection cn = JDBCUtil.getConnection();
+                PreparedStatement mealPlanPst = cn.prepareStatement(getMealPlanByIdSql);
+                PreparedStatement dayPlanPst = cn.prepareStatement(getDayPlanSql)) {
+
+            mealPlanPst.setString(1, id);
+            try (ResultSet mealPlanTable = mealPlanPst.executeQuery()) {
+                if (mealPlanTable.next()) {
+                    String mealPlanId = mealPlanTable.getString("id");
+                    String name = mealPlanTable.getString("name");
+                    String type = mealPlanTable.getString("type");
+                    String imgURL = mealPlanTable.getString("imgURL");
+                    String content = mealPlanTable.getString("content");
+                    int mealPlanStatus = mealPlanTable.getInt("status");
+                    List<DayPlan> dayPlanList = new ArrayList<>();
+
+                    dayPlanPst.setString(1, mealPlanId);
+                    try (ResultSet dayPlanTable = dayPlanPst.executeQuery()) {
+                        while (dayPlanTable.next()) {
+                            int dayPlanId = dayPlanTable.getInt("id");
+                            int dayInWeek = dayPlanTable.getInt("dayInWeek");
+                            int dayPlanStatus = dayPlanTable.getInt("status");
+                            String mealId = dayPlanTable.getString("MealId");
+                            // String id, String mealId, String mealPlanId, String customerPlanId, int dayInWeek, int status
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, -1, dayInWeek, dayPlanStatus);
+                            dayPlanList.add(dayPlan);
+                        }
+                    }
+
+                    mealPlan = new MealPlan(mealPlanId, name, type, content, imgURL, mealPlanStatus, dayPlanList);
+                } else {
+                    // Meal plan with the given ID was not found
+                    System.err.println("Meal plan not found for id: " + id);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Optionally log the error to a logging framework or rethrow a custom exception
+        }
+
+        return mealPlan;
+    }
+
+    public MealPlan getCustomizedMealPlan() {
+        MealPlan mealPlan = null;
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] FROM [dbo].[DayPlan] "
+                + "WHERE MealPlanId = ? ORDER BY dayInWeek ASC";
+        String getMealPlanByIdSql = "SELECT [id],[type],[imgURL],[content],[status],[name] FROM [dbo].[MealPlan] "
+                + "WHERE id = 'MP999'";
+
+        try (Connection cn = JDBCUtil.getConnection();
+                PreparedStatement mealPlanPst = cn.prepareStatement(getMealPlanByIdSql);
+                PreparedStatement dayPlanPst = cn.prepareStatement(getDayPlanSql)) {
+
+            try (ResultSet mealPlanTable = mealPlanPst.executeQuery()) {
+                if (mealPlanTable.next()) {
+                    String mealPlanId = mealPlanTable.getString("id");
+                    String name = mealPlanTable.getString("name");
+                    String type = mealPlanTable.getString("type");
+                    String imgURL = mealPlanTable.getString("imgURL");
+                    String content = mealPlanTable.getString("content");
+                    int mealPlanStatus = mealPlanTable.getInt("status");
+                    List<DayPlan> dayPlanList = new ArrayList<>();
+
+                    dayPlanPst.setString(1, mealPlanId);
+                    try (ResultSet dayPlanTable = dayPlanPst.executeQuery()) {
+                        while (dayPlanTable.next()) {
+                            int dayPlanId = dayPlanTable.getInt("id");
+                            int dayInWeek = dayPlanTable.getInt("dayInWeek");
+                            int dayPlanStatus = dayPlanTable.getInt("status");
+                            String mealId = dayPlanTable.getString("MealId");
+
+                            // Create a new DayPlan object and add it to the list
+                            DayPlan dayPlan = new DayPlan(dayPlanId, mealId, mealPlanId, -1, dayInWeek, dayPlanStatus);
+                            dayPlanList.add(dayPlan);
+                        }
+                    }
+
+                    // Create a new MealPlan object with the gathered information
+                    mealPlan = new MealPlan(mealPlanId, name, type, content, imgURL, mealPlanStatus, dayPlanList);
+                } else {
+                    // Meal plan with the given ID was not found
+                    System.err.println("Meal plan not found for id: MP999");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Optionally log the error to a logging framework or rethrow a custom exception
+        }
+        return mealPlan;
+    }
 }

@@ -5,28 +5,30 @@
  */
 package dto.plan;
 
+import dto.product.Meal;
 import java.io.Serializable;
 
 /**
  *
  * @author ASUS
  */
-public class DayPlan implements Serializable {
+public class CustomerDayPlan implements Serializable {
+
     private int id;
-    private String mealId;
-    private String mealPlanId;
+    private int customerPlanId;
     private int dayInWeek;
     private int status;
-    
-    public DayPlan(){
-        
-    }
-    public DayPlan(int id, String mealId, String mealPlanId, int customerPlanId, int dayInWeek, int status) {
+    private Meal meal;
+
+    public CustomerDayPlan(int id, int customerPlanId, int dayInWeek, int status, Meal meal) {
         this.id = id;
-        this.mealId = mealId;
-        this.mealPlanId = mealPlanId;
+        this.customerPlanId = customerPlanId;
         this.dayInWeek = dayInWeek;
         this.status = status;
+        this.meal = meal;
+    }
+    public CustomerDayPlan(){
+        
     }
 
     public int getId() {
@@ -37,21 +39,14 @@ public class DayPlan implements Serializable {
         this.id = id;
     }
 
-    public String getMealId() {
-        return mealId;
+    public int getCustomerPlanId() {
+        return customerPlanId;
     }
 
-    public void setMealId(String mealId) {
-        this.mealId = mealId;
+    public void setCustomerPlanId(int customerPlanId) {
+        this.customerPlanId = customerPlanId;
     }
 
-    public String getMealPlanId() {
-        return mealPlanId;
-    }
-
-    public void setMealPlanId(String mealPlanId) {
-        this.mealPlanId = mealPlanId;
-    }
     public int getDayInWeek() {
         return dayInWeek;
     }
@@ -68,9 +63,12 @@ public class DayPlan implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "DayPlan{" + "id=" + id + ", mealId=" + mealId + ", mealPlanId=" + mealPlanId +  ", dayInWeek=" + dayInWeek + ", status=" + status + '}';
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
     }
     
     

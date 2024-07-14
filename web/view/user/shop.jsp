@@ -57,6 +57,7 @@
                 height: 525px;
                 transition: 0.2s ease-in-out;
                 border: 1.5px solid grey;
+                box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
                 border-radius: 10px;
                 overflow: hidden;
             }
@@ -89,6 +90,7 @@
             .card-text {
                 flex-grow: 1;
             }
+
             .add-to-cart-button {
                 background-color: #F07B07; /* Primary button color */
                 border: none;
@@ -224,7 +226,7 @@
                             <div class="row g-4">
                                 <div class="col-xl-3">
                                     <form action="<%=redirectUrl%>" method="POST" class="w-100 mx-auto d-flex">
-                                        <input type="search" name="searching" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                        <input type="search" name="searching" class="form-control p-3" placeholder="Search For Meal" aria-describedby="search-icon-1">
                                         <button type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
@@ -332,7 +334,7 @@
                                         <span class="total-pages"><%= pages.size()%></span>
 
                                         <form action="<%= redirectUrl%>" method="POST" class="form-inline">
-                                            <input type="hidden" name="numPage" value="<%= Math.min(pageNum + 1,pages.size())%>">
+                                            <input type="hidden" name="numPage" value="<%= Math.min(pageNum + 1, pages.size())%>">
                                             <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                                         </form>
                                     </div>
@@ -353,7 +355,7 @@
 
         <!-- JavaScript Libraries -->
         <%@include file="mainFooter.jsp" %>
-        
+
         <%@include file="../../jsAdder.jsp" %>
     </body>
 

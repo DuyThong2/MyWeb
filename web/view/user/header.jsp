@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <%
     String homeURL = request.getContextPath() + "/MainController?action=mainPagePage";
-    String ShopURL = request.getContextPath() + "/MainController?action=shopPage";
+    String ShopURL = request.getContextPath() + "/MainController?action=shop";
     String accountDetail = request.getContextPath() + "/MainController?action=userDetail";
     String viewCartDetail = request.getContextPath() + "/MainController?action=cartDisplayPage";
     String PlanURL = request.getContextPath() + "/MainController?action=planPage";

@@ -86,7 +86,11 @@ public class MealPlanController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        MealPlanDAO mpdao = new MealPlanDAO();
+        List<MealPlan> mealPlanList = mpdao.getCustomerAllMealPlans();
+        session.setAttribute("mpList", mealPlanList);
+        session.setAttribute("pageNumber", 1);
     }
 
     @Override

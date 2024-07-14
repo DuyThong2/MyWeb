@@ -127,6 +127,87 @@
                     height:300px;
                 }
             }  
+            .meal-plan-card {
+                height: 250px;
+                transition: 0.2s ease-in-out;
+                border: 1.5px solid grey;
+                box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .meal-plan-card div {
+                height: 100%;
+            }
+
+            .meal-plan-card-img-container img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            .meal-plan-card-img-container {
+                overflow: hidden;
+            }
+
+            .meal-plan-card:hover {
+                box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .meal-plan-card:hover img {
+                transform: scale(1.2);
+            }
+
+            .meal-plan-card img {
+                transition: 0.4s ease-in-out;
+            }
+
+            .meal-plan-card a {
+                overflow: hidden;
+                width: 100%;
+            }
+
+            /* Plan Add Button */
+            .meal-plan-add-button {
+                text-align: center;
+                height: 75px;
+                width: 90px;
+                font-size: 2.4em;
+                background-color: #F07B07;
+                color: white;
+                transition: all 0.3s ease;
+            }
+
+            .meal-plan-add-button:hover {
+                text-align: center;
+                background: linear-gradient(45deg, #F07B07, #FFA500);
+                /* Example gradient colors */
+            }
+
+            .banner{
+                opacity:0.8;
+                border-radius:20px;
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                z-index:0;
+            }
+
+            @media(max-width:1400px){
+                .meal-plan-card{
+                    height:275px;
+                }
+                .meal-plan-add-button{
+                    font-size:2.2em;
+                }
+            }
+
+            @media (max-width: 1200px){
+                .meal-plan-card{
+                    height:300px;
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -142,7 +223,7 @@
             if (filterList != null) {
                 mpList = filterList;
             }
-            List<List<MealPlan>> mealPlanList = (List<List<MealPlan>>) Tool.splitToPage(mpList, 5);
+            List<List<MealPlan>> mealPlanList = (List<List<MealPlan>>) Tool.splitToPage(mpList, 8);
             List<MealPlan> showMealPlan = new ArrayList<>();
             int pageNumber = 1;
             int pageSize = mealPlanList.size();
@@ -241,10 +322,10 @@
                                         %>
                                         <!-- HTML structure for displaying each meal plan -->
                                         <div class="col-md-11">
-                                            <div class="plan-card row my-4">
-                                                <div class="plan-card-img-container col-xl-5 col-lg-5 p-0">
+                                            <div class="meal-plan-card row my-4">
+                                                <div class="meal-plan-card-img-container col-xl-5 col-lg-5 p-0">
                                                     <a href="<%= detailMealPlanUrl%>&mealPlanId=<%= mealPlanId%>">
-                                                        <img src="<%= imgUrl%>" alt="<%= name%>" class="plan-card-img-top">
+                                                        <img src="<%= imgUrl%>" alt="<%= name%>" class="meal-plan-card-img-top">
                                                     </a>
                                                 </div>
                                                 <div class="col-xl-5 col-lg-4 p-3">
@@ -257,12 +338,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-2 col-lg-3 d-flex align-items-center">
-                                                    <a href="<%= detailMealPlanUrl%>&mealPlanId=<%= mealPlanId%>" class="plan-add-button btn btn-lg text-center d-flex justify-content-center align-items-center">
+                                                    <a href="<%= detailMealPlanUrl%>&mealPlanId=<%= mealPlanId%>" class="meal-plan-add-button btn btn-lg text-center d-flex justify-content-center align-items-center">
                                                         <span class="p-0 m-0">ADD</span>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <%
                                                 }
                                             }
