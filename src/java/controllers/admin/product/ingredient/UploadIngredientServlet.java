@@ -103,7 +103,7 @@ public class UploadIngredientServlet extends HttpServlet {
         } catch (Exception e) {
             System.out.println("hello");
             e.printStackTrace();
-            request.setAttribute("errorMessage", "invalid Id or duplicate name");
+            request.setAttribute("errorMessage", "duplicate Id or duplicate name");
             System.out.println(e.getMessage());
             request.getRequestDispatcher("/AMainController?action=IngredientInsertPage").forward(request, response);
         }

@@ -64,33 +64,33 @@
                         <input type="hidden" class="form-control" id="userId" name="id" value="<%= user.getId()%>">
                         <div class="form-group">
                             <label for="userName">Name</label>
-                            <input type="text" class="form-control" id="userName" name="name" value="${item.getName()}" placeholder="Enter user name">
+                            <input type="text" class="form-control" id="userName" name="name" value="${item.getName()}" placeholder="Enter user name" required="">
                         </div>
                         <div class="form-group">
                             <label for="userEmail">Email</label>
-                            <input type="email" class="form-control" id="userEmail" name="email" value="${item.getEmail()}" placeholder="Enter user email">
+                            <input type="email" class="form-control" id="userEmail" name="email" value="${item.getEmail()}" placeholder="Enter user email" required="">
                         </div>
                         <div class="form-group">
                             <label for="userPhone">Phone</label>
-                            <input type="text" class="form-control" id="userPhone" name="phone" value="${item.getPhone()}" placeholder="Enter user phone">
+                            <input type="text" class="form-control" id="userPhone" name="phone" value="${item.getPhone()}" placeholder="Enter user phone" required="">
                         </div>
 
 
                         <div class="form-group">
                             <label for="userCity">City</label>
-                            <input type="text" class="form-control" id="userCity" name="city" value="" placeholder="Enter city">
+                            <input type="text" class="form-control" id="userCity" name="city" value="" placeholder="Enter city" required=""> 
                         </div>
                         <div class="form-group">
                             <label for="userDistrict">District</label>
-                            <input type="text" class="form-control" id="userDistrict" name="district" value="" placeholder="Enter district">
+                            <input type="text" class="form-control" id="userDistrict" name="district" value="" placeholder="Enter district" required="">
                         </div>
                         <div class="form-group">
                             <label for="userWard">Ward</label>
-                            <input type="text" class="form-control" id="userWard" name="ward" value="" placeholder="Enter ward">
+                            <input type="text" class="form-control" id="userWard" name="ward" value="" placeholder="Enter ward" required="">
                         </div>
                         <div class="form-group">
                             <label for="userStreet">Street</label>
-                            <input type="text" class="form-control" id="userStreet" name="street" value="" placeholder="Enter street">
+                            <input type="text" class="form-control" id="userStreet" name="street" value="" placeholder="Enter street" required="">
                         </div>
 
                         <div class="form-group row">

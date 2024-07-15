@@ -86,6 +86,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+<!--                                request.getContextPath()/AMainController?action=addSale&id=item.getId()-->
                                 <% for (Meal item : list) {%>
                                 <tr>    
                                     <td>
@@ -101,8 +102,8 @@
                                         <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%"%>
                                     </td>
                                     <td>
-
-                                        <a href="<%= request.getContextPath()%>/AMainController?action=addSale&id=<%= item.getId()%>" class="btn btn-sm btn-warning w-100 mb-2">Add Sale</a>
+                                     
+                                        <a href="#" class="btn btn-sm btn-warning w-100 mb-2">(not completed)</a>
                                         <a href="<%= request.getContextPath()%>/AMainController?action=MealDetail&mealId=<%= item.getId()%>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
 
 

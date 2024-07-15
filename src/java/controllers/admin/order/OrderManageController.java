@@ -123,7 +123,7 @@ public class OrderManageController extends HttpServlet {
     }
 
     private List<Order> searchingForOrder(HttpServletRequest request) {
-
+        
         if (request != null) {
             String searchValue = request.getParameter("searchValue");
             String searchCategory = request.getParameter("searchCriteria");
@@ -149,7 +149,7 @@ public class OrderManageController extends HttpServlet {
                     copyList.stream()
                             .map(user -> user.getId())
                             .forEach(id -> {
-                                Map<Integer, Order> map = orderDAO.getOrdersByCustomerId(id);
+                                Map<Integer, Order> map = orderDAO.getOrdersByCustomerIdForAdmin(id);
                                 if (!map.isEmpty()) {
                                     orderList.addAll(map.values());
                                 }

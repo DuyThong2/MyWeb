@@ -91,6 +91,7 @@ public class MealPlanController extends HttpServlet {
         List<MealPlan> mealPlanList = mpdao.getCustomerAllMealPlans();
         session.setAttribute("mpList", mealPlanList);
         session.setAttribute("pageNumber", 1);
+        request.getRequestDispatcher("/MainController?action=planPage").forward(request, response);
     }
 
     @Override
