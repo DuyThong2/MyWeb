@@ -38,7 +38,7 @@ public class AddAllToCart extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private final String cartURL = "/MainController?action=cartDisplayPage";
+    private final String cartURL = "MainController?action=cartDisplayPage";
     private final String loginURL = "/MainController?action=login";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,10 +55,12 @@ public class AddAllToCart extends HttpServlet {
                 request.getRequestDispatcher(loginURL).forward(request, response);
             } else {
                 String mealPlanId = request.getParameter("mealPlanId");
+                request.removeAttribute("mealPlanId");
                 PrintWriter out = response.getWriter();
                 MealPlanDAO mpdao = new MealPlanDAO();
                 MealPlan mealPlan = mpdao.getCustomerMealPlanById(mealPlanId);
-                if (mealPlan != null) {
+                Boolean cartUpdated = (Boolean) session.getAttribute("cartUpdated");
+                if (mealPlanId != null && (cartUpdated == null || !cartUpdated)) {
                     mealPlan.getDayPlanContains().forEach((DayPlan dayPlan) -> {
                         String mId = dayPlan.getMealId();
                         if (mId != null) {
@@ -80,9 +82,10 @@ public class AddAllToCart extends HttpServlet {
                             }
                         }
                     });
+                    session.setAttribute("cartUpdated", true);
+                    session.setAttribute("cart", cart);
                 }
-                session.setAttribute("cart", cart);
-                request.getRequestDispatcher(cartURL).forward(request, response);
+                response.sendRedirect(cartURL);
             }
         } catch (Exception e) {
             e.printStackTrace();

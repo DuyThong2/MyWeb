@@ -27,11 +27,7 @@
         <link href="css/style.css" rel="stylesheet">
 
         <style>
-            .container{
-                margin-top: 200px;
-                border: solid orange thick;
-                border-radius: 10px;
-            }
+
         </style>
     </head>
 
@@ -39,7 +35,6 @@
         String processURL = request.getContextPath() + "/MainController?action=processCart";
         String redirectURL = request.getContextPath() + "/MainController?action=cartDisplay";
         String loginURL = request.getContextPath() + "/MainController?action=login";
-
         Map<Product, Integer> cart = (Map<Product, Integer>) session.getAttribute("cart");
         User user = (User) session.getAttribute("LoginedUser");
 
@@ -60,13 +55,13 @@
     %>
     <body>
         <%@include file="../header.jsp" %>
-        <div class="container py-5 bg-white">
-            <div class="container-fluid py-5">
+        <div class="container py-5 d-flex justify-content-center" style="background-color:rgb(245,245,245); min-width:100vw;">
+            <div class="container row py-2 bg-white" style="min-width:90vw;">
 
-                <div class="table-responsive">
+                <div class="table-responsive col-8">
                     <table class="table">
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th scope="col">Products</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
@@ -93,7 +88,7 @@
                                     <p class="mb-0 mt-4"><%= String.format("%.2f", itemPrice)%>$</p>
                                 </td>
                                 <!-- edit quantity option -->
-                                <td>
+                                <td >
                                     <div class="d-flex justify-content-center align-items-center">
                                         <!-- Decrement Button Form -->
                                         <form action="<%= redirectURL%>" method="POST" class="form-inline">
@@ -121,7 +116,7 @@
                                 <td>
                                     <p class="mb-0"><%= String.format("%.2f", item.getValue() * itemPrice)%>$</p>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <a href="<%= redirectURL%>&deleteId=<%= item.getKey().getId()%>" class="btn btn-md rounded-circle bg-light border">
                                         <i class="fa fa-times text-danger"></i>
                                     </a>
@@ -132,9 +127,8 @@
                     </table>
                 </div>
                 <%if (cart.size() > 0) {%>
-                <div class="row g-4 justify-content-end">
-                    <div class="col-8"></div>
-                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                <div class="row col-4 g-4 justify-content-end">
+                    <div class="">
                         <div class="bg-light rounded">
                             <div class="p-4">
                                 <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
@@ -150,11 +144,13 @@
                                 </div>
                                 <p class="mb-0 text-end">Shipping <%=user.getAddress()%></p>
                             </div>
-                            <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                            <div class="p-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
                                 <p class="mb-0 pe-4">$<%= String.format("%.2f", totalPrice + 3)%></p>
                             </div>
-                            <a href="<%=processURL%>" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="submit">Proceed Checkout</a>
+                            <div class="w-100 d-flex justify-content-center">
+                                <a href="<%=processURL%>" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="submit">Proceed Checkout</a>
+                            </div>
                         </div>
                     </div>
                 </div>

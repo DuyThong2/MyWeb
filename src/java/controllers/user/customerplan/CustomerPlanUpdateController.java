@@ -68,8 +68,7 @@ public class CustomerPlanUpdateController extends HttpServlet {
 
         // Forward to JSP
         
-        request
-                .getRequestDispatcher("/MainController?action=customerPlanUpdatePage&customerPlanId="+id).forward(request, response);
+        request.getRequestDispatcher("/MainController?action=customerPlanUpdatePage&customerPlanId="+id).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

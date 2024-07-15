@@ -34,7 +34,7 @@
                 text-align: center;
                 background: linear-gradient(45deg, #F07B07, #FFA500);
             }
-           
+
             .buy-button {
                 background-color: #F07B07; 
                 border: none;
@@ -213,7 +213,7 @@
                 display: flex;
                 flex-wrap: nowrap;
                 justify-content: center;
-                background-color:grey;
+                background-color:rgb(235,235,235);
             }
 
             .meal-plan .col {
@@ -269,6 +269,7 @@
             String addAllToCartUrl = request.getContextPath() + "/MainController?action=addAllToCart";
             String id = (String) request.getParameter("mealPlanId");
             User user = (User) session.getAttribute("LoginedUser");
+            session.removeAttribute("cartUpdated");
             MealPlanDAO mpdao = new MealPlanDAO();
             MealPlan mealPlan = mpdao.getMealPlanById(id);
             if (mealPlan == null || mealPlan.getStatus() == 0) {
@@ -314,8 +315,9 @@
                                     <h1 style="color: orange" class="fw-bold mb-3"><%= mealPlan.getName()%></h1>
                                     <p class="meal-type mb-3"><span class="h3">Type:</span> <%= mealPlan.getType()%></p>
                                     <p class="meal-description mb-4"><%= mealPlan.getContent()%></p>
-                                    <form id="orderForm" action="<%= addCustomerPlanUrl%>" method="POST" >
-                                        <div class="row w-50 p-3 d-flex flex-column">
+
+                                    <div class="row w-50 p-3 d-flex flex-column">
+                                        <form id="orderForm" action="<%= addCustomerPlanUrl%>" method="POST" >
                                             <div class="mb-0   ">                       
                                                 <select class="form-control" name="addWeek" id="week" required>
                                                     <option value="">Select Day</option>
@@ -328,9 +330,13 @@
                                             <div class="mb-5">
                                                 <button type="submit" class="main-plan-add-button btn btn-lg">ADD PLAN</button>
                                             </div>
-                                            <a href="<%= addAllToCartUrl%>&mealPlanId=<%= mealPlan.getId()%>" class="detail-button btn btn-lg">ADD TO CART</a>
-                                        </div>
-                                    </form>
+                                        </form>
+
+                                        <form class="w-100" id="addAllToCartForm"action="<%= addAllToCartUrl%>" method="post">
+                                            <input type="hidden" name="mealPlanId" value="<%= mealPlan.getId()%>">
+                                            <button type="submit" class="detail-button btn btn-lg w-100">ADD TO CART</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -340,8 +346,8 @@
                         <div class="row col-md-12">
                             <h1 style="color:#F07B07; font-weight:bolder; font-size:2.5rem;" class="p-3">Weekly Meal Plan</h1>
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="meal-plan w-100">
+                        <div class="row justify-content-center w-100">
+                            <div class="meal-plan w-100 justify-content-center">
                                 <%
                                     for (int i = 0; i < 7; i++) {
                                         Meal meal = mealList.get(i);
@@ -394,7 +400,7 @@
                                     </div>
                                 </div>
                                 <% }
-                                }%>
+                                    }%>
                             </div>
                         </div>
                     </div>

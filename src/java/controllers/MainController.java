@@ -50,6 +50,7 @@ public class MainController extends HttpServlet {
     private final String ADD_TO_CUSTOMER_DAY_PLAN="/user/AddToCustomerDayPlan";
     private final String DELETE_CUSTOMER_DAY_PLAN="/user/DeleteCustomerDayPlan";
     private final String MAIN_PAGE = "view/user/mainPage.jsp";
+    
     private final String MAIN_PAGE_CONTROLLER = "";
 
     private final String CART_DISPLAY = "view/user/cart/CartDisplay.jsp";
@@ -79,6 +80,8 @@ public class MainController extends HttpServlet {
     private final String ORDER_DETAIL = "view/user/order/UserOrderDetail.jsp";
     private final String ORDER_DETAIL_CONTROLLER = "";
 
+    private final String VAILON = "/user/cart/SuperAddToCart";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -91,6 +94,9 @@ public class MainController extends HttpServlet {
 
         switch (action) {
             //error manage
+            case "vailon":
+                url=VAILON;
+                break;
             case "success":
                 url = SUCCESS;
                 break;
