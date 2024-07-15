@@ -110,7 +110,7 @@ public class MealPlanInsertController extends HttpServlet {
                 }
                 mealPlan = new MealPlan(id, name, type, content, imageUrl, status);
                 dao.insertNewMealPlan(mealPlan);
-                request.getRequestDispatcher(request.getContextPath() + DAYMEAL_URL + "&id=" + mealPlan.getId()).forward(request, response);
+                request.getRequestDispatcher(DAYMEAL_URL + "&id=" + mealPlan.getId()).forward(request, response);
                 return;
 
             } else {

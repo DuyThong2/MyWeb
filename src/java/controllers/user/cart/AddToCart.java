@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AddToCart", urlPatterns = {"/user/cart/AddToCart"})
 public class AddToCart extends HttpServlet {
 
-    private final String shopURL = "/MainController?action=shopPage";
+    private final String shopURL = "/MainController?action=shop";
     private final String loginURL = "/MainController?action=login";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

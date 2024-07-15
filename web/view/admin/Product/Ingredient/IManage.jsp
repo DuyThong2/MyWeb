@@ -128,7 +128,7 @@
 
                     <!-- Search bar and insert buttons in the same row -->
                     <div class="row mt-4 fixed-search-bar">
-                        <div class="col-md-2 d-flex align-items-center">
+                        <div class="col-md-4 d-flex align-items-center">
                             <form action="<%=manageUrl%>" method="POST" class="form-inline">
                                 <input type="hidden" name="numPage" value="<%=pageNum - 1%>">
                                 <button type="submit" class="btn btn-secondary mr-2">&lt;</button>
@@ -147,7 +147,9 @@
                                 <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                             </form>
                         </div>
-                                
+                                <div style="margin-left: 200px" class="ml-1 col-md-2">
+                                    
+                                </div>
                         <div class="col-md-6 ml-2">
                             <form action="<%=manageUrl%>" method="POST" class="form-inline w-100">
                                 <input name="searching" type="text" class="form-control flex-grow-1" placeholder="Search for name">
@@ -168,6 +170,7 @@
                         <div class="form-check">
                             <input name="sort" type="radio" id="category-checkbox" value="max" class="form-check-input">
                             <label for="category-checkbox" class="form-check-label">Show max</label>
+                            <br>
                             <input name="sort" type="radio" id="category-checkbox" value="min" class="form-check-input">
                             <label for="category-checkbox" class="form-check-label">Show min</label>
 

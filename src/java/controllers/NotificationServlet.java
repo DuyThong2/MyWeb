@@ -61,7 +61,6 @@ public class NotificationServlet extends HttpServlet {
                 String message = rs.getString("message");
 
                 // Debugging output
-                System.out.println("Retrieved Notification - ID: " + id + ", Message: " + message);
 
                 Map<String, String> notification = new HashMap<>();
                 notification.put("id", id);
@@ -75,7 +74,6 @@ public class NotificationServlet extends HttpServlet {
 //            pstmt.executeUpdate();
             // Send notifications as JSON
             String json = new Gson().toJson(notifications);
-            System.out.println("JSON Response: " + json);
             response.getWriter().write(json);
 
         } catch (Exception e) {

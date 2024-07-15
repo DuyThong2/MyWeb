@@ -85,9 +85,10 @@ public class MainController extends HttpServlet {
         String action = request.getParameter("action");
         System.out.println(action);
         String url = "";
-//        if (action == null){
-//            action ="blah";
-//        }
+        if (action == null){
+            action ="blah";
+        }
+        action = action.trim();
 
         switch (action) {
             //error manage

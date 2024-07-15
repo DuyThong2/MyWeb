@@ -68,6 +68,7 @@ public class DayPlanInsertController extends HttpServlet {
 
         //INSERT DAYPLAN
         if (mealPlan != null && mealPlan.getDayPlanContains().isEmpty()) {
+            System.out.println("ádasd");
             dpdao.insertDayPlanList(id);
             mealPlan = dao.getMealPlanById(mealPlan.getId());
         }

@@ -110,6 +110,7 @@ public class MealPlanManageController extends HttpServlet {
             session.setAttribute("currentList", mealPlanList);
             session.setAttribute("listFilter",listFilter);
             session.setAttribute("NumPage", numPage);
+            System.out.println(mealPlanList.size());
             request.getRequestDispatcher("/AMainController?action=MealPlanPage").forward(request, response);
         }
 

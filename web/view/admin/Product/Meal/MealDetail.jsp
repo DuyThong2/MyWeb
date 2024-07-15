@@ -85,8 +85,8 @@
                             <h6> no data </h6>
                         </c:otherwise>
                     </c:choose>
-
-                    <a href="<%= addSaleURL%>&id=P<%= meal.getId().substring(1)%>" class="btn btn-warning">Adjust packet discount</a>
+<!--                                 addSaleURL&id=P meal.getId().substring(1)%-->
+                    <a href="#" class="btn btn-warning">Adjust packet discount (not completed)</a>
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                                 <a href="<%= disableMealURL%>&status=active&deleteProductId=${meal.getId()}" class="btn btn-success mb-2">Enable</a>
                             </c:otherwise>
                         </c:choose>
-                        <a href="<%= addSaleURL%>&mealId=${meal.getId()}" class="btn btn-warning">Adjust Meal Sale</a>
+                        <a href="#" class="btn btn-warning">Adjust Meal Sale (not completed)</a>
                     </div>
                 </div>
             </div>

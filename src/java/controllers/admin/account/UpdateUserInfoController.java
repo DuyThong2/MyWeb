@@ -50,13 +50,14 @@ public class UpdateUserInfoController extends HttpServlet {
             diskFileItemFactory.setRepository(new File(currentProjectPath.concat("web")));
             ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
             List<FileItem> fileItems = fileUpload.parseRequest(request);
-            User oldUser = dao.getUserById(id);
+            User oldUser = null;
             for (FileItem fileItem : fileItems) {
                 if (fileItem.isFormField()) {
                     // Handle regular form fields
                     switch (fileItem.getFieldName()) {
                         case "id":
                             id = Integer.parseInt(fileItem.getString());
+                            oldUser = dao.getUserById(id);
                             break;
                         case "name":
                             name = fileItem.getString();

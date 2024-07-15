@@ -47,6 +47,7 @@ public class DayPlanDAO {
 
                     result = insertPst.executeUpdate();
                     if (result == 0) {
+                        System.out.println("not valid");
                         cn.rollback();
                         return result;
                     }

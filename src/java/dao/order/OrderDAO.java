@@ -456,5 +456,60 @@ public class OrderDAO {
 
         return totalOrders;
     }
+    
+    public Map<Integer, Order> getOrdersByCustomerIdForAdmin(int customerId) {
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Map<Integer, Order> orders = new LinkedHashMap<>();
+
+        try (Connection conn = JDBCUtil.getConnection()) {
+            // Getting connection from JDBCUtil
+
+            String orderQuery = "SELECT orderId,orderDate,checkingDAte,abortDate,status,customerID"
+                    + " FROM [Order] WHERE customerID = ?"
+                    + " Order by orderDate desc";
+            pstmt = conn.prepareStatement(orderQuery);
+            pstmt.setInt(1, customerId);
+            rs = pstmt.executeQuery();
+            if (rs != null) {
+                AddressDAO addressDao = new AddressDAO();
+                OrderItemDAO orderItemDAO = new OrderItemDAO();
+                while (rs.next()) {
+                    int orderId = rs.getInt("orderID");
+                    List<OrderItem> listOfOrderItem = orderItemDAO.getOrderDetails(orderId, conn);
+
+                    Address address = addressDao.getAddressByCustomerId(customerId, conn);
+                    Order order = new Order(
+                            orderId,
+                            rs.getTimestamp(2).toLocalDateTime(),
+                            rs.getTimestamp(3) != null ? rs.getTimestamp(3).toLocalDateTime() : null,
+                            rs.getTimestamp(4) != null ? rs.getTimestamp(4).toLocalDateTime() : null,
+                            rs.getInt("status"),
+                            customerId, address
+                    );
+                    order.setOrderDetail(listOfOrderItem);
+                    orders.put(order.getOrderID(), order);
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return orders;
+    }
 
 }
