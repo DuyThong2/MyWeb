@@ -351,7 +351,7 @@
                                         } else {
                                         %>
                                         <!-- Message to display if no meal plans are available -->
-                                        <p>No meal plans available.</p>
+                                        <p class="h4 p-5">No meal plans available.</p>
                                         <%
                                             }
                                         %> 

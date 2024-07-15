@@ -307,6 +307,8 @@
         String addCustomerDayPlan = request.getContextPath() + "/MainController?action=AddToCustomerDayPlan";
         String customerPlanIdStr = request.getParameter("customerPlanId");
         String deleteUrl = request.getContextPath() + "/MainController?action=deleteCustomerDayPlan";
+        
+        String customerDayPlanDetailUrl= request.getContextPath()+"/MainController?action=customerDayPlanDetailPage";
         if (customerPlanIdStr == null || customerPlanIdStr.isEmpty()) {
             response.sendRedirect(customerDetailControllerUrl);
             return;
@@ -354,10 +356,7 @@
                                     <p><%= customerPlan.getType()%></p>
                                 </div>
                                 <div class="d-flex flex-column p-0 justify-content-around">
-                                    <a href=""
-                                       class="plan-add-button btn btn-lg text-center d-flex justify-content-center align-items-center">
-                                        <span class="p-0 m-0">DETAIL</span>
-                                    </a>
+                                   
                                     <form class="w-100" id="deleteForm" action="<%= deleteDetailUrl%>" method="post" onsubmit="return confirmDelete(event)">
                                         <input type="hidden" name="deleteId" value="<%= customerPlan.getId()%>">
                                         <input type="hidden" name="deleteWeek" value="<%= weekNum%>">

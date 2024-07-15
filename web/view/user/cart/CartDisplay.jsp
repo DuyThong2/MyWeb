@@ -58,7 +58,7 @@
         <div class="container py-5 d-flex justify-content-center" style="background-color:rgb(245,245,245); min-width:100vw;">
             <div class="container row py-2 bg-white" style="min-width:90vw;">
 
-                <div class="table-responsive col-8">
+                <div class="table-responsive col-8" style="min-height:500px;">
                     <table class="table">
                         <thead>
                             <tr class="text-center">

@@ -133,7 +133,7 @@
                                 <%
                                     List<Order> orders = new ArrayList<>(user.getOrderHistory().values());
                                     List<List<Order>> pages = new ArrayList();
-                                    pages = Tool.splitToPage(orders, 20);
+                                    pages = Tool.splitToPage(orders, 10);
                                     int pageNum = 1;
                                     Object numString = session.getAttribute("numPage");
                                     if (numString != null) {

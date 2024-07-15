@@ -13,7 +13,7 @@ public class DayPlanDAO {
 
     public int insertDayPlanList(String mealPlanId) {
         int result = 0;
-        String insertDayPlanSql = "insert into DayPlan([id],[dayInWeek],[status],[MealId],[MealPlanId]) values(?,?,?,null,?,null)";
+        String insertDayPlanSql = "insert into DayPlan([id],[dayInWeek],[status],[MealId],[MealPlanId]) values(?,?,?,null,?)";
         String getCurrentIdSql = "select top 1 id from DayPlan order by id desc";
         Connection cn = null;
         PreparedStatement insertPst = null;
@@ -44,7 +44,6 @@ public class DayPlanDAO {
                     insertPst.setInt(2, i);
                     insertPst.setInt(3, 0);
                     insertPst.setString(4, mealPlanId);
-
                     result = insertPst.executeUpdate();
                     if (result == 0) {
                         System.out.println("not valid");

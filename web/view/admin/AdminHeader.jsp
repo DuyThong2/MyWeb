@@ -10,7 +10,7 @@
     String OrderManageURL = request.getContextPath() + "/AMainController?action=orderManagePage";
     String UserManageURL = request.getContextPath() + "/AMainController?action=userManage";
     String IngredientURL = request.getContextPath() + "/AMainController?action=ingredientManage";
-    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManage";
+    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManag";
     String planURL = request.getContextPath() + "/AMainController?action=MealPlan";
     String saleURL = request.getContextPath() + "";
 

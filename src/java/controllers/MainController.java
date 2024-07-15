@@ -50,6 +50,7 @@ public class MainController extends HttpServlet {
     private final String ADD_TO_CUSTOMER_DAY_PLAN="/user/AddToCustomerDayPlan";
     private final String DELETE_CUSTOMER_DAY_PLAN="/user/DeleteCustomerDayPlan";
     private final String MAIN_PAGE = "view/user/mainPage.jsp";
+    private final String CUSTOMER_DAY_PLAN_DETAIL_PAGE="view/user/customerPlan/CustomerDayPlanDetail.jsp";
     
     private final String MAIN_PAGE_CONTROLLER = "";
 
@@ -143,6 +144,10 @@ public class MainController extends HttpServlet {
             case "customerPlanUpdate":
                 url=CUSTOMER_PLAN_UPDATE_CONTROLLER;
                 break;
+            case "customerDayPlanDetailPage":
+                url=CUSTOMER_DAY_PLAN_DETAIL_PAGE;
+                break;
+                
             case "addToCustomerPlan":
                 url= ADD_TO_CUSTOMER_PLAN;
                 break;

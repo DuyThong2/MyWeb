@@ -87,7 +87,7 @@
                             </div> 
                             <div class="row"> 
                                 <div class="col-4">
-                                    <img src="/Submit/images/mealPlan/meatMP3.jpg" alt="User Image" class="">
+                                    <img src="${pageContext.request.contextPath}/${user.getImgURL()}" alt="User Image" class="">
                                 </div>
                                 <div class="col-8 px-0">
 

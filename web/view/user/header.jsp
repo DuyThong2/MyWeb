@@ -86,8 +86,8 @@
     <input type="checkbox" id="search-active">
     <label class="popup-search-container" for="search-active">
         <div class="search-bar-container">
-            <form action="">
-                <input class="search-bar" type="text" class="form-control"
+            <form action="<%= ShopURL %>" method="POST">
+                <input name="searching" class="search-bar" type="text" class="form-control"
                        placeholder="Search for HappiCook OwO">
                 <label class="search-close-button" for="search-active">
                     <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960"

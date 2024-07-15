@@ -87,7 +87,7 @@
             .card-text {
                 flex-grow: 1;
             }
-          
+
             .buy-button {
                 background-color: #F07B07; /* Primary button color */
                 border: none;
@@ -214,8 +214,7 @@
     </head>
 
     <%
-
-        String cartURL = request.getContextPath() + "/MainController?action=addToCart";
+        String cartURL = request.getContextPath() + "/MainController?action=vailon";
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
         String detailMealPlanUrl = request.getContextPath() + "/MainController?action=mealPlanDetailPage";
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
@@ -300,7 +299,7 @@
                                 Effortlessly plan your weekly meals with our convenient meal plan section. Choose from a variety of prepared meals or fresh ingredient packets, and schedule them in advance to fit your lifestyle.
                             </p>
                             <div class="d-flex justify-content-center align-items-center py-2">
-                                <a class="btn btn-lg btn-dark text-white" style="font-size:1.6rem;">Custom Your Meal Plan</a>
+                                <a class="btn btn-lg btn-dark text-white" href="<%= myPlan %>" style="font-size:1.6rem;">Custom Your Meal Plan</a>
                             </div>
                         </div>
                         <div class="col-7">
