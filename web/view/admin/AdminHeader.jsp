@@ -10,7 +10,7 @@
     String OrderManageURL = request.getContextPath() + "/AMainController?action=orderManagePage";
     String UserManageURL = request.getContextPath() + "/AMainController?action=userManage";
     String IngredientURL = request.getContextPath() + "/AMainController?action=ingredientManage";
-    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManag";
+    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManage";
     String planURL = request.getContextPath() + "/AMainController?action=MealPlan";
     String saleURL = request.getContextPath() + "";
 
@@ -41,9 +41,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=planURL%>">Plan</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Sale</a>
-            </li>
+           
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -57,4 +55,4 @@
         </ul>
     </div>
 </nav>
-<div style="height:170px; width:100vw"></div>
+<div style="height:90px; width:100vw"></div>

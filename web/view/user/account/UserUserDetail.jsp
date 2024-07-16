@@ -97,15 +97,13 @@
                                         <p><strong>Phone:</strong> ${user.getPhone()}</p>
                                         <p><strong>Address:</strong> ${user.getAddress()}</p>
                                         <p><strong>Status:</strong> ${user.getStatus()}</p>
-
                                         <a href="<%=updateStatusURL%>" class="btn btn-success btn-lg mt-2">Edit User</a>
-                                    </div> 
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <!-- User Orders -->
@@ -128,7 +126,7 @@
                                     <%
                                         List<Order> orders = new ArrayList<>(orderList.values());
                                         List<List<Order>> pages = new ArrayList();
-                                        pages = Tool.splitToPage(orders, 12);
+                                        pages = Tool.splitToPage(orders, 8);
                                         int pageNum = 1;
                                         Object numString = session.getAttribute("numPage");
                                         if (numString != null) {

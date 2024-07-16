@@ -168,7 +168,7 @@
     </head>
 
     <%
-        String addToCartURL = request.getContextPath() + "/MainController?action=vailon";
+        String addToCartURL = request.getContextPath() + "/MainController?action=addToCartNew";
         String redirectUrl = request.getContextPath() + "/MainController?action=shop";
         String cartURL = request.getContextPath() + "/MainController?action=cartDisplayPage";
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";

@@ -50,7 +50,7 @@
     </head>
     <%
         String orderDetailURL = request.getContextPath() + "/AMainController?action=orderDetail";
-        String disableURL = request.getContextPath() + "/AMainController?action=userManage";
+        String disableURL = request.getContextPath() + "/AMainController?action=deleteManage";
         String updateStatusURL = request.getContextPath() + "/AMainController?action=userUpdatePage";
         String redirectURL = request.getContextPath() + "/AMainController?action=userDetail";
         User user = (User) request.getAttribute("user");
@@ -125,7 +125,7 @@
                                     <th>Order Date</th>
                                     <th>Checking Date</th>
                                     <th>Abort Date</th>
-                                    
+
                                     <th>Options</th>
                                 </tr>
                             </thead>
@@ -168,7 +168,7 @@
                     </div>
 
                     <!-- Pagination -->
-                    <div class="col-md-2 d-flex align-items-center">
+                    <div class="row w-100 d-flex justify-content-center">
                         <form action="<%= redirectURL%>&userId=<%=user.getId()%>" method="POST" class="form-inline">
                             <input type="hidden" name="numPage" value="<%= pageNum - 1%>">
                             <button type="submit" class="btn btn-secondary mr-2">&lt;</button>
@@ -179,9 +179,9 @@
 
                         </form>
 
-                        <span class="ml-2 mr-2">/</span>
-                        <span class="total-pages"><%= pages.size()%></span>
-
+                        <div>
+                            <span class="total-pages m-0 p-0" style="font-size:1.3em; ">/<%= pages.size()%></span>
+                        </div>
                         <form action="<%= redirectURL%>&userId=<%=user.getId()%>" method="POST" class="form-inline">
                             <input type="hidden" name="numPage" value="<%= pageNum + 1%>">
                             <button type="submit" class="btn btn-secondary ml-2">&gt;</button>

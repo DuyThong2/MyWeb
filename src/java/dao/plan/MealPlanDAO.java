@@ -29,7 +29,7 @@ public class MealPlanDAO {
     public ArrayList<MealPlan> getAllMealPlans() {
         ArrayList<MealPlan> list = new ArrayList<>();
         String getAllMealPlanSql = "SELECT [id],[name],[type],[imgURL],[content],[status] from [dbo].[MealPlan] order by status desc";
-        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId], from [dbo].[DayPlan]\n"
+        String getDayPlanSql = "SELECT [id],[dayInWeek],[status],[MealId],[MealPlanId] from [dbo].[DayPlan]\n"
                 + "               where MealPlanId = ? order by dayInWeek Asc";
         try (Connection conn = JDBCUtil.getConnection();
                 Statement statement = conn.createStatement();

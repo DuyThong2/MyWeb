@@ -145,7 +145,6 @@ public class MealController extends HttpServlet {
         List<Meal> list = dao.getCustomerMealList();
         session.setAttribute("mealList", list);
         session.setAttribute("numPage", 1);
-
         request.getRequestDispatcher(SHOP_PAGE).forward(request, response);
     }
 

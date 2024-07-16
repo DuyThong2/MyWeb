@@ -152,7 +152,7 @@
                                 <td>${entry.value.id}</td>
                                 <td>${entry.value.name}</td>
                                 <td>${entry.value.category}</td>
-                                <td class="description-col">${entry.value.content}</td>
+                                <td class="description-col">${entry.value.description}</td>
                                 <td>${dayString[entry.key]}</td>
                                 <td class="d-flex flex-column justify-content-space-between w-100">
                                     <c:choose>

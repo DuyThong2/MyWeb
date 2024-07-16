@@ -88,9 +88,8 @@ public class MealPlanManageController extends HttpServlet {
                 if (search != null && !search.isEmpty()) {
                     mealPlanList = searchNameList(search.trim(), mpdao);
                 } else {
-                    if (mealPlanList == null) {
                         mealPlanList = mpdao.getAllMealPlans();
-                    }
+                    
                 }
                 session.setAttribute("currentList", mealPlanList);
             }
@@ -130,7 +129,7 @@ public class MealPlanManageController extends HttpServlet {
 
     private List<MealPlan> searchNameList(String search, MealPlanDAO mpdao) {
 
-        List<MealPlan> returnList = new ArrayList<MealPlan>();
+        List<MealPlan> returnList = new ArrayList<>();
         if (search != null && !search.isEmpty()) {
             returnList = mpdao.getAllMeanPlanByName(search);
         } else {

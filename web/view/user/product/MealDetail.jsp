@@ -119,6 +119,7 @@
             .card img {
                 height:100%;
                 transition: 0.4s ease-in-out;
+                object-fit:cover;
             }
 
             .card-body {
@@ -158,7 +159,7 @@
     </head>
     <%
 
-        String addToCartURL = request.getContextPath() + "/MainController?action=vailon";
+        String addToCartURL = request.getContextPath() + "/MainController?action=addToCartNew";
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
         String shopURL = request.getContextPath() + "/MainController?action=shop";
         String mealId = request.getParameter("productId");
@@ -321,19 +322,19 @@
                                     <div class="d-flex justify-content-center my-4">
                                         <a href="<%=ShopURL%>" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">View More</a>
                                     </div>
-                                </div>
+                                </div>  
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="container bg-white mt-5">
+            <div class="container bg-white mt-5" style="min-width:90vw;">
                 <h1 class="fw-bold mb-0">Related products</h1>
                 <div class="row g-4 justify-content-center">
                     <% List<Meal> relatedList = dao.getCustomerMealListByCategory(meal.getCategory(), 4);
                         Collections.shuffle(relatedList);
                         for (Meal item : relatedList) {%>
-                    <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="card mb-5">
                             <a href="<%=detailURL%>&productId=<%=item.getId()%>" class="card-img-container">
                                 <img src="${pageContext.request.contextPath}/<%= item.getImageURL()%>" class="card-img-top" alt="meal Img">
@@ -346,7 +347,7 @@
                                     <p class="text-danger fs-5 fw-bold mb-0" style="font-size:1.4rem;"><%=String.format("%.2f", item.getPriceAfterDiscount())%>$</p>
                                     <p class="text-dark text-decoration-line-through" style="text-decoration-line: line-through;"><%= item.getPrice()%>$</p>
                                     <% } else {%>
-                                    <p class="text-success fs-5 fw-bold mb-3" style="font-size:1.4rem;"><%=String.format("%.2f", item.getPrice())%>$</p>
+                                    <p class="text- success fs-5 fw-bold mb-3" style="font-size:1.4rem;"><%=String.format("%.2f", item.getPrice())%>$</p>
                                     <% }%>
                                 </div>
                                 <a href="<%= addToCartURL%>&productId=<%= item.getId()%>" class="add-to-cart-button btn btn-lg mb-2">ADD TO CART</a>

@@ -81,7 +81,7 @@ public class MainController extends HttpServlet {
     private final String ORDER_DETAIL = "view/user/order/UserOrderDetail.jsp";
     private final String ORDER_DETAIL_CONTROLLER = "";
 
-    private final String VAILON = "/user/cart/SuperAddToCart";
+    private final String ADD_TO_CART_NEW = "/user/cart/SuperAddToCart";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,8 +96,8 @@ public class MainController extends HttpServlet {
 
         switch (action) {
             //error manage
-            case "vailon":
-                url=VAILON;
+            case "addToCartNew":
+                url=ADD_TO_CART_NEW;
                 break;
             case "success":
                 url = SUCCESS;
