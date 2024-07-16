@@ -10,8 +10,9 @@
     String OrderManageURL = request.getContextPath() + "/AMainController?action=orderManagePage";
     String UserManageURL = request.getContextPath() + "/AMainController?action=userManage";
     String IngredientURL = request.getContextPath() + "/AMainController?action=ingredientManage";
-    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManag";
+    String MealManageURL = request.getContextPath() + "/AMainController?action=MealManage";
     String planURL = request.getContextPath() + "/AMainController?action=MealPlan";
+    String logout = request.getContextPath() + "/MainController?action=logout";
     String saleURL = request.getContextPath() + "";
 
 %>
@@ -48,11 +49,16 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Notifications
+                    Notifications <span id="notificationBadge" class="badge badge-danger" style="display: none;">0</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="notificationDropdown">
                     <a class="dropdown-item" href="#">No new notifications</a>
                 </div>
+            </li>
+            <li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger" href="<%=logout%>">Logout</a>
+            </li>
             </li>
         </ul>
     </div>

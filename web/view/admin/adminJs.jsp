@@ -17,32 +17,36 @@
                 .then(data => {
                     console.log('Fetched notifications:', data); // Debugging output
                     let notificationDropdown = document.getElementById('notificationDropdown');
+                    let notificationBadge = document.getElementById('notificationBadge');
                     notificationDropdown.innerHTML = ''; // Clear previous notifications
+
                     if (data.length > 0) {
+                        // Show and update the badge
+                        notificationBadge.style.display = 'inline';
+                        notificationBadge.textContent = data.length;
+
                         data.forEach(notif => {
                             console.log('Notification message:', notif.message); // Log each message
                             if (notif.message) { // Ensure the message is not undefined or null
                                 let notificationItem = document.createElement('a');
                                 notificationItem.className = 'dropdown-item';
-                                notificationItem.href = '<%= request.getContextPath() %>/AMainController?action=orderDetail' + '&orderId=' + notif.id;
+                                notificationItem.href = '<%= request.getContextPath()%>/AMainController?action=orderDetail' + '&orderId=' + notif.id;
                                 notificationItem.innerHTML = notif.message + `
-            
-                                        <button class="btn btn-primary btn-sm">View</button>
-                                    `;
+                            <button class="btn btn-primary btn-sm">View</button>
+                        `;
                                 notificationDropdown.appendChild(notificationItem);
                             }
                         });
                     } else {
+                        notificationBadge.style.display = 'none'; // Hide the badge if no new notifications
                         notificationDropdown.innerHTML = '<a class="dropdown-item" href="#">No new notifications</a>';
                     }
                 })
                 .catch(error => console.error('Error fetching notifications:', error));
     }
 
-
-
-    // Polling every 5 seconds
-    setInterval(fetchNotifications, 5000);
+// Polling every 5 seconds
+    setInterval(fetchNotifications, 1000);
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

@@ -47,9 +47,13 @@
         </div>
         <%
             String printMessage = "";
-            String errorMessage = (String) session.getAttribute("ERROR");
+            String errorMessage =request.getAttribute("ERROR") != null ? (String) request.getAttribute("ERROR") : (String) session.getAttribute("ERROR");
+            
             if (errorMessage != null) {
-                if (errorMessage.equalsIgnoreCase("WrongPassword")) {
+                if (errorMessage.equalsIgnoreCase("logout")){
+                    printMessage = "YOU HAVE LOGGED OUT";
+                }
+                else if (errorMessage.equalsIgnoreCase("WrongPassword")) {
                     printMessage = "WRONG PASSWORD! PLEASE ENTER AGAIN!";
                 } else if (errorMessage.equalsIgnoreCase("banned")) {
                     printMessage = "YOUR ACCOUNT IS BANNED!";
