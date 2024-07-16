@@ -34,28 +34,43 @@
 
         <% }
         %>
-        <div class="container">
+        <c:set var="item" value="<%= user%>" />
+        <div class="container p-4" style="min-width:85vw;">
+            <div class="row">
+                <h3>Old Information</h3>
+                <table class="table table-striped mt-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="table-head img-col">Image</th>
+                            <th class="table-head id-col">ID</th>
+                            <th class="table-head name-col">Name</th>
+                            <th class="table-head email-col">Email</th>
+                            <th class="table-head phone-col">Phone</th>
+                            <th class="table-head address-col">Address</th>
+                            <th class="table-head status-col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="img-col">
+                                <img src="${pageContext.request.contextPath}/${item.getImgURL()}" alt="Old Image" class="img-fluid">
+                            </td>
+                            <td>${item.getId()}</td>
+                            <td>${item.getName()}</td>
+                            <td>${item.getEmail()}</td>
+                            <td>${item.getPhone()}</td>
+                            <td>${item.getAddress()}</td>
+                            <td>${item.getStatus()}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="row">
                 <!-- Left side: Display old information -->
-                <div class="col-md-6">
-                    <h3>Old Information</h3>
-                    <c:set var="item" value="<%= user%>" />
-                    <div class="card">
-                        <div class="card-body">
-                            <p><strong>ID:</strong> ${item.getId()}</p>
-                            <p><strong>Name:</strong> ${item.getName()}</p>
-                            <p><strong>Email:</strong> ${item.getEmail()}</p>
-                            <p><strong>Phone:</strong> ${item.getPhone()}</p>
-                            <p><strong>Address:</strong> ${item.getAddress()}</p>
-                            <p><strong>Status:</strong> ${item.getStatus()}</p>
-                            <p><strong>Image:</strong></p>
-                            <img src="${pageContext.request.contextPath}/${item.getImgURL()}" alt="Old Image" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Right side: Form to input new values -->
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <h4>Update User Details</h4>
                     <form id="userForm" action="<%= request.getContextPath() + "/AMainController?action=userUpdate"%>" method="post" enctype="multipart/form-data">
                         <input type="hidden" class="form-control" id="userId" name="id" value="<%= user.getId()%>" required="">
@@ -106,7 +121,7 @@
 
         <%
             request.removeAttribute("errorMessage");
-            
+
         %>
         <script>
             function closeMessage() {

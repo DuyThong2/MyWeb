@@ -413,10 +413,10 @@ public class UserDAO {
                 + "FROM [Order]\n"
                 + "WHERE abortDate BETWEEN DATEADD(DAY, -1, ?) AND ?\n"
                 + "GROUP BY customerID\n"
-                + "HAVING COUNT(abortDate) > 5 and status ='active'";
+                + "HAVING COUNT(abortDate) > 5";
         String usrSql = "Select id,email,pw,name,phone,imgURL,status \n"
                 + "from Customers \n"
-                + "where id = ?";
+                + "where id = ? and status ='active'";
 
         List<User> result = new ArrayList<>();
 
@@ -453,14 +453,14 @@ public class UserDAO {
         }
         return result;
     }
-    
+
     public int getTotalUsers() {
         int totalUsers = 0;
         String query = "SELECT COUNT(*) AS total FROM Customers";
 
         try (Connection connection = JDBCUtil.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)) {
 
             if (resultSet.next()) {
                 totalUsers = resultSet.getInt("total");

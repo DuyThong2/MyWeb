@@ -26,7 +26,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author ASUS
  */
-
 @WebServlet(urlPatterns = {"/admin/MealPlanManageController"})
 public class MealPlanManageController extends HttpServlet {
 
@@ -39,6 +38,8 @@ public class MealPlanManageController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    private final String MEAL_PLAN_PAGE="/AMainController?action=MealPlanPage";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -81,15 +82,15 @@ public class MealPlanManageController extends HttpServlet {
                 session.removeAttribute("listFilter");
                 listFilter = null;
                 session.setAttribute("currentList", mealPlanList);
-                numPage=1;
+                numPage = 1;
             } else {
                 // Maintain search state across page navigations
                 search = (String) session.getAttribute("localSearch");
                 if (search != null && !search.isEmpty()) {
                     mealPlanList = searchNameList(search.trim(), mpdao);
                 } else {
-                        mealPlanList = mpdao.getAllMealPlans();
-                    
+                    mealPlanList = mpdao.getAllMealPlans();
+
                 }
                 session.setAttribute("currentList", mealPlanList);
             }
@@ -98,19 +99,19 @@ public class MealPlanManageController extends HttpServlet {
             if (cate != null && sort != null) {
                 if (listFilter == null) {
                     mealPlanList = sortMealPlan(mealPlanList, sort.trim(), cate.trim());
-                }else{
+                } else {
                     listFilter = sortMealPlan(listFilter, sort.trim(), cate.trim());
                 }
             }
             if (type != null) {
                 listFilter = getListType(mealPlanList, type.trim());
-                numPage=1;
+                numPage = 1;
             }
             session.setAttribute("currentList", mealPlanList);
-            session.setAttribute("listFilter",listFilter);
+            session.setAttribute("listFilter", listFilter);
             session.setAttribute("NumPage", numPage);
             System.out.println(mealPlanList.size());
-            request.getRequestDispatcher("/AMainController?action=MealPlanPage").forward(request, response);
+            request.getRequestDispatcher(MEAL_PLAN_PAGE).forward(request, response);
         }
 
     }
@@ -181,7 +182,14 @@ public class MealPlanManageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        MealPlanDAO mpdao = new MealPlanDAO();
+        List<MealPlan> list = mpdao.getAllMealPlans();
+        session.removeAttribute("listFilter");
+        session.setAttribute("currentList", list);
+        session.setAttribute("NumPage", 1);
+        session.removeAttribute("localSearch");
+        request.getRequestDispatcher(MEAL_PLAN_PAGE).forward(request, response);
     }
 
     /**

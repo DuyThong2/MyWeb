@@ -74,7 +74,7 @@
 
                     <div>
                         <table class="table table-striped mt-4">
-                            <thead>
+                            <thead class="thead-dark">
                                 <tr>
                                     <th>Images</th>
                                     <th>Name</th>

@@ -101,10 +101,10 @@
                                         <td>${user.name}</td>
                                         <td>${user.phone}</td>
                                         <td>
-                                            <a href="<%=userDetailURL%>&userId=${user.id}" class="btn btn-info btn-sm">Detail</a>
+                                            <a href="<%=userDetailURL%>&userId=${user.id}" class="btn btn-info btn-sm" style="z-index:10;">Detail</a>
 
 
-                                            <a href="<%=updateUserStatusURL%>&deleteUserId=${user.id}&status=disable"class="btn btn-danger btn-sm">Disable</a>
+                                            <a href="<%=updateUserStatusURL%>&deleteUserId=${user.id}&status=disable"class="btn btn-danger btn-sm" style="z-index:10;">Disable</a>
 
 
 
@@ -115,7 +115,7 @@
                         </table>
                     </div>
 
-                    <div class="col-md-8" style="z-index:-100">
+                    <div class="col-md-8" >
                         <h2 class="mb-4">New Orders</h2>
                         <table class="table table-striped">
                             <thead>

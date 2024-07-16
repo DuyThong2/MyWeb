@@ -214,10 +214,10 @@
     </head>
 
     <%
-        String cartURL = request.getContextPath() + "/MainController?action=vailon";
+        String cartURL = request.getContextPath() + "/MainController?action=addToCartNew";
         String detailURL = request.getContextPath() + "/MainController?action=mealDetailPage";
         String detailMealPlanUrl = request.getContextPath() + "/MainController?action=mealPlanDetailPage";
-        List<Meal> list = (List<Meal>) session.getAttribute("mealList");
+        List<Meal> list = (List<Meal>) session.getAttribute("mealListMainPage");
 
         List<MealPlan> mealPlanList = (List<MealPlan>) session.getAttribute("mealPlanList");
 
@@ -230,7 +230,7 @@
 
             MealDAO mealDAO = new MealDAO();
             list = mealDAO.getCustomerMealList();
-            session.setAttribute("mealList", list);
+            session.setAttribute("mealListMainPage", list);
 
         }
 

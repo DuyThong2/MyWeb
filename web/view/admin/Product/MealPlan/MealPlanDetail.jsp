@@ -163,7 +163,6 @@
                                             <a href="<%= mealDetailUrl %>&mealId=${entry.value.id}" class="btn btn-primary btn-md mb-3">Detail</a>
                                         </c:otherwise>
                                     </c:choose>
-
                                 </td>
                             </tr>
                         </c:forEach>
