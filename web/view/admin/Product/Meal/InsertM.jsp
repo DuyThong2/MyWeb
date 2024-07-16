@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mealPrice">Meal Price</label>
-                        <input type="number" class="form-control" id="mealPrice" name="price" placeholder="Enter meal price" required="">
+                        <input type="number" class="form-control" id="mealPrice" name="price" min="1" max="100" placeholder="Enter meal price" required="">
                     </div>
                     <div class="form-group">
                         <label for="mealDescription">Meal Description</label>

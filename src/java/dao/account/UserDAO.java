@@ -413,7 +413,7 @@ public class UserDAO {
                 + "FROM [Order]\n"
                 + "WHERE abortDate BETWEEN DATEADD(DAY, -1, ?) AND ?\n"
                 + "GROUP BY customerID\n"
-                + "HAVING COUNT(abortDate) > 5";
+                + "HAVING COUNT(abortDate) > 5 and status ='active'";
         String usrSql = "Select id,email,pw,name,phone,imgURL,status \n"
                 + "from Customers \n"
                 + "where id = ?";

@@ -69,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <label for="price">Price (USD)</label>
-                            <input type="number" step="0.01" class="form-control" value="${item.getPrice()}" id="price" name="price" required>
+                            <input type="number" step="0.01" class="form-control" value="${item.getPrice()}" id="price" min="1" name="price" required>
                         </div>
                         <div class="form-group">
                             <label for="unit">Unit</label>

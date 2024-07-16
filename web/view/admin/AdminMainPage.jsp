@@ -43,12 +43,12 @@
                     Admin DashBoard
                 </h1>
             </div>
-            
-                
-           
+
+
+
             <!-- Other admin content goes here -->
             <div class="container mt-3">
-                
+
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-4">
@@ -102,7 +102,12 @@
                                         <td>${user.phone}</td>
                                         <td>
                                             <a href="<%=userDetailURL%>&userId=${user.id}" class="btn btn-info btn-sm">Detail</a>
-                                            <a href="<%=updateUserStatusURL%>&deleteUserId=${user.id}"class="btn btn-danger btn-sm">Disable</a>
+
+
+                                            <a href="<%=updateUserStatusURL%>&deleteUserId=${user.id}&status=disable"class="btn btn-danger btn-sm">Disable</a>
+
+
+
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -110,7 +115,7 @@
                         </table>
                     </div>
 
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="z-index:-100">
                         <h2 class="mb-4">New Orders</h2>
                         <table class="table table-striped">
                             <thead>

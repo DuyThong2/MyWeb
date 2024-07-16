@@ -80,7 +80,9 @@ public class MealInsertController extends HttpServlet {
                         case "price":
                             try {
                                 price = Double.parseDouble(fileItem.getString());
-
+                                if (price <= 0){
+                                    throw new NumberFormatException();
+                                }
                             } catch (NumberFormatException e) {
                                 price = 10;
                             }

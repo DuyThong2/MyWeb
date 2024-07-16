@@ -62,7 +62,7 @@
                         </div>
                         <div class="form-group">
                             <label for="mealPrice">Meal Price</label>
-                            <input type="text" class="form-control" id="mealPrice" value = <%=oldMeal.getPrice()%> name="price" placeholder="Enter meal price" required="">
+                            <input type="text" class="form-control" id="mealPrice" value = <%=oldMeal.getPrice()%> name="price" placeholder="Enter meal price" min="1" required="">
                         </div>
                         <div class="form-group">
                             <label for="mealDescription">Meal Description</label>

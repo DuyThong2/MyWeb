@@ -47,11 +47,13 @@ public class UpdateIngredientController extends HttpServlet {
                                 break;
                             case "price":
                                 try {
-                                    price = Double.parseDouble(item.getString());
-
-                                } catch (NumberFormatException e) {
-                                    price = 10;
+                                price = Double.parseDouble(item.getString());
+                                if (price <= 0){
+                                    throw new NumberFormatException();
                                 }
+                            } catch (NumberFormatException e) {
+                                price = 10;
+                            }
                                 break;
                             case "unit":
                                 unit = item.getString();
