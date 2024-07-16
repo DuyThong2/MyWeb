@@ -379,9 +379,15 @@
                                 %>
                                 <div class="col">
                                     <div class="card">
-                                        <a href="<%= detailMealUrl%>&mealId=<%= meal.getId()%>" class="card-img-container">
+                                        <% if (meal.getStatus().equalsIgnoreCase("disable")) {%>
+                                        <div class="card-img-container">
+                                            <img src="<%= meal.getImageURL() != null ? request.getContextPath() + "/" + meal.getImageURL() : request.getContextPath() + "/images/defaultMeal.jpg"%>" class="card-img-top" alt="<%= meal.getName()%>">
+                                        </div>
+                                        <% } else {%>
+                                        <a href="<%= detailMealUrl%>&productId=<%= meal.getId()%>" class="card-img-container">
                                             <img src="<%= meal.getImageURL() != null ? request.getContextPath() + "/" + meal.getImageURL() : request.getContextPath() + "/images/defaultMeal.jpg"%>" class="card-img-top" alt="<%= meal.getName()%>">
                                         </a>
+                                        <% }%>
                                         <div class="card-body">
                                             <h5 class="card-title"><%= meal.getName() != null ? meal.getName() : "No meal planned"%></h5>
                                             <div class="d-flex justify-content-between flex-lg-wrap">
@@ -392,7 +398,16 @@
                                                 <p class="text-success fs-5 fw-bold mb-3" style="font-size:1.4rem;"><%= String.format("%.2f", meal.getPrice())%>$</p>
                                                 <% }%>
                                             </div>
-                                            <a href="<%= detailMealUrl%>&productId=<%= meal.getId()%>" class="buy-button btn btn-lg mb-2">DETAIL</a>
+                                            <%
+                                                if (meal.getStatus().equalsIgnoreCase("active")) {
+                                            %> 
+                                            <a href='<%= detailMealUrl%>&productId=<%= meal.getId()%>' class='buy-button btn btn-lg mb-2'>DETAIL</a>
+
+                                            <%
+                                            } else {
+                                            %>
+                                            <h4 class='text-danger'>Not Available</h4>
+                                            <% }%>
                                         </div>
                                         <div class="daily-title buy-button" style="font-weight:bolder; position:absolute; top:0; right:0;">
                                             <%= dayName%>

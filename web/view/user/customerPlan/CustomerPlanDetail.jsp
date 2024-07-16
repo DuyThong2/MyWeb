@@ -410,6 +410,7 @@
                                 for (Object obj : plan.getContainsCustomerPlan()) {
                                     if (obj instanceof CustomerDayPlan) {
                                         dayPlans.add((CustomerDayPlan) obj);
+                                        System.out.println(obj.toString());
                                     }
                                 }
                             }
@@ -430,6 +431,11 @@
                         <div class="col">
                             <div class="card" style="position:relative;">
                                 <% if (meal != null) {%>
+                                <%  if (meal.getStatus().equalsIgnoreCase("disable")) { %>
+                                <div class="card-body">
+                                    <h4 class="text-danger">Not Available</h3>
+                                </div>
+                                <% } else {%>
                                 <!-- If there is a meal plan for the day -->
                                 <a href="<%= mealDetailUrl%>&productId=<%= meal.getId()%>" class="card-img-container">
                                     <img src="<%= meal.getImageURL() != null ? meal.getImageURL() : "default.jpg"%>" class="card-img-top" alt="<%= meal.getName() != null ? meal.getName() : "No Meal Name"%>">
@@ -438,6 +444,8 @@
                                     <h5 class="card-title"><%= meal.getName() != null ? meal.getName() : "No Meal Name"%></h5>
                                     <a href="<%= mealDetailUrl%>&productId=<%= meal.getId()%>" class="buy-button btn btn-lg mb-2">DETAIL</a>
                                 </div>
+
+                                <% }%>
                                 <% } else {
                                     if (plan != null) {
                                 %>

@@ -104,10 +104,13 @@ public class CustomerDayPlanDAO {
         int result = 0;
         String insertCustomerPlanSql = "INSERT INTO CustomerDayPlan (id, customerPlanId, dayInWeek, status, mealId) VALUES (?, ?, ?, ?, ?)";
         String getCurrentIdSql = "SELECT TOP 1 id FROM CustomerDayPlan ORDER BY id DESC";
+        String getMealStatusSql = "SELECT status FROM Meal WHERE Id = ?";
         Connection cn = null;
         PreparedStatement insertPst = null;
+        PreparedStatement mealStatusPst = null;
         Statement getRst = null;
         ResultSet getTable = null;
+        ResultSet mealStatusRs = null;
 
         try {
             cn = JDBCUtil.getConnection();
@@ -127,6 +130,8 @@ public class CustomerDayPlanDAO {
 
                 // Prepare the insert statement
                 insertPst = cn.prepareStatement(insertCustomerPlanSql);
+                mealStatusPst = cn.prepareStatement(getMealStatusSql);
+
                 for (int i = 0; i < 7; i++) {
                     System.out.println(i);
                     currentId++;
@@ -137,6 +142,17 @@ public class CustomerDayPlanDAO {
                     }
                     if (dayplan != null) {
                         mealId = dayplan.getMealId();
+                        if (mealId != null) {
+                            // Check meal status
+                            mealStatusPst.setString(1, mealId);
+                            mealStatusRs = mealStatusPst.executeQuery();
+                            if (mealStatusRs.next()) {
+                                String mealStatus = mealStatusRs.getString("status");
+                                if ("disable".equals(mealStatus)) {
+                                    mealId = null; // Set mealId to null if status is 'disable'
+                                }
+                            }
+                        }
                     }
                     insertPst.setInt(1, currentId);
                     insertPst.setInt(2, customerPlanId);
@@ -164,11 +180,17 @@ public class CustomerDayPlanDAO {
             e.printStackTrace();
         } finally {
             try {
+                if (mealStatusRs != null) {
+                    mealStatusRs.close();
+                }
                 if (getTable != null) {
                     getTable.close();
                 }
                 if (getRst != null) {
                     getRst.close();
+                }
+                if (mealStatusPst != null) {
+                    mealStatusPst.close();
                 }
                 if (insertPst != null) {
                     insertPst.close();
@@ -314,6 +336,7 @@ public class CustomerDayPlanDAO {
     public int addMealPlanToDayPlan(String mealId, int addDay, int customerPlanId) {
         int result = 0;
         try (Connection cn = JDBCUtil.getConnection();) {
+
             String sql = "  update CustomerDayPlan set MealId=? where CustomerPlanId = ? and dayInWeek=?  and MealId is null";
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setString(1, mealId);
@@ -327,7 +350,8 @@ public class CustomerDayPlanDAO {
 
         return result;
     }
-    public int deleteMealPlanfromDayPlan( int addDay, int customerPlanId) {
+
+    public int deleteMealPlanfromDayPlan(int addDay, int customerPlanId) {
         int result = 0;
         try (Connection cn = JDBCUtil.getConnection();) {
             String sql = "  update CustomerDayPlan set MealId=null where CustomerPlanId = ? and dayInWeek=?";

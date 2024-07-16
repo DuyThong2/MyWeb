@@ -307,8 +307,8 @@
         String addCustomerDayPlan = request.getContextPath() + "/MainController?action=AddToCustomerDayPlan";
         String customerPlanIdStr = request.getParameter("customerPlanId");
         String deleteUrl = request.getContextPath() + "/MainController?action=deleteCustomerDayPlan";
-        
-        String customerDayPlanDetailUrl= request.getContextPath()+"/MainController?action=customerDayPlanDetailPage";
+
+        String customerDayPlanDetailUrl = request.getContextPath() + "/MainController?action=customerDayPlanDetailPage";
         if (customerPlanIdStr == null || customerPlanIdStr.isEmpty()) {
             response.sendRedirect(customerDetailControllerUrl);
             return;
@@ -356,7 +356,7 @@
                                     <p><%= customerPlan.getType()%></p>
                                 </div>
                                 <div class="d-flex flex-column p-0 justify-content-around">
-                                   
+
                                     <form class="w-100" id="deleteForm" action="<%= deleteDetailUrl%>" method="post" onsubmit="return confirmDelete(event)">
                                         <input type="hidden" name="deleteId" value="<%= customerPlan.getId()%>">
                                         <input type="hidden" name="deleteWeek" value="<%= weekNum%>">
@@ -408,6 +408,11 @@
                     <div class="col">
                         <div class="card" style="position:relative;">
                             <% if (meal != null) {%>
+                            <%  if (meal.getStatus().equalsIgnoreCase("disable")) { %>
+                            <div class="card-body">
+                                <h4 class="text-danger">Not Available</h3>
+                            </div>
+                            <% } else {%>
                             <!-- If there is a meal plan for the day -->
                             <a href="<%= mealDetailUrl%>&productId=<%= meal.getId()%>" class="card-img-container">
                                 <img src="<%= meal.getImageURL() != null ? meal.getImageURL() : "default.jpg"%>" class="card-img-top" alt="<%= meal.getName() != null ? meal.getName() : "No Meal Name"%>">
@@ -417,6 +422,7 @@
                                 <a href="<%= mealDetailUrl%>&productId=<%= meal.getId()%>" class="buy-button btn btn-lg mb-2">DETAIL</a>
                             </div>
 
+                            <% }%>
                             <% } else {
                                 if (customerPlan != null) {
                             %>

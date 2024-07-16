@@ -163,8 +163,7 @@ public class CustomerPlanDAO {
                             Meal meal = null;
 
                             // Fetch associated Meal
-                            meal = mdao.getCustomerMealFromId(mealId);
-
+                            meal = mdao.getMealFromId(mealId);
                             CustomerDayPlan dayPlan = new CustomerDayPlan(dayPlanId, customerPlanId, dayInWeek, dayPlanStatus, meal);
                             dayPlans.add(dayPlan);
                         }
@@ -225,7 +224,7 @@ public class CustomerPlanDAO {
                             Meal meal = null;
 
                             // Fetch associated Meal
-                            meal = mdao.getCustomerMealFromId(mealId);
+                            meal = mdao.getMealFromId(mealId);
 
                             CustomerDayPlan dayPlan = new CustomerDayPlan(dayPlanId, customerPlanId, dayInWeek, dayPlanStatus, meal);
                             dayPlans.add(dayPlan);
@@ -288,7 +287,7 @@ public class CustomerPlanDAO {
                             Meal meal = null;
 
                             // Fetch associated Meal
-                            meal = mdao.getCustomerMealFromId(mealId);
+                            meal = mdao.getMealFromId(mealId);
 
                             CustomerDayPlan dayPlan = new CustomerDayPlan(dayPlanId, customerPlanId, dayInWeek, dayPlanStatus, meal);
                             dayPlans.add(dayPlan);
