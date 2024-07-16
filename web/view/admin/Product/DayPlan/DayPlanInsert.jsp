@@ -145,7 +145,7 @@
                                 <td>${entry.value.meal.id}</td>
                                 <td>${entry.value.meal.name}</td>
                                 <td>${entry.value.meal.category}</td>
-                                <td class="description-col">${entry.value.meal.content}</td>
+                                <td class="description-col">${entry.value.meal.description}</td>
                                 <td>${daysInWeek[entry.key]}</td>
                                 <td class="d-flex flex-column justify-content-space-between w-100">
 
@@ -186,7 +186,7 @@
                                 <td>${meal.id}</td>
                                 <td>${meal.name}</td>
                                 <td>${meal.category}</td>
-                                <td class="description-col-wide">${meal.content}</td>
+                                <td class="description-col-wide">${meal.description}</td>
                         <form action='<%= addMealUrl%>&mealId=${meal.id}' method="POST">
                             <td class="d-flex flex-column justify-content-space-between w-100">
                                 <select class="form-control" name="day" id="day" required>

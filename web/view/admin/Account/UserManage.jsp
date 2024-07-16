@@ -97,7 +97,7 @@
                                     <td><%= user.getAddress()%></td>
                                     <td>
 
-                                        <a href="<%=detailUrl%>&userId=<%=user.getId()%>" class="btn btn-sm btn-info">Detail</a>
+                                        <a href="<%=detailUrl%>&userId=<%=user.getId()%>" class="btn btn-sm btn-primary w-100 mb-2">Detail</a>
 
                                         <%
                                             String disableUrl = manageUrl + "&status=";
@@ -107,7 +107,7 @@
                                             String disableBtnClass = status.equals("active") ? "btn-danger" : "btn-success";
                                             String disableBtnText = status.equals("active") ? "Disable" : "Enable";
 
-                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&deleteUserId=" + userId + "' class='btn btn-sm " + disableBtnClass + " '>" + disableBtnText + "</a>";
+                                            disableLink = "<a href='" + disableUrl + (status.equals("active") ? "disable" : "active") + "&deleteUserId=" + userId + "' class='btn btn-sm w-100 " + disableBtnClass + " '>" + disableBtnText + "</a>";
                                         %>
                                         <%= disableLink%>
                                     </td>
@@ -120,7 +120,7 @@
                     </div>
 
                     <!-- Search bar and insert buttons in the same row -->
-                    <div class="row mt-4 fixed-search-bar">
+                    <div class="mt-4 fixed-search-bar d-flex justify-content-center">
                         <div class="col-md-2 d-flex align-items-center">
                             <form action="<%= manageUrl%>" method="POST" class="form-inline">
                                 <input type="hidden" name="numPage" value="<%= pageNum - 1%>">
@@ -140,9 +140,6 @@
                                 <button type="submit" class="btn btn-secondary ml-2">&gt;</button>
                             </form>
                         </div>
-
-
-
                     </div>
                 </div>
 

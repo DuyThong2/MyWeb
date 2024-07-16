@@ -29,9 +29,8 @@
             response.sendRedirect(request.getContextPath() + "/admin/home");
             return;
         }
-        
-        
-        
+
+
     %>
 
 
@@ -39,10 +38,17 @@
 
         <%@include file="AdminHeader.jsp" %>
         <div class="container">
-            <h1>Welcome to the Admin Page</h1>
+            <div class="row w-100">
+                <h1 class="w-100 text-center">Welcome to the Admin Page </br>
+                    Admin DashBoard
+                </h1>
+            </div>
+            
+                
+           
             <!-- Other admin content goes here -->
-            <div class="container ">
-                <h1 class="mb-4">Admin Dashboard</h1>
+            <div class="container mt-3">
+                
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-4">

@@ -78,7 +78,10 @@ public class MainController extends HttpServlet {
     private final String ORDER_DETAIL = "view/user/order/UserOrderDetail.jsp";
     private final String ORDER_DETAIL_CONTROLLER = "";
 
-    private final String ADD_TO_CART_CONTROLLER_2 = "/user/cart/SuperAddToCart";
+
+    private final String ADD_TO_CART_NEW = "/user/cart/SuperAddToCart";
+    
+
 
     private final String LOGOUT = "/Logout";
 
@@ -95,8 +98,9 @@ public class MainController extends HttpServlet {
 
         switch (action) {
             //error manage
-            case "vailon":
-                url = ADD_TO_CART_CONTROLLER_2;
+
+            case "addToCartNew":
+                url=ADD_TO_CART_NEW;
                 break;
             case "success":
                 url = SUCCESS;

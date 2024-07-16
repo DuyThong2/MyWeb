@@ -150,7 +150,6 @@ public class MealManagementController extends HttpServlet {
         MealDAO dao = new MealDAO();
         HttpSession session = request.getSession();
         String deleteProductId = request.getParameter("deleteProductId");
-
         List<Meal> list = (List<Meal>) session.getAttribute("mealList");
 
         if (deleteProductId != null && list!= null) {

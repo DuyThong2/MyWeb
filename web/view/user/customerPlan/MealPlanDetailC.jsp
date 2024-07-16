@@ -416,7 +416,7 @@
                     <c:forEach var="mealPlan" items="${requestScope.relatedList}">
                         <div class="col-md-9">
                             <div class="plan-card row my-4">
-                                <div class="plan-card-img-container col-xl-5 col-lg-5 p-0">
+                                <div class="plan-card-img-container card col-xl-5 col-lg-5 p-0">
                                     <a href="#">
                                         <img src="<%= request.getContextPath()%>/${mealPlan.imgUrl}" alt="${mealPlan.name}" class="plan-card-img-top">
                                     </a>

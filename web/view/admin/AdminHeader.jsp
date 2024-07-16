@@ -42,9 +42,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=planURL%>">Plan</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Sale</a>
-            </li>
+           
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -63,4 +61,4 @@
         </ul>
     </div>
 </nav>
-<div style="height:170px; width:100vw"></div>
+<div style="height:90px; width:100vw"></div>

@@ -63,17 +63,24 @@
                 <div id="table" class="col-md-10">
                     <!-- Table Name and Form in the same row -->
                     <div class="row align-items-center">
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <h1>Meal:</h1>
+
                         </div>
-                        <div class="col-md-6">
-                            <!-- Additional buttons can go here -->
+                        <div class="col-md-8">
+                                <form action="<%= redirectUrl%>" method="POST" class="form-inline w-100">
+                                    <input name="searching" type="text" class="form-control flex-grow-1" placeholder="Search for name">
+                                    <input type="submit" value="Search" class="btn btn-primary ml-2">
+                                </form>
+                        </div>
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <button class="btn btn-secondary w-100" onclick="location.href = '<%= request.getContextPath() + "/AMainController?action=MealInsertPage"%>'">Insert Meal</button>
                         </div>
                     </div>
 
                     <div>
-                        <table class="table table-striped mt-4">
-                            <thead>
+                        <table class="table table-striped mt-4 ">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th>Images</th>
                                     <th>Id</th>
@@ -86,7 +93,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-<!--                                request.getContextPath()/AMainController?action=addSale&id=item.getId()-->
+                                <!--                                request.getContextPath()/AMainController?action=addSale&id=item.getId()-->
                                 <% for (Meal item : list) {%>
                                 <tr>    
                                     <td>
@@ -102,9 +109,8 @@
                                         <%= item.isOnSale() ? item.getDiscountPercent() + " %" : "0%"%>
                                     </td>
                                     <td>
-                                     
-                                        <a href="#" class="btn btn-sm btn-warning w-100 mb-2">(not completed)</a>
-                                        <a href="<%= request.getContextPath()%>/AMainController?action=MealDetail&mealId=<%= item.getId()%>" class="btn btn-sm btn-info w-100 mb-2">Detail</a>
+
+                                        <a href="<%= request.getContextPath()%>/AMainController?action=MealDetail&mealId=<%= item.getId()%>" class="btn btn-sm btn-primary w-100 mb-2">Detail</a>
 
 
                                         <%
@@ -126,7 +132,7 @@
                     </div>
 
                     <!-- Search bar and insert buttons in the same row -->
-                    <div class="row mt-4 fixed-search-bar">
+                    <div class="row mt-4 fixed-search-bar w-100 d-flex justify-content-center ">
                         <div class="col-md-2 d-flex align-items-center">
                             <form action="<%= redirectUrl%>" method="POST" class="form-inline">
                                 <input type="hidden" name="numPage" value="<%= pageNum - 1%>">
@@ -147,15 +153,8 @@
                             </form>
                         </div>
 
-                        <div class="col-md-6">
-                            <form action="<%= redirectUrl%>" method="POST" class="form-inline w-100">
-                                <input name="searching" type="text" class="form-control flex-grow-1" placeholder="Search for name">
-                                <input type="submit" value="Search" class="btn btn-primary ml-2">
-                            </form>
-                        </div>
-                        <div class="col-md-4 d-flex justify-content-end">
-                            <button class="btn btn-secondary w-100" onclick="location.href = '<%= request.getContextPath() + "/AMainController?action=MealInsertPage"%>'">Insert Meal</button>
-                        </div>
+
+
                     </div>
                 </div>
 
