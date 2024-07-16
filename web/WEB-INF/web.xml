@@ -4,7 +4,7 @@
         <filter-name>checkCustomerStatusFilter</filter-name>
         <filter-class>filters.checkCustomerStatusFilter</filter-class>
     </filter>
-<!--    <filter>
+    <filter>
         <filter-name>CheckIfAdminFilter</filter-name>
         <filter-class>filters.CheckIfAdminFilter</filter-class>
     </filter>
@@ -14,7 +14,7 @@
         <url-pattern>/view/admin/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>-->
+    </filter-mapping>
     <filter-mapping>
         <filter-name>checkCustomerStatusFilter</filter-name>
         <url-pattern>/user/order/*</url-pattern>
@@ -78,7 +78,7 @@
     <welcome-file-list>
         <welcome-file>view/user/mainPage.jsp</welcome-file>
     </welcome-file-list>
-    <!--
+    
         <error-page>
         <error-code>404</error-code>
         <location>/view/error.jsp</location>
@@ -86,5 +86,5 @@
         <error-page>
         <error-code>500</error-code>
         <location>/view/error.jsp</location>
-    </error-page>-->
+    </error-page>
 </web-app>

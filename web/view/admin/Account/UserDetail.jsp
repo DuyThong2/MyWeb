@@ -50,7 +50,7 @@
     </head>
     <%
         String orderDetailURL = request.getContextPath() + "/AMainController?action=orderDetail";
-        String disableURL = request.getContextPath() + "/AMainController?action=deleteManage";
+        String disableURL = request.getContextPath() + "/AMainController?action=deleteUser";
         String updateStatusURL = request.getContextPath() + "/AMainController?action=userUpdatePage";
         String redirectURL = request.getContextPath() + "/AMainController?action=userDetail";
         User user = (User) request.getAttribute("user");

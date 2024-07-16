@@ -41,17 +41,16 @@ public class MainController extends HttpServlet {
 
     private final String CUSTOMER_PLAN_PAGE = "view/user/customerPlan/CustomerPlanDetail.jsp";
     private final String CUSTOMER_PLAN_CONTROLLER = "/user/CustomerPlanDetailController";
-    
-    
-    private final String CUSTOMER_PLAN_UPDATE_PAGE ="view/user/customerPlan/CustomerPlanUpdate.jsp";
-    
-    private final String CUSTOMER_PLAN_UPDATE_CONTROLLER="/user/CustomerPlanUpdateController";
-    private final String ADD_TO_CUSTOMER_PLAN="/user/AddToCustomerPlan";
-    private final String ADD_TO_CUSTOMER_DAY_PLAN="/user/AddToCustomerDayPlan";
-    private final String DELETE_CUSTOMER_DAY_PLAN="/user/DeleteCustomerDayPlan";
+
+    private final String CUSTOMER_PLAN_UPDATE_PAGE = "view/user/customerPlan/CustomerPlanUpdate.jsp";
+
+    private final String CUSTOMER_PLAN_UPDATE_CONTROLLER = "/user/CustomerPlanUpdateController";
+    private final String ADD_TO_CUSTOMER_PLAN = "/user/AddToCustomerPlan";
+    private final String ADD_TO_CUSTOMER_DAY_PLAN = "/user/AddToCustomerDayPlan";
+    private final String DELETE_CUSTOMER_DAY_PLAN = "/user/DeleteCustomerDayPlan";
     private final String MAIN_PAGE = "view/user/mainPage.jsp";
-    private final String CUSTOMER_DAY_PLAN_DETAIL_PAGE="view/user/customerPlan/CustomerDayPlanDetail.jsp";
-    
+    private final String CUSTOMER_DAY_PLAN_DETAIL_PAGE = "view/user/customerPlan/CustomerDayPlanDetail.jsp";
+
     private final String MAIN_PAGE_CONTROLLER = "";
 
     private final String CART_DISPLAY = "view/user/cart/CartDisplay.jsp";
@@ -59,9 +58,7 @@ public class MainController extends HttpServlet {
 
     private final String ADD_TO_CART = "";
     private final String ADD_TO_CART_CONTROLLER = "/user/cart/AddToCart";
-    
-    
-    
+
     private final String MEAL_DETAIL = "view/user/product/MealDetail.jsp";
     private final String MEAL_PLAN_DETAIL = "view/user/customerPlan/MealPlanDetailC.jsp";
 
@@ -81,21 +78,27 @@ public class MainController extends HttpServlet {
     private final String ORDER_DETAIL = "view/user/order/UserOrderDetail.jsp";
     private final String ORDER_DETAIL_CONTROLLER = "";
 
+
     private final String ADD_TO_CART_NEW = "/user/cart/SuperAddToCart";
     
+
+
+    private final String LOGOUT = "/Logout";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         System.out.println(action);
         String url = "";
-        if (action == null){
-            action ="blah";
+        if (action == null) {
+            action = "blah";
         }
         action = action.trim();
 
         switch (action) {
             //error manage
+
             case "addToCartNew":
                 url=ADD_TO_CART_NEW;
                 break;
@@ -139,20 +142,20 @@ public class MainController extends HttpServlet {
                 url = CUSTOMER_PLAN_UPDATE_PAGE;
                 break;
             case "deleteCustomerDayPlan":
-                url=DELETE_CUSTOMER_DAY_PLAN;
+                url = DELETE_CUSTOMER_DAY_PLAN;
                 break;
             case "customerPlanUpdate":
-                url=CUSTOMER_PLAN_UPDATE_CONTROLLER;
+                url = CUSTOMER_PLAN_UPDATE_CONTROLLER;
                 break;
             case "customerDayPlanDetailPage":
-                url=CUSTOMER_DAY_PLAN_DETAIL_PAGE;
+                url = CUSTOMER_DAY_PLAN_DETAIL_PAGE;
                 break;
-                
+
             case "addToCustomerPlan":
-                url= ADD_TO_CUSTOMER_PLAN;
+                url = ADD_TO_CUSTOMER_PLAN;
                 break;
             case "AddToCustomerDayPlan":
-                url= ADD_TO_CUSTOMER_DAY_PLAN;
+                url = ADD_TO_CUSTOMER_DAY_PLAN;
                 break;
             //cart manage
             case "addToCart":
@@ -204,6 +207,10 @@ public class MainController extends HttpServlet {
 
             case "login":
                 url = LOGIN;
+                break;
+
+            case "logout":
+                url = LOGOUT;
                 break;
 
             default:

@@ -98,6 +98,7 @@
                                         <p><strong>Address:</strong> ${user.getAddress()}</p>
                                         <p><strong>Status:</strong> ${user.getStatus()}</p>
                                         <a href="<%=updateStatusURL%>" class="btn btn-success btn-lg mt-2">Edit User</a>
+                                    </div> 
                                 </div>
                             </div>
 
