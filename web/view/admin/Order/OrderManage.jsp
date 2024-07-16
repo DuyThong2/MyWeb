@@ -163,7 +163,7 @@
                             </tbody>
                         </table>
 
-                        <div class="row mt-4 fixed-search-bar">
+                        <div class="row mt-4 fixed-search-bar w-100 d-flex justify-content-center">
                             <div class="col-md-2 d-flex align-items-center">
                                 <form action="<%= redirectURL%>" method="POST" class="form-inline">
                                     <input type="hidden" name="numPage" value="<%= pageNum - 1%>">

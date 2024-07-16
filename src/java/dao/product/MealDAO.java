@@ -33,7 +33,7 @@ public class MealDAO {
 
     public List<Meal> getAllMeals() {
         String sql1 = "SELECT  [Id],[name],[content],[category],[imgURL],[status] "
-                + "FROM [PRJ301].[dbo].[Meal]";
+                + "FROM [PRJ301].[dbo].[Meal] order by status";
         String sql2 = "SELECT [description],[isOnSale],[DiscountID] FROM [PRJ301].[dbo].[Product] where id = ?";
         String sql3 = "select valuePercent,dateApply,dateEnd from Discount where id = ?";
 

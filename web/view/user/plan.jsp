@@ -295,7 +295,7 @@
                                             <div class="position-relative w-100 banner-container" style="height:100%;">
                                                 <!-- Link to Vietnamese cuisine -->
                                                 <a href="#" class="banner-link">
-                                                    <img src="<%= request.getContextPath()%>/images/mealPlan/meatMP3.jpg" class="banner" alt="">
+                                                    <img src="<%= request.getContextPath()%>/view/images/cat.jpg" class="banner" alt="">
                                                     <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
                                                         <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
                                                     </div>

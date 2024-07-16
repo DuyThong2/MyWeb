@@ -12,7 +12,7 @@
     String ShopURL = request.getContextPath() + "/MainController?action=shop";
     String accountDetail = request.getContextPath() + "/MainController?action=userDetail";
     String viewCartDetail = request.getContextPath() + "/MainController?action=cartDisplayPage";
-    String PlanURL = request.getContextPath() + "/MainController?action=planPage";
+    String PlanURL = request.getContextPath() + "/MainController?action=plan";
     String myPlan = request.getContextPath() + "/MainController?action=customerPlanPage";
     String logoutURL = request.getContextPath() + "/MainController?action=logout";
 

@@ -75,19 +75,19 @@
 
                         <div class="form-group">
                             <label for="userCity">City</label>
-                            <input type="text" class="form-control" id="userCity" name="city" value="" placeholder="Enter city" required="">
+                            <input type="text" class="form-control" id="userCity"  name="city" value="${item.address.city}" placeholder="Enter city" required="">
                         </div>
                         <div class="form-group">
                             <label for="userDistrict">District</label>
-                            <input type="text" class="form-control" id="userDistrict" name="district" value="" placeholder="Enter district" required="">
+                            <input type="text" class="form-control" id="userDistrict" value="${item.address.district}" name="district" value="" placeholder="Enter district" required="">
                         </div>
                         <div class="form-group">
                             <label for="userWard">Ward</label>
-                            <input type="text" class="form-control" id="userWard" name="ward" value="" placeholder="Enter ward" required="">
+                            <input type="text" class="form-control" id="userWard" name="ward" value="${item.address.ward}" placeholder="Enter ward" required="">
                         </div>
                         <div class="form-group">
                             <label for="userStreet">Street</label>
-                            <input type="text" class="form-control" id="userStreet" name="street" value="" placeholder="Enter street" required="">
+                            <input type="text" class="form-control" id="userStreet" name="street" value="${item.address.street}" placeholder="Enter street" required="">
                         </div>
 
                         <div class="form-group row">
