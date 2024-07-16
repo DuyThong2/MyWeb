@@ -169,6 +169,9 @@
         MealDAO dao = new MealDAO();
         Meal meal = dao.getMealFullDetailFromId(mealId);
         IngredientPacket packet = meal.getPacket();
+        if (packet == null || packet.getContains().isEmpty()){
+            packet = null;
+        }
         request.setAttribute("packet", packet);
         request.setAttribute("meal", meal);
     %>

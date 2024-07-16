@@ -179,7 +179,7 @@
                             <br>
 
                             <input name="cate" type="radio" id="category-checkbox" value="category" class="form-check-input">
-                            <label for="category-checkbox" class="form-check-label">Tyoe</label>
+                            <label for="category-checkbox" class="form-check-label">Type</label>
                             <br>
                         </div>
                         <input type="submit" value="Sort" class="btn btn-primary mt-2">

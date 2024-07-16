@@ -65,15 +65,15 @@
                     <form action="<%=request.getContextPath() + url%>&id=${item.getId()}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="ingredientName">Name</label>
-                            <input type="text" class="form-control" id="ingredientName" name="ingredientName" required>
+                            <input type="text" class="form-control" id="ingredientName" value="${item.getName()}" name="ingredientName" required>
                         </div>
                         <div class="form-group">
                             <label for="price">Price (USD)</label>
-                            <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                            <input type="number" step="0.01" class="form-control" value="${item.getPrice()}" id="price" name="price" required>
                         </div>
                         <div class="form-group">
                             <label for="unit">Unit</label>
-                            <input type="text" class="form-control" id="unit" name="unit" required>
+                            <input type="text" class="form-control" id="unit" value=" ${item.getUnit()}" name="unit" required>
                         </div>
                         <div class="form-group">
                             <label for="imgURL">Image</label>

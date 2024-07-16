@@ -54,23 +54,23 @@
                     <form id="mealForm" action="<%= request.getContextPath() + "/AMainController?action=MealUpdate"%>" method="post" enctype="multipart/form-data">
                         <div class="form-group">
 
-                            <input type="hidden" class="form-control" id="mealID" name="id" value="<%=oldMeal.getId()%>">
+                            <input type="hidden" class="form-control" id="mealID" name="id" value="<%=oldMeal.getId()%>" required="">
                         </div>
                         <div class="form-group">
                             <label for="mealName">Meal Name</label>
-                            <input type="text" class="form-control" id="mealName" name="name" value="<%=oldMeal.getName()%>" placeholder="Enter meal name">
+                            <input type="text" class="form-control" id="mealName" name="name" value="<%=oldMeal.getName()%>" placeholder="Enter meal name" required="">
                         </div>
                         <div class="form-group">
                             <label for="mealPrice">Meal Price</label>
-                            <input type="text" class="form-control" id="mealPrice" value = <%=oldMeal.getPrice()%> name="price" placeholder="Enter meal price">
+                            <input type="text" class="form-control" id="mealPrice" value = <%=oldMeal.getPrice()%> name="price" placeholder="Enter meal price" required="">
                         </div>
                         <div class="form-group">
                             <label for="mealDescription">Meal Description</label>
-                            <textarea class="form-control" id="mealDescription" rows="2" value="<%=oldMeal.getDescription()%>" name="description" placeholder="Enter meal description"></textarea>
+                            <textarea class="form-control" id="mealDescription" rows="2" value="<%=oldMeal.getDescription()%>" name="description" placeholder="Enter meal description" required=""><%=oldMeal.getDescription()%></textarea>
                         </div>
                         <div class="form-group">
                             <label for="mealContent">Content and Instruction</label>
-                            <textarea class="form-control" id="mealContent" rows="10" value="<%=oldMeal.getContent()%>" name="content" placeholder="Enter meal content nad methods"></textarea>
+                            <textarea class="form-control" id="mealContent" rows="10" value="<%=oldMeal.getContent()%>" name="content" placeholder="Enter meal content nad methods" required=""><%=oldMeal.getContent()%></textarea>
                         </div>
                         <div class="form-group">
                             <label for="mealCategory">Category</label>

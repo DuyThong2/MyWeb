@@ -220,7 +220,7 @@
         <div style="min-witdth:100vw;" class="bg-white mt-5">
             <div class="container bg-white py-5" style="min-width:90vw;">
                 <div class="py-5">
-                    <h1 class="mb-4" style="justify-content: center;color: orange">Fresh Fruits Shop</h1>
+                    <h1 class="mb-4" style="justify-content: center;color: orange">Shop:</h1>
                     <div class="row g-4">
                         <div class="col-lg-12">
                             <div class="row g-4">
