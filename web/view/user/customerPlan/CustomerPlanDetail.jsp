@@ -304,7 +304,7 @@
                 response.sendRedirect(loginPageUrl);
                 return;
             }
-            TreeMap<Integer, CustomerPlan> customerPlanList = (TreeMap<Integer, CustomerPlan>) session.getAttribute("customerPlanList");
+            TreeMap<Integer, CustomerPlan> customerPlanList = (TreeMap<Integer, CustomerPlan>) request.getAttribute("customerPlanList");
             String currentWeek = request.getParameter("week");
             int weekNumber = 1;
             if (currentWeek != null) {

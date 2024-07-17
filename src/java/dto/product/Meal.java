@@ -100,6 +100,11 @@ public class Meal extends Product {
         
         return isOnSale()?getPrice()*((100-getDiscountPercent())/100):getPrice();
     }
+
+    @Override
+    public boolean canSale() {
+        return "active".equalsIgnoreCase(getStatus());
+    }
     
     
     

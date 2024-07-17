@@ -94,7 +94,9 @@ public class SuperAddToCart extends HttpServlet {
             cart.merge(found.get(), quantity, Integer::sum);
         } else {
             Product newAddedProduct = ProductDAO.getProductById(productId);
-            cart.put(newAddedProduct, quantity);
+            if (newAddedProduct != null && newAddedProduct.canSale()){
+                cart.put(newAddedProduct, quantity);
+            }
         }
 
     }

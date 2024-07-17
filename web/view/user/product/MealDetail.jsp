@@ -166,11 +166,11 @@
         if (mealId == null) {
             response.sendRedirect(request.getContextPath() + "/MainController?action=shop");
             return;
-        }   
+        }
         MealDAO dao = new MealDAO();
         Meal meal = dao.getMealFullDetailFromId(mealId);
         IngredientPacket packet = meal.getPacket();
-        if (packet == null || packet.getContains().isEmpty()){
+        if (packet == null || packet.getContains().isEmpty()) {
             packet = null;
         }
         request.setAttribute("packet", packet);
@@ -195,12 +195,14 @@
                                     <form id="orderForm" action="#" method="POST">
                                         <h1 style="color: orange" class="fw-bold mb-3"><%=meal.getName()%></h1>
                                         <p class="mb-3"><strong>Category:</strong> <%=meal.getCategory()%></p>
+
                                         <h5 class="fw-bold mb-3">Meal : <%=String.format("%.2f", meal.getPriceAfterDiscount())%> $</h5>
                                         <c:choose>
                                             <c:when test="${not empty packet}">
                                                 <h5 class="fw-bold mb-3">Packet : <%=String.format("%.2f", meal.getPacket().getPriceAfterDiscount())%> $</h5>
                                             </c:when>
                                         </c:choose>
+
                                         <p class="mb-4"><%=meal.getDescription()%></p>
                                         <div class="input-group quantity mb-5" style="width: 100px;">
                                             <div class="input-group-btn">
@@ -215,18 +217,26 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="w-100 g-4">
-                                            <button type="button" id="buyMealBtn" class="add-to-cart-button btn btn-lg mr-2 " onclick="submitForm('<%=addToCartURL%>&productId=<%= meal.getId()%>')">
-                                                <i class="fa fa-shopping-bag me-2 text-center"></i> Buy Meal
-                                            </button>
-                                            <c:choose>
-                                                <c:when test="${not empty packet}">
-                                                    <button type="button" id="buyPacketBtn" class="btn btn-lg buy-packet-button" onclick="submitForm('<%=addToCartURL%>&productId=<%= "P" + meal.getId().substring(1)%>')">
-                                                        <i class="fa fa-shopping-bag me-2 text-center"></i> Buy Packet
+                                        <c:choose>
+                                            <c:when test='<%="active".equalsIgnoreCase(meal.getStatus())%>'>
+                                                <div class="w-100 g-4">
+                                                    <button type="button" id="buyMealBtn" class="add-to-cart-button btn btn-lg mr-2 " onclick="submitForm('<%=addToCartURL%>&productId=<%= meal.getId()%>')">
+                                                        <i class="fa fa-shopping-bag me-2 text-center"></i> Buy Meal
                                                     </button>
-                                                </c:when>
-                                            </c:choose>
-                                        </div>
+                                                    <c:choose>
+                                                        <c:when test="${not empty packet}">
+                                                            <button type="button" id="buyPacketBtn" class="btn btn-lg buy-packet-button" onclick="submitForm('<%=addToCartURL%>&productId=<%= "P" + meal.getId().substring(1)%>')">
+                                                                <i class="fa fa-shopping-bag me-2 text-center"></i> Buy Packet
+                                                            </button>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h3 style="color: red" class="fw-bold mb-3">Not available </h3>
+                                            </c:otherwise>
+                                            
+                                        </c:choose>
                                         <%
                                             System.out.println(addToCartURL + "&productId=" + "P" + meal.getId().substring(1));
                                         %>

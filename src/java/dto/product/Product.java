@@ -89,6 +89,7 @@ public abstract class Product implements Serializable{
     public abstract double getPrice();
     public abstract double getPriceAfterDiscount();
     public abstract String getImageURL();
+    public abstract boolean canSale();
 
     @Override
     public String toString() {

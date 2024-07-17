@@ -36,6 +36,7 @@
 
         <% }
         %>
+        <c:set var="item" value="<%= user%>" />
 
         <div class="container  p-4" style="min-width:100vw; background-color:rgb(235,235,235);">
             <div class="container p-4 bg-white" style="min-width:85vw">          

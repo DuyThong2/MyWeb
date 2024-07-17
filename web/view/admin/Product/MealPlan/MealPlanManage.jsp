@@ -28,7 +28,7 @@
     <body>
         <%
             String switchPageUrl = request.getContextPath() + "/AMainController?action=MealPlan";
-            String searchPageUrl = request.getContextPath() + "/AMainController";
+            String searchPageUrl = request.getContextPath() + "/AMainController?action=MealPlan";
             String detailPageUrl = request.getContextPath() + "/AMainController?action=MealPlanDetail";
             String insertPageUrl = request.getContextPath() + "/AMainController?action=MealPlanInsertPage";
             List<MealPlan> mealPlanList = (ArrayList<MealPlan>) session.getAttribute("currentList");
@@ -75,7 +75,7 @@
                             <div class="row form-group form-inline">
                                 <label for="search-bar" class="col-md-3 ml-4" style=" font-size:1.6rem;">Search Meal Plan</label>
                                 <input  type="text" name="txtsearch" id="search-bar" class="form-control col-md-6" value="${sessionScope.localSearch}" placeholder="Search for meal plan">
-                                <input type="submit" name="action" value="MealPlan"  class="btn btn-primary btn-md btn-warning col-md-2">
+                                <button type="submit" class="btn btn-primary btn-md btn-warning col-md-2"> Search </button>
                             </div>
                         </form>
                     </div>

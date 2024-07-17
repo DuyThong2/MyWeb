@@ -65,7 +65,7 @@ public class AddAllToCart extends HttpServlet {
                         String mId = dayPlan.getMealId();
                         if (mId != null) {
                             Product product = ProductDAO.getProductById(mId);
-                            if (product != null) {
+                            if (product != null && product.canSale()) {
                                 Product foundProduct = null;
                                 for (Product p : cart.keySet()) {
                                     if (p.getId().equalsIgnoreCase(product.getId())) {

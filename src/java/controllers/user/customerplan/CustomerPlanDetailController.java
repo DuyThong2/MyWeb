@@ -89,7 +89,7 @@ public class CustomerPlanDetailController extends HttpServlet {
             }
         }
         request.setAttribute("week", currentWeek);
-        session.setAttribute("customerPlanList", customerPlanList);
+        request.setAttribute("customerPlanList", customerPlanList);
         request.getRequestDispatcher(customerUrl).forward(request, response);
     }
 

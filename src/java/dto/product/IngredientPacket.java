@@ -64,4 +64,11 @@ public class IngredientPacket extends Product {
     public String getImageURL() {
         return "images/packet/packet.jpg";
     }
+
+    @Override
+    public boolean canSale() {
+        
+        return "active".equalsIgnoreCase(getStatus());
+    
+    }
 }
